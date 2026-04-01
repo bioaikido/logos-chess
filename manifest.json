@@ -1,7 +1,7 @@
 {
-  "name": "Detective Chess",
-  "short_name": "Detective",
-  "description": "Chess game with a secret goal / Шахматы с тайной целью",
+  "name": "Crazy Chess",
+  "short_name": "Crazy Chess",
+  "description": "Chess game with a secret goal / Сумасшедшие шахматы с тайной целью",
   "start_url": ".",
   "scope": ".",
   "display": "standalone",

@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
-<title>Detective × 2</title>
+<title>Crazy Chess × 2</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=UnifrakturMaguntia&family=IM+Fell+English:ital@0;1&display=swap" rel="stylesheet">
@@ -118,7 +118,7 @@ textarea{width:100%;padding:9px 12px;font-family:'IM Fell English',serif;font-si
   <meta name="mobile-web-app-capable" content="yes">
   <meta name="apple-mobile-web-app-capable" content="yes">
   <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
-  <meta name="apple-mobile-web-app-title" content="Detective">
+  <meta name="apple-mobile-web-app-title" content="Crazy Chess">
   <link rel="apple-touch-icon" href="icon-192.png">
   <meta name="theme-color" content="#b8860b">
 </head>
@@ -157,7 +157,7 @@ textarea{width:100%;padding:9px 12px;font-family:'IM Fell English',serif;font-si
       <button onclick="setLang('ru')" id="btn-ru" class="btn" style="padding:5px 14px;background:var(--parchment2);color:var(--ink);border:1px solid var(--gold);font-size:12px;">🇷🇺 Рус</button>
       <button onclick="setLang('en')" id="btn-en" class="btn" style="padding:5px 14px;background:var(--gold);color:#150900;font-size:12px;">🇬🇧 Eng</button>
     </div>
-    <h2 id="t-title">Detective × 2</h2>
+    <h2 id="t-title">Crazy Chess × 2</h2>
     <p id="t-intro"></p>
     <p style="font-size:12px;color:#6a5030" id="t-rules"></p>
     <hr class="g">
@@ -272,7 +272,7 @@ textarea{width:100%;padding:9px 12px;font-family:'IM Fell English',serif;font-si
 <script>// ── TRANSLATIONS ──────────────────────────────────────────
 const T={
   ru:{
-    title:'Детектив × 2', sub:'шахматная игра с тайной целью — два игрока',
+    title:'Сумасшедшие Шахматы × 2', sub:'шахматная игра с тайной целью — два игрока',
     statusPt:'Состояние', statusPs:'текущий ход',
     intro:'Два игрока за одним экраном. Игрок 1 задаёт тайную цель — Игрок 2 не видит!',
     rules:'<b>Игрок 1:</b> один ход любой фигурой любого цвета<br><b>Игрок 2:</b> три хода подряд разными фигурами, не той которой ходил Игрок 1<br><b>Мат</b> любому королю = победа Игрока 2',
@@ -300,7 +300,7 @@ const T={
     p1def:'Игрок 1', p2def:'Игрок 2'
   },
   en:{
-    title:'Detective × 2', sub:'chess game with a secret goal — two players',
+    title:'Crazy Chess × 2', sub:'chess game with a secret goal — two players',
     statusPt:'Status', statusPs:'current turn',
     intro:'Two players, one screen. Player 1 sets a secret goal — Player 2 cannot see it!',
     rules:'<b>Player 1:</b> one move with any piece of any colour<br><b>Player 2:</b> three moves in a row with different pieces, not the one P1 just moved<br><b>Checkmate</b> = Player 2 wins',
@@ -1389,7 +1389,9 @@ function applyLang(){
   s('g-newgame',L.newGame);s('g-goalwas-sl',L.goalWasSl);s('g-endword-sl',L.endWordSl);
   s('iw-title',L.openSafari);s('iw-body',L.safariBody,true);s('safari-link',L.openBtn);
 }
-function setLang(l){lang=l;usedQuips=[];applyLang();}
+function setLang(l){lang=l;localStorage.setItem('crazyChessLang',l);usedQuips=[];applyLang();}
+// Read lang from localStorage, default EN
+lang=localStorage.getItem('crazyChessLang')||'en';
 applyLang();
 
 // ── iOS WEBVIEW ──────────────────────────────────────────

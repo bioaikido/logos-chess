@@ -1,105 +1,128 @@
 <!DOCTYPE html>
-<html lang="ru">
+<html lang="en">
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Детектив — Шахматы</title>
+<title>Crazy Chess</title>
 <style>
+@import url('https://fonts.googleapis.com/css2?family=IM+Fell+English:ital@0;1&family=UnifrakturMaguntia&display=swap');
 *{box-sizing:border-box;margin:0;padding:0;}
 body{
   background:#0e0900;
-  font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;
+  font-family:'IM Fell English',Georgia,serif;
   min-height:100vh;
   display:flex;flex-direction:column;align-items:center;justify-content:center;
   padding:24px;
   background-image:radial-gradient(ellipse at 50% 0%, rgba(184,134,11,.15) 0%, transparent 70%);
 }
-h1{
-  font-family:Georgia,'Times New Roman',serif;
-  font-size:28px;letter-spacing:5px;
-  color:#daa520;
-  text-shadow:0 0 40px rgba(184,134,11,.5);
-  margin-bottom:8px;text-align:center;
-}
-.sub{font-style:italic;font-size:13px;color:#8a7050;margin-bottom:48px;text-align:center;}
-.cards{display:flex;gap:20px;flex-wrap:wrap;justify-content:center;max-width:600px;width:100%;}
-.card{
+.outer{
   background:#f5edd8;
   border:2px solid #b8860b;
   border-radius:8px;
-  box-shadow:5px 5px 0 #b8860b;
-  padding:28px 24px;
-  width:260px;text-align:center;
-  text-decoration:none;
-  transition:transform .15s, box-shadow .15s;
+  box-shadow:6px 6px 0 #b8860b, 0 0 60px rgba(184,134,11,.15);
+  padding:28px 24px 32px;
+  max-width:520px;width:100%;
   position:relative;
+  text-align:center;
 }
-.card::after{content:'';position:absolute;inset:5px;border:1px solid rgba(184,134,11,.25);border-radius:5px;pointer-events:none;}
-.card:active{transform:translate(2px,2px);box-shadow:3px 3px 0 #b8860b;}
-.card-icon{font-size:44px;margin-bottom:12px;}
-.card-title{
-  font-family:Georgia,serif;font-size:16px;letter-spacing:2px;
-  color:#b8860b;margin-bottom:8px;text-transform:uppercase;
+.outer::after{content:'';position:absolute;inset:6px;border:1px solid rgba(184,134,11,.25);border-radius:5px;pointer-events:none;}
+.lang-row{display:flex;gap:8px;justify-content:center;margin-bottom:22px;}
+.lang-btn{font-family:'IM Fell English',Georgia,serif;font-size:12px;letter-spacing:1px;padding:5px 16px;border-radius:3px;cursor:pointer;border:1px solid #b8860b;transition:.15s;touch-action:manipulation;}
+.lang-btn.active{background:#b8860b;color:#150900;border-color:#b8860b;}
+.lang-btn:not(.active){background:#ede0bb;color:#5a3800;}
+h1{
+  font-family:'UnifrakturMaguntia',serif;
+  font-size:36px;
+  color:#b8860b;
+  text-shadow:0 0 40px rgba(184,134,11,.4);
+  margin-bottom:6px;
+  letter-spacing:2px;
 }
-.card-desc{font-size:13px;line-height:1.7;color:#5a4030;}
-.card-btn{
-  display:inline-block;margin-top:16px;
-  background:#b8860b;color:#150900;
-  font-family:Georgia,serif;font-size:11px;letter-spacing:1px;
-  padding:9px 20px;border-radius:4px;text-transform:uppercase;
+.sub{
+  font-style:italic;
+  font-size:13px;
+  color:#8a6030;
+  margin-bottom:28px;
+  line-height:1.6;
 }
-.divider{
-  width:200px;height:1px;
-  background:linear-gradient(to right,transparent,rgba(184,134,11,.4),transparent);
-  margin:40px 0 20px;
+.cards{display:flex;gap:16px;flex-wrap:wrap;justify-content:center;}
+.card{
+  background:#ede0bb;
+  border:1.5px solid rgba(184,134,11,.5);
+  border-radius:6px;
+  padding:22px 18px;
+  width:210px;text-align:center;
+  text-decoration:none;
+  transition:transform .15s, box-shadow .15s, border-color .15s;
+  position:relative;cursor:pointer;
 }
-.footer{font-size:11px;color:#4a3820;text-align:center;}
+.card:hover{border-color:#b8860b;transform:translateY(-2px);box-shadow:0 4px 16px rgba(184,134,11,.2);}
+.card:active{transform:translate(2px,2px);}
+.card-icon{font-size:40px;margin-bottom:10px;}
+.card-title{font-family:'IM Fell English',Georgia,serif;font-size:13px;letter-spacing:2px;color:#b8860b;margin-bottom:7px;text-transform:uppercase;}
+.card-desc{font-size:12px;line-height:1.75;color:#5a4030;margin-bottom:14px;}
+.card-btn{display:inline-block;background:#b8860b;color:#150900;font-family:'IM Fell English',Georgia,serif;font-size:11px;letter-spacing:1px;padding:8px 18px;border-radius:3px;text-transform:uppercase;}
+.divider{width:100%;height:1px;background:linear-gradient(to right,transparent,rgba(184,134,11,.4),transparent);margin:24px 0 16px;}
+.footer{font-size:11px;color:#7a5a30;font-style:italic;line-height:1.7;}
 </style>
-  <link rel="manifest" href="manifest.json">
-  <meta name="mobile-web-app-capable" content="yes">
-  <meta name="apple-mobile-web-app-capable" content="yes">
-  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
-  <meta name="apple-mobile-web-app-title" content="Detective">
-  <link rel="apple-touch-icon" href="icon-192.png">
-  <meta name="theme-color" content="#b8860b">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="manifest" href="manifest.json">
+<meta name="mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="apple-mobile-web-app-title" content="Crazy Chess">
+<link rel="apple-touch-icon" href="icon-192.png">
+<meta name="theme-color" content="#b8860b">
 </head>
 <body>
-
-<h1>ДЕТЕКТИВ</h1>
-<div class="sub">шахматная игра с тайной целью</div>
-
-<div class="cards">
-
-  <a class="card" href="chess-detective.html">
-    <div class="card-icon">🤖</div>
-    <div class="card-title">Против компьютера</div>
-    <div class="card-desc">
-      Вы задаёте тайную цель и пытаетесь её выполнить. Компьютер мешает, пытаясь поставить мат.
-    </div>
-    <div class="card-btn">Играть →</div>
-  </a>
-
-  <a class="card" href="chess-detective-2p.html">
-    <div class="card-icon">👥</div>
-    <div class="card-title">Два игрока</div>
-    <div class="card-desc">
-      Игрок 1 задаёт тайную цель — Игрок 2 не знает её и пытается помешать, ставя мат.
-    </div>
-    <div class="card-btn">Играть →</div>
-  </a>
-
+<div class="outer">
+  <div class="lang-row">
+    <button class="lang-btn" id="btn-ru" onclick="setLang('ru')">🇷🇺 РУС</button>
+    <button class="lang-btn active" id="btn-en" onclick="setLang('en')">🇬🇧 ENG</button>
+  </div>
+  <h1 id="t-title">Crazy Chess</h1>
+  <div class="sub" id="t-sub">in the spirit of Alice Through the Looking-Glass</div>
+  <div class="cards">
+    <a class="card" id="card-vs" href="chess-detective.html">
+      <div class="card-icon">🤖</div>
+      <div class="card-title" id="t-vs-title">vs Computer</div>
+      <div class="card-desc" id="t-vs-desc">You set a secret goal and try to achieve it. The computer plays to stop you with checkmate.</div>
+      <div class="card-btn" id="t-vs-btn">Play →</div>
+    </a>
+    <a class="card" id="card-2p" href="chess-detective-2p.html">
+      <div class="card-icon">👥</div>
+      <div class="card-title" id="t-2p-title">Two Players</div>
+      <div class="card-desc" id="t-2p-desc">Player 1 sets a secret goal — Player 2 doesn't know it and tries to stop them with checkmate.</div>
+      <div class="card-btn" id="t-2p-btn">Play →</div>
+    </a>
+  </div>
+  <div class="divider"></div>
+  <div class="footer" id="t-footer">Your move — one piece. Opponent — three moves in a row.<br>Achieve your secret goal or deliver checkmate to win.</div>
 </div>
-
-<div class="divider"></div>
-<div class="footer">
-  Ваш ход — одна фигура. Противник — три хода подряд.<br>
-  Кто первый выполнит цель или поставит мат — тот победит.
-</div>
-
 <script>
-if('serviceWorker' in navigator){
-  navigator.serviceWorker.register('sw.js').catch(()=>{});
+const STRINGS={
+  ru:{title:'Сумасшедшие Шахматы',sub:'в духе Алисы в Зазеркалье',vsTitle:'Против компьютера',vsDesc:'Вы задаёте тайную цель и пытаетесь её выполнить. Компьютер мешает, пытаясь поставить мат.',vsBtn:'Играть →',p2Title:'Два игрока',p2Desc:'Игрок 1 задаёт тайную цель — Игрок 2 не знает её и пытается помешать, ставя мат.',p2Btn:'Играть →',footer:'Ваш ход — одна фигура. Противник — три хода подряд.<br>Выполните тайную цель или поставьте мат — и победите.'},
+  en:{title:'Crazy Chess',sub:'in the spirit of Alice Through the Looking-Glass',vsTitle:'vs Computer',vsDesc:'You set a secret goal and try to achieve it. The computer plays to stop you with checkmate.',vsBtn:'Play →',p2Title:'Two Players',p2Desc:'Player 1 sets a secret goal — Player 2 doesn\'t know it and tries to stop them with checkmate.',p2Btn:'Play →',footer:'Your move — one piece. Opponent — three moves in a row.<br>Achieve your secret goal or deliver checkmate to win.'}
+};
+let lang=localStorage.getItem('crazyChessLang')||'en';
+function setLang(l){
+  lang=l;localStorage.setItem('crazyChessLang',l);
+  const S=STRINGS[l];
+  document.getElementById('t-title').textContent=S.title;
+  document.getElementById('t-sub').textContent=S.sub;
+  document.getElementById('t-vs-title').textContent=S.vsTitle;
+  document.getElementById('t-vs-desc').textContent=S.vsDesc;
+  document.getElementById('t-vs-btn').textContent=S.vsBtn;
+  document.getElementById('t-2p-title').textContent=S.p2Title;
+  document.getElementById('t-2p-desc').textContent=S.p2Desc;
+  document.getElementById('t-2p-btn').textContent=S.p2Btn;
+  document.getElementById('t-footer').innerHTML=S.footer;
+  document.getElementById('btn-ru').classList.toggle('active',l==='ru');
+  document.getElementById('btn-en').classList.toggle('active',l==='en');
 }
+setLang(lang);
+if('serviceWorker' in navigator){navigator.serviceWorker.register('sw.js').catch(()=>{});}
 </script>
 </body>
 </html>

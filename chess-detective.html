@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
-<title>Детектив — Зазеркалье</title>
+<title>Crazy Chess</title>
 <style>
 @import url('https://fonts.googleapis.com/css2?family=IM+Fell+English:ital@0;1&family=UnifrakturMaguntia&display=swap');
 :root{
@@ -117,8 +117,8 @@ textarea:focus{outline:none;border-color:var(--gold2);}
 .think.show{visibility:visible;}
 .spin{width:13px;height:13px;border-radius:50%;border:2px solid var(--gold2);border-top-color:transparent;animation:sp .8s linear infinite;}
 @keyframes sp{to{transform:rotate(360deg)}}
-.suspbox{background:var(--parchment2);border:1px dashed rgba(184,134,11,.5);border-radius:2px;padding:7px 9px;font-style:italic;font-size:12px;line-height:1.7;color:#3a4a3a;min-height:60px;max-height:60px;overflow:hidden;}
-.log{max-height:150px;overflow-y:auto;font-size:11px;line-height:1.8;}
+.suspbox{background:var(--parchment2);border:1px dashed rgba(184,134,11,.5);border-radius:2px;padding:7px 9px;font-style:italic;font-size:12px;line-height:1.7;color:#3a4a3a;min-height:44px;}
+.log{max-height:180px;overflow-y:auto;font-size:14px;line-height:1.9;}
 .le{border-bottom:1px solid rgba(0,0,0,.07);padding:1px 0;}
 .le.p1{color:#5a3000;}.le.ai{color:#003a50;}.le.s{color:var(--red);font-style:italic;}
 .cap{font-size:18px;min-height:22px;letter-spacing:2px;}
@@ -129,7 +129,32 @@ textarea:focus{outline:none;border-color:var(--gold2);}
 #ios-warn{display:none;position:fixed;inset:0;background:#08040c;z-index:999;flex-direction:column;align-items:center;justify-content:center;padding:28px;text-align:center;gap:16px;}
 #fw{position:fixed;inset:0;pointer-events:none;z-index:300;}
 
-/* Result overlay */
+/* UNDO button */
+.btn-undo{font-family:'IM Fell English',Georgia,serif;font-size:11px;letter-spacing:1px;padding:7px 14px;border:1px solid var(--gold);border-radius:2px;background:var(--parchment2);color:#5a3800;cursor:pointer;text-transform:uppercase;transition:.15s;touch-action:manipulation;width:100%;margin-bottom:6px;}
+.btn-undo:disabled{opacity:.3;cursor:default;}
+.undo-count{font-size:10px;color:#8a6030;font-style:italic;text-align:center;margin-bottom:4px;}
+/* REPLAY overlay */
+#replay-overlay{display:none;position:fixed;inset:0;z-index:500;background:rgba(4,1,10,.97);flex-direction:column;align-items:center;justify-content:center;padding:20px;gap:14px;}
+#replay-overlay.show{display:flex;}
+.replay-board-wrap{background:var(--parchment);border:3px solid #7a5020;border-radius:2px;padding:10px;box-shadow:0 8px 40px rgba(0,0,0,.6);}
+.replay-board{display:grid;grid-template-columns:16px repeat(8,40px);grid-template-rows:repeat(8,40px) 16px;}
+.replay-sq{width:40px;height:40px;display:flex;align-items:center;justify-content:center;font-size:26px;}
+.replay-sq.l{background:var(--white-sq);}.replay-sq.d{background:var(--black-sq);}
+.replay-sq.hl{outline:3px solid rgba(255,220,50,.9);outline-offset:-3px;}
+.replay-cr{display:flex;align-items:center;justify-content:center;font-size:9px;color:#9a7040;grid-column:1;}
+.replay-cc{display:flex;align-items:center;justify-content:center;font-size:9px;color:#9a7040;grid-row:9;}
+.replay-sq span{color:#f5ead0;text-shadow:-1px -1px 0 #3a1a00,1px 1px 0 #3a1a00;}
+.replay-sq[data-black="1"] span{color:#1a0a00;text-shadow:-1px -1px 0 #c8a870,1px 1px 0 #c8a870;}
+.replay-controls{display:flex;gap:10px;align-items:center;}
+.replay-btn{background:var(--parchment2);border:1px solid var(--gold);color:#3a2800;font-family:'IM Fell English',serif;font-size:13px;padding:8px 16px;border-radius:2px;cursor:pointer;touch-action:manipulation;}
+.replay-btn:disabled{opacity:.35;}
+.replay-btn.play{background:var(--gold);color:#150900;}
+.replay-info{font-family:'IM Fell English',serif;font-style:italic;font-size:13px;color:#daa520;text-align:center;min-height:20px;}
+.replay-speed{display:flex;align-items:center;gap:8px;}
+.replay-speed input{accent-color:var(--gold);width:100px;}
+.replay-speed span{font-size:10px;color:#8a6a30;font-style:italic;}
+.replay-close{background:var(--red);color:#fff;font-family:'IM Fell English',serif;font-size:12px;letter-spacing:1px;padding:9px 22px;border:none;border-radius:2px;cursor:pointer;text-transform:uppercase;touch-action:manipulation;}
+
 #result-overlay{
   display:none;position:fixed;inset:0;z-index:400;
   background:rgba(5,2,12,.88);
@@ -190,7 +215,7 @@ textarea:focus{outline:none;border-color:var(--gold2);}
   <meta name="mobile-web-app-capable" content="yes">
   <meta name="apple-mobile-web-app-capable" content="yes">
   <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
-  <meta name="apple-mobile-web-app-title" content="Detective">
+  <meta name="apple-mobile-web-app-title" content="Crazy Chess">
   <link rel="apple-touch-icon" href="icon-192.png">
   <meta name="theme-color" content="#b8860b">
 </head>
@@ -205,6 +230,25 @@ textarea:focus{outline:none;border-color:var(--gold2);}
 
 <div id="quip-popup"><div class="qchar" id="qchar"></div><div id="qtext"></div></div>
 <canvas id="fw" style="display:none"></canvas>
+
+<!-- REPLAY OVERLAY -->
+<div id="replay-overlay">
+  <div class="replay-info" id="replay-info">Move 0 / 0</div>
+  <div class="replay-board-wrap">
+    <div class="replay-board" id="replay-board"></div>
+  </div>
+  <div class="replay-controls">
+    <button class="replay-btn" id="rp-prev" onclick="replayStep(-1)">◀</button>
+    <button class="replay-btn play" id="rp-play" onclick="replayToggle()">▶</button>
+    <button class="replay-btn" id="rp-next" onclick="replayStep(1)">▶▶</button>
+  </div>
+  <div class="replay-speed">
+    <span>🐢</span>
+    <input type="range" id="rp-speed" min="1" max="5" value="3">
+    <span>⚡</span>
+  </div>
+  <button class="replay-close" onclick="closeReplay()" id="rp-close-btn">Close</button>
+</div>
 
 <!-- iOS WebView warning — hidden by default, shown only by JS when needed -->
 <div id="ios-warn" style="display:none;position:fixed;inset:0;background:#0e0900;z-index:999;flex-direction:column;align-items:center;justify-content:center;padding:28px;text-align:center;gap:16px">
@@ -271,6 +315,8 @@ textarea:focus{outline:none;border-color:var(--gold2);}
       <!-- 1. Кнопки -->
       <button class="btn bg block" id="bw" onclick="pWin()">✓ Я победил!</button>
       <button class="btn bb block" id="bl" onclick="pLose()" style="padding:6px;">✗ Я проиграл</button>
+      <button class="btn-undo" id="undo-btn" onclick="undoMove()" disabled>↩ Undo</button>
+      <div class="undo-count" id="undo-count"></div>
       <hr class="g">
       <!-- 2. Цель -->
       <div class="sl" id="g-goal-label">Тайная цель</div>
@@ -308,6 +354,8 @@ textarea:focus{outline:none;border-color:var(--gold2);}
       <!-- 1. Кнопки -->
       <button class="btn bg block" id="bw-m" onclick="pWin()">✓ Я победил!</button>
       <button class="btn bb block" id="bl-m" onclick="pLose()" style="padding:6px;">✗ Я проиграл</button>
+      <button class="btn-undo" id="undo-btn-m" onclick="undoMove()" disabled>↩ Undo</button>
+      <div class="undo-count" id="undo-count-m"></div>
       <hr class="g">
       <!-- 2. Цель -->
       <button class="btn block" onclick="toggleGoal()" style="background:var(--parchment2);border:1px solid var(--gold);color:var(--ink);font-family:Georgia,serif;font-size:10px;padding:5px;cursor:pointer;width:100%;margin-bottom:4px;">Показать / скрыть цель</button>
@@ -365,6 +413,7 @@ textarea:focus{outline:none;border-color:var(--gold2);}
         <div style="background:var(--parchment2);border:1px dashed var(--gold);border-radius:3px;padding:7px 9px;font-style:italic;font-size:12px;line-height:1.6;margin-bottom:7px" id="rg"></div>
         <div class="sl" id="g-ai-word">Слово компьютера</div>
         <div id="rc" style="font-size:12px;line-height:1.75;color:#3a2800;font-style:italic;min-height:36px"></div>
+        <button class="btn block" style="background:var(--parchment2);border:1px solid var(--gold);color:var(--ink);font-size:11px;margin-top:4px;" id="g-replay-btn" onclick="openReplay()">⏪ Replay game</button>
         <hr class="g">
       </div>
       <button class="btn br block" id="g-newgame" onclick="location.reload()">Новая игра</button>
@@ -383,6 +432,7 @@ textarea:focus{outline:none;border-color:var(--gold2);}
         <div style="background:var(--parchment2);border:1px dashed var(--gold);border-radius:3px;padding:7px 9px;font-style:italic;font-size:12px;line-height:1.6;margin-bottom:7px" id="rg-m"></div>
         <div class="sl">Слово компьютера</div>
         <div id="rc-m" style="font-size:12px;line-height:1.75;color:#3a2800;font-style:italic;min-height:36px"></div>
+        <button class="btn block" style="background:var(--parchment2);border:1px solid var(--gold);color:var(--ink);font-size:11px;margin-top:4px;" id="g-replay-btn-m" onclick="openReplay()">⏪ Replay game</button>
         <hr class="g">
       </div>
       <div class="sl">История</div>
@@ -773,6 +823,14 @@ let capW=[],capB=[],logs=[],goal='',goalVis=false,lf=null,lt=null,over=false;
 let openIdx=null,openMoveIdx=0,moveCount=0;
 let usedSarcs=[],usedGuesses=[];
 
+// Undo history — stores snapshots before each player move
+let undoHistory=[];
+const MAX_UNDOS=3;
+let undosLeft=MAX_UNDOS;
+
+// Replay history — stores board snapshots after every half-move
+let replayHistory=[];
+
 // Piece identity tracking — so AI can't move same piece twice in one set
 let pieceIds={},nextPieceId=0;
 function stampPieces(){pieceIds={};for(let r=0;r<8;r++)for(let c=0;c<8;c++)if(board[r][c])pieceIds[pid(r,c)]=nextPieceId++;}
@@ -922,6 +980,21 @@ function doMove(r2,c2,isPlayer){
   const note=isCastle?`${gl(p)} рокировка ${c2>c1?'0-0':'0-0-0'}`:`${gl(p)} ${cn(c1)}${rn(r1)}→${cn(c2)}${rn(r2)}${tgt?' ×'+gl(tgt):''}`;
   sel=null;pm=[];
   if(isPlayer){
+    // Save snapshot for undo BEFORE applying move
+    if(undosLeft>0){
+      undoHistory.push({
+        board:board.map(r=>[...r]),
+        capW:[...capW],capB:[...capB],
+        logs:[...logs.map(e=>({...e}))],
+        lf:lf?{...lf}:null,lt:lt?{...lt}:null,
+        pieceIds:{...pieceIds},nextPieceId,
+        startIds:{...startIds},
+        openIdx,openMoveIdx,moveCount,
+        phase:'player',aiLeft:0,fp:null,
+        playerLastSq:playerLastSq?{...playerLastSq}:null,
+        aiLastSquares:[...aiLastSquares]
+      });
+    }
     moveCount++;
     addLog('Вы: '+note,'p1');
     if(!isCastle)movePId(r1,c1,r2,c2);
@@ -929,6 +1002,9 @@ function doMove(r2,c2,isPlayer){
     clearAILast();
     markPlayerLast(r2,c2);
     phase='ai';rBoard();rUI();
+    updateUndoUI();
+    // Save replay snapshot
+    replayHistory.push({board:board.map(r=>[...r]),note:(lang==='ru'?'Вы: ':'You: ')+note,lf:{r:r1,c:c1},lt:{r:r2,c:c2}});
     if(moveCount%2===1){
       const guess='«'+randPick(lang==='en'?GUESSES_EN:GUESSES,usedGuesses)+'»';
       document.getElementById('susp').textContent=guess;
@@ -944,6 +1020,8 @@ function doMove(r2,c2,isPlayer){
     if(movedId!==undefined)aiUsed.add(movedId);
     sel=null;pm=[];
     rBoard();rUI();
+    // Save replay snapshot for AI move
+    replayHistory.push({board:board.map(r=>[...r]),note:`AI(${3-aiLeft+1}): `+note,lf:{r:r1,c:c1},lt:{r:r2,c:c2}});
     if(tgt&&!isCastle) setTimeout(()=>showQuip(tgt,r2,c2),180);
     if(checkMate())return;
     if(aiLeft===0){
@@ -1210,6 +1288,129 @@ function toggleGoal(){
   const gm=document.getElementById('gd-m');if(gm){gm.style.display=goalVis?'block':'none';gm.textContent=goal;}
 }
 
+// ── UNDO ─────────────────────────────────────────────────
+function updateUndoUI(){
+  const label=lang==='ru'?`↩ Отменить ход (${undosLeft} осталось)`:`↩ Undo (${undosLeft} left)`;
+  const canUndo=undosLeft>0&&undoHistory.length>0&&!over&&phase==='player';
+  ['undo-btn','undo-btn-m'].forEach(id=>{
+    const el=document.getElementById(id);
+    if(el){el.textContent=label;el.disabled=!canUndo;}
+  });
+  const countLabel=undosLeft===0?(lang==='ru'?'Лимит откатов исчерпан':'No undos remaining'):'';
+  ['undo-count','undo-count-m'].forEach(id=>{const el=document.getElementById(id);if(el)el.textContent=countLabel;});
+}
+
+function undoMove(){
+  if(!undoHistory.length||undosLeft<=0||over||phase!=='player')return;
+  const snap=undoHistory.pop();
+  board=snap.board.map(r=>[...r]);
+  capW=[...snap.capW];capB=[...snap.capB];
+  logs=[...snap.logs.map(e=>({...e}))];
+  lf=snap.lf?{...snap.lf}:null;lt=snap.lt?{...snap.lt}:null;
+  pieceIds={...snap.pieceIds};nextPieceId=snap.nextPieceId;
+  startIds={...snap.startIds};
+  openIdx=snap.openIdx;openMoveIdx=snap.openMoveIdx;moveCount=snap.moveCount;
+  phase=snap.phase;aiLeft=snap.aiLeft;fp=snap.fp;
+  aiUsed=new Set();aiQueue=[];
+  playerLastSq=snap.playerLastSq?{...snap.playerLastSq}:null;
+  aiLastSquares=[...snap.aiLastSquares];
+  sel=null;pm=[];over=false;
+  undosLeft--;
+  // Also trim replayHistory — remove last 4 entries (1 player + 3 AI moves)
+  replayHistory=replayHistory.slice(0,Math.max(0,replayHistory.length-4));
+  rBoard();rUI();updateUndoUI();
+}
+
+// ── REPLAY ───────────────────────────────────────────────
+let replayCursor=0;
+let replayTimer=null;
+let replayPlaying=false;
+
+function buildReplayBoard(){
+  const bd=document.getElementById('replay-board');
+  bd.innerHTML='';
+  const F='abcdefgh';
+  for(let r=0;r<8;r++){
+    const rl=document.createElement('div');
+    rl.className='replay-cr';rl.style.cssText=`grid-row:${r+1};grid-column:1`;
+    rl.textContent=(8-r)+'';bd.appendChild(rl);
+    for(let c=0;c<8;c++){
+      const sq=document.createElement('div');
+      sq.className='replay-sq '+((r+c)%2===0?'l':'d');
+      sq.style.cssText=`grid-row:${r+1};grid-column:${c+2}`;
+      sq.id=`rsq-${r}-${c}`;
+      const sp=document.createElement('span');sq.appendChild(sp);
+      bd.appendChild(sq);
+    }
+  }
+  for(let c=0;c<8;c++){
+    const cl=document.createElement('div');
+    cl.className='replay-cc';cl.style.cssText=`grid-row:9;grid-column:${c+2}`;
+    cl.textContent=F[c];bd.appendChild(cl);
+  }
+}
+
+function renderReplayBoard(snap){
+  const b=snap.board;
+  for(let r=0;r<8;r++)for(let c=0;c<8;c++){
+    const sq=document.getElementById(`rsq-${r}-${c}`);if(!sq)continue;
+    const p=b[r][c];
+    const base='replay-sq '+((r+c)%2===0?'l':'d');
+    let cls=base;
+    if(snap.lf&&snap.lf.r===r&&snap.lf.c===c)cls+=' hl';
+    if(snap.lt&&snap.lt.r===r&&snap.lt.c===c)cls+=' hl';
+    sq.className=cls;
+    const sp=sq.querySelector('span');
+    if(sp){
+      sp.textContent=p?pieceEmoji(p):'';
+      if(p&&p[0]==='b')sq.setAttribute('data-black','1');
+      else sq.removeAttribute('data-black');
+    }
+  }
+  const info=document.getElementById('replay-info');
+  if(info)info.textContent=`${snap.note} (${replayCursor+1}/${replayHistory.length})`;
+  document.getElementById('rp-prev').disabled=replayCursor===0;
+  document.getElementById('rp-next').disabled=replayCursor>=replayHistory.length-1;
+}
+
+function replayStep(dir){
+  replayCursor=Math.max(0,Math.min(replayHistory.length-1,replayCursor+dir));
+  renderReplayBoard(replayHistory[replayCursor]);
+}
+
+function replayToggle(){
+  replayPlaying=!replayPlaying;
+  const btn=document.getElementById('rp-play');
+  btn.textContent=replayPlaying?'⏸':'▶';
+  if(replayPlaying)replayAutoPlay();
+}
+
+function replayAutoPlay(){
+  if(!replayPlaying)return;
+  if(replayCursor>=replayHistory.length-1){replayPlaying=false;document.getElementById('rp-play').textContent='▶';return;}
+  replayCursor++;
+  renderReplayBoard(replayHistory[replayCursor]);
+  const spd=parseInt(document.getElementById('rp-speed').value)||3;
+  const delays=[1400,900,600,350,180];
+  replayTimer=setTimeout(replayAutoPlay,delays[spd-1]);
+}
+
+function openReplay(){
+  if(!replayHistory.length)return;
+  replayCursor=0;replayPlaying=false;
+  const ov=document.getElementById('replay-overlay');
+  ov.classList.add('show');
+  buildReplayBoard();
+  renderReplayBoard(replayHistory[0]);
+  document.getElementById('rp-play').textContent='▶';
+}
+
+function closeReplay(){
+  if(replayTimer)clearTimeout(replayTimer);
+  replayPlaying=false;
+  document.getElementById('replay-overlay').classList.remove('show');
+}
+
 // ── FIREWORKS ────────────────────────────────────────────
 
 function closeResultOverlay(){
@@ -1450,13 +1651,14 @@ function startGame(){
   capW=[];capB=[];logs=[];lf=null;lt=null;over=false;
   aiLastSquares=[];playerLastSq=null;
   moveCount=0;usedSarcs=[];usedGuesses=[];nextPieceId=0;stampPieces();recordStartIds();
+  undoHistory=[];undosLeft=MAX_UNDOS;replayHistory=[];
   openIdx=Math.floor(Math.random()*OPENINGS.length);
   openMoveIdx=0;
   document.getElementById('ms').style.display='none';
   document.getElementById('game').style.display='block';
   const bd=document.getElementById('board');
   if(bd) delete bd.dataset.built;
-  rBoard();rUI();
+  rBoard();rUI();updateUndoUI();
 }
 
 // ── 50 VERIFIED GOALS ────────────────────────────────────
@@ -1740,7 +1942,7 @@ const LANG={
     checkLabel:'Шах!'
   },
   en:{
-    title:'Detective',
+    title:'Crazy Chess',
     intro:'Play against the computer. Set a secret goal — it doesn\'t know it, but will try to stop you!',
     rules:'<b>Your move:</b> one piece of any colour<br><b>Computer:</b> three moves in a row, not the piece you just moved<br><b>Checkmate</b> = computer wins',
     goalLabel:'Your secret goal',
@@ -1783,7 +1985,7 @@ const LANG={
     checkLabel:'Check!'
   }
 };
-let lang='ru';
+let lang=localStorage.getItem('crazyChessLang')||'en';
 let difficulty=0;
 function setDiff(d){
   difficulty=d;
@@ -1791,6 +1993,7 @@ function setDiff(d){
 }
 function setLang(l){
   lang=l;
+  localStorage.setItem('crazyChessLang',l);
   usedGuesses=[];  // reset so new language guesses start fresh
   const L=LANG[l];
   // Modal buttons
@@ -1826,8 +2029,30 @@ function setLang(l){
     'g-rules-label':L.rules2,'g-goal-was':L.goalWas,'g-ai-word':L.aiWord,
     'g-ai-moves-label':L.aiMovesSec,'g-thinking':L.thinking
   };
+  // Game UI (update if game is running)
+  const els={
+    'bw':L.iWon,'bl':L.iLost,'bw-m':L.iWon,'bl-m':L.iLost,
+    'g-showhide':L.showHide,'g-newgame':L.newGame,
+    'g-title':L.title.toUpperCase(),'g-goal-label':L.secretGoal,
+    'g-ai-version-label':L.aiVersion,'g-history-label':L.history,
+    'g-cap-title':L.captured,'g-cap-sub':L.outOfGame,
+    'g-white-lost':L.whiteLost,'g-black-lost':L.blackLost,
+    'g-rules-label':L.rules2,'g-goal-was':L.goalWas,'g-ai-word':L.aiWord,
+    'g-ai-moves-label':L.aiMovesSec,'g-thinking':L.thinking
+  };
   for(const[id,txt]of Object.entries(els)){const el=document.getElementById(id);if(el)el.textContent=txt;}
   const rt=document.getElementById('g-rules-text');if(rt)rt.innerHTML=L.rulesText;
+  // Undo label
+  const undoLabel=l==='ru'?'↩ Отменить ход':'↩ Undo';
+  ['undo-btn','undo-btn-m'].forEach(id=>{const el=document.getElementById(id);if(el)el.textContent=undoLabel;});
+  // Replay label
+  const replayLabel=l==='ru'?'⏪ Повтор партии':'⏪ Replay game';
+  ['g-replay-btn','g-replay-btn-m'].forEach(id=>{const el=document.getElementById(id);if(el)el.textContent=replayLabel;});
+  // Replay close button
+  const rpClose=document.getElementById('rp-close-btn');if(rpClose)rpClose.textContent=l==='ru'?'Закрыть':'Close';
+  // Continue button in result overlay
+  const contBtn=document.querySelector('#result-overlay .result-ov-btn');if(contBtn)contBtn.textContent=l==='ru'?'Продолжить':'Continue';
+  updateUndoUI();
 }
 
 // ── iOS WebView detection (FIXED — no double display) ────
@@ -1847,6 +2072,8 @@ function setLang(l){
     try{document.getElementById('safari-link').href=window.location.href;}catch(e){}
   }
 })();
+// Init language from localStorage
+setLang(lang);
 </script>
 <script>
 if('serviceWorker' in navigator){

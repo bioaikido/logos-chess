@@ -1,4 +1,4 @@
-const CACHE = 'detective-chess-v1';
+const CACHE = 'crazy-chess-v1';
 const FILES = [
   '/',
   '/index.html',
