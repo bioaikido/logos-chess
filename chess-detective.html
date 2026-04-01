@@ -823,6 +823,10 @@ let capW=[],capB=[],logs=[],goal='',goalVis=false,lf=null,lt=null,over=false;
 let openIdx=null,openMoveIdx=0,moveCount=0;
 let usedSarcs=[],usedGuesses=[];
 
+// Early lang declaration so randomGoal and other functions can use it
+// (full LANG object and setLang defined later in same script)
+let lang=localStorage.getItem('crazyChessLang')||'en';
+
 // Undo history — stores snapshots before each player move
 let undoHistory=[];
 const MAX_UNDOS=3;
@@ -1894,12 +1898,10 @@ function randomGoal(){
   document.getElementById('gi').value=pool[i];
 }
 
-</script>
-<script>
 // ── LANGUAGE ─────────────────────────────────────────────
 const LANG={
   ru:{
-    title:'Детектив',
+    title:'Белый Кролик',
     intro:'Вы играете против компьютера. Задайте тайную цель — он не знает её, но будет мешать!',
     rules:'<b>Ваш ход:</b> одна любая фигура любого цвета<br><b>Компьютер:</b> три хода подряд, не той фигурой которой ходили вы<br><b>Мат</b> любому королю = победа компьютера',
     goalLabel:'Ваша тайная цель',
@@ -1985,7 +1987,6 @@ const LANG={
     checkLabel:'Check!'
   }
 };
-let lang=localStorage.getItem('crazyChessLang')||'en';
 let difficulty=0;
 function setDiff(d){
   difficulty=d;
@@ -2019,16 +2020,6 @@ function setLang(l){
       document.getElementById('dd-'+i).textContent=diffDescsMap[l][i];
     }
   }
-  // Game UI (update if game is running)
-  const els={
-    'bw':L.iWon,'bl':L.iLost,'g-showhide':L.showHide,'g-newgame':L.newGame,
-    'g-title':L.title.toUpperCase(),'g-goal-label':L.secretGoal,
-    'g-ai-version-label':L.aiVersion,'g-history-label':L.history,
-    'g-cap-title':L.captured,'g-cap-sub':L.outOfGame,
-    'g-white-lost':L.whiteLost,'g-black-lost':L.blackLost,
-    'g-rules-label':L.rules2,'g-goal-was':L.goalWas,'g-ai-word':L.aiWord,
-    'g-ai-moves-label':L.aiMovesSec,'g-thinking':L.thinking
-  };
   // Game UI (update if game is running)
   const els={
     'bw':L.iWon,'bl':L.iLost,'bw-m':L.iWon,'bl-m':L.iLost,
