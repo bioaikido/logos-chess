@@ -4,62 +4,114 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
 <title>Detective × 2</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=UnifrakturMaguntia&family=IM+Fell+English:ital@0;1&display=swap" rel="stylesheet">
 <style>
 :root{--ink:#1a1410;--parchment:#f5edd8;--parchment2:#ede0c4;--gold:#b8860b;--gold2:#daa520;--red:#8b1a1a;--green:#1a6b1a;--light-sq:#f0d9b5;--dark-sq:#b58863;--sq:62px;}
 *{box-sizing:border-box;margin:0;padding:0;-webkit-tap-highlight-color:transparent;}
-body{background:#0e0900;font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;color:var(--ink);min-height:100vh;display:flex;flex-direction:column;align-items:center;padding:16px;}
+body{background:#0e0900;font-family:'IM Fell English',-apple-system,serif;color:var(--ink);min-height:100vh;display:flex;flex-direction:column;align-items:center;padding:16px;}
 .overlay{position:fixed;inset:0;background:rgba(5,3,0,.93);display:flex;align-items:center;justify-content:center;z-index:100;padding:16px;}
 .modal{background:var(--parchment);border:2px solid var(--gold);border-radius:6px;padding:28px 32px;max-width:440px;width:100%;box-shadow:6px 6px 0 var(--gold);position:relative;}
 .modal::after{content:"";position:absolute;inset:6px;border:1px solid rgba(184,134,11,.3);border-radius:4px;pointer-events:none;}
-.modal h2{font-family:Georgia,serif;font-size:20px;letter-spacing:3px;color:var(--gold);margin-bottom:12px;}
-.modal p{font-size:14px;line-height:1.7;color:#3a2800;margin-bottom:8px;}
+.modal h2{font-family:'UnifrakturMaguntia',Georgia,serif;font-size:26px;color:var(--gold);margin-bottom:12px;text-shadow:0 0 18px rgba(184,134,11,.3);}
+.modal p{font-family:'IM Fell English',serif;font-size:14px;line-height:1.7;color:#3a2800;margin-bottom:8px;}
 hr.g{border:none;border-top:1px solid var(--gold);opacity:.4;margin:12px 0;}
-textarea{width:100%;padding:9px 12px;font-family:inherit;font-size:15px;background:var(--parchment2);border:1px solid var(--gold);border-radius:4px;color:var(--ink);resize:none;margin-bottom:10px;}
-.btn{font-family:Georgia,serif;font-size:12px;letter-spacing:1px;padding:10px 18px;border:none;border-radius:4px;cursor:pointer;text-transform:uppercase;transition:.15s;touch-action:manipulation;}
+textarea{width:100%;padding:9px 12px;font-family:'IM Fell English',serif;font-size:15px;background:var(--parchment2);border:1px solid var(--gold);border-radius:4px;color:var(--ink);resize:none;margin-bottom:10px;}
+.btn{font-family:'IM Fell English',serif;font-size:12px;letter-spacing:1px;padding:10px 18px;border:none;border-radius:4px;cursor:pointer;text-transform:uppercase;transition:.15s;touch-action:manipulation;}
 .bg{background:var(--gold);color:#150900;}.bg:active{background:var(--gold2);}
 .br{background:var(--red);color:#fff;}.br:active{background:#a02020;}
 .bb{background:var(--parchment2);border:1px solid var(--red);color:var(--red);}
 .block{display:block;width:100%;margin-bottom:8px;}
 .btn:disabled{opacity:.45;}
 .blackscreen{position:fixed;inset:0;background:#000;display:none;flex-direction:column;align-items:center;justify-content:center;z-index:200;gap:20px;padding:20px;text-align:center;}
-.blackscreen h3{font-family:Georgia,serif;font-size:22px;letter-spacing:3px;color:var(--gold);text-shadow:0 0 30px rgba(184,134,11,.5);}
-.blackscreen p{font-style:italic;font-size:14px;color:#8a7050;}
+.blackscreen h3{font-family:'UnifrakturMaguntia',Georgia,serif;font-size:28px;color:var(--gold);text-shadow:0 0 30px rgba(184,134,11,.5);}
+.blackscreen p{font-family:'IM Fell English',serif;font-style:italic;font-size:14px;color:#8a7050;}
 .game-wrap{display:flex;gap:14px;align-items:flex-start;flex-wrap:wrap;justify-content:center;max-width:1200px;width:100%;}
 .panel{background:var(--parchment);border:2px solid var(--gold);border-radius:4px;box-shadow:3px 3px 0 var(--gold);padding:14px 16px;width:230px;position:relative;}
 .panel::after{content:"";position:absolute;inset:4px;border:1px solid rgba(184,134,11,.25);border-radius:3px;pointer-events:none;}
-.pt{font-family:Georgia,serif;font-size:14px;color:var(--gold);letter-spacing:2px;margin-bottom:2px;}
-.ps{font-style:italic;font-size:11px;color:#8a6a30;margin-bottom:9px;}
-.sl{font-family:Georgia,serif;font-size:9px;letter-spacing:2px;color:var(--gold);margin:7px 0 3px;text-transform:uppercase;}
-.board-wrap{background:var(--parchment);border:2px solid var(--gold);border-radius:4px;box-shadow:3px 3px 0 var(--gold);padding:14px;}
+.pt{font-family:'UnifrakturMaguntia',Georgia,serif;font-size:18px;color:var(--gold);margin-bottom:2px;}
+.ps{font-family:'IM Fell English',serif;font-style:italic;font-size:11px;color:#8a6a30;margin-bottom:9px;}
+.sl{font-family:'IM Fell English',serif;font-size:9px;letter-spacing:2px;color:var(--gold);margin:7px 0 3px;text-transform:uppercase;}
+.board-wrap{background:var(--parchment);border:2px solid var(--gold);border-radius:4px;box-shadow:3px 3px 0 var(--gold);padding:14px;position:relative;}
 .board{display:grid;grid-template-columns:16px repeat(8,var(--sq));grid-template-rows:repeat(8,var(--sq)) 16px;border:1.5px solid #7a5c30;}
 .cr{display:flex;align-items:center;justify-content:center;font-family:Georgia,serif;font-size:10px;color:var(--gold);grid-column:1;}
 .cc{display:flex;align-items:center;justify-content:center;font-family:Georgia,serif;font-size:10px;color:var(--gold);grid-row:9;}
 .sq{width:var(--sq);height:var(--sq);display:flex;align-items:center;justify-content:center;cursor:pointer;position:relative;font-size:38px;user-select:none;touch-action:manipulation;}
 .sq.l{background:var(--light-sq);}.sq.d{background:var(--dark-sq);}
 .sq.sel{outline:3px solid rgba(255,210,30,.9);outline-offset:-3px;}
-.sq.lf{background:rgba(100,180,100,.35)!important;}.sq.lt{background:rgba(100,180,100,.55)!important;}
+/* P1 last move: warm amber */
+.sq.p1lf{background:rgba(210,140,20,.45)!important;}.sq.p1lt{background:rgba(210,140,20,.7)!important;}
+/* P2 last move: cool blue */
+.sq.p2lf{background:rgba(40,110,200,.35)!important;}.sq.p2lt{background:rgba(40,110,200,.6)!important;}
 .sq.pm::after{content:"";position:absolute;width:20px;height:20px;background:rgba(0,0,0,.22);border-radius:50%;pointer-events:none;}
 .sq.pc::after{content:"";position:absolute;inset:0;border:4px solid rgba(0,0,0,.22);border-radius:50%;pointer-events:none;}
 .sq.chk{background:rgba(220,30,30,.6)!important;animation:ck 1s ease-in-out infinite;}
 @keyframes ck{0%,100%{background:rgba(220,30,30,.55)}50%{background:rgba(220,30,30,.9)}}
 .sbox{background:var(--parchment2);border:1px solid var(--gold);border-radius:3px;padding:7px 10px;margin-bottom:7px;font-size:12px;line-height:1.6;}
-.sbox .who{font-family:Georgia,serif;font-size:12px;}
+.sbox .who{font-family:'IM Fell English',serif;font-size:13px;}
 .p1c .who{color:#7a3a00;}.p2c .who{color:#003a6a;}
 .dots{display:flex;gap:5px;margin:4px 0;}
-.dot{width:22px;height:22px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-family:Georgia,serif;font-size:11px;font-weight:700;transition:.3s;}
+.dot{width:22px;height:22px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-family:'IM Fell English',serif;font-size:11px;font-weight:700;transition:.3s;}
 .dot.on{background:var(--gold);color:#150900;}.dot.off{background:#c8b080;color:#7a5c20;opacity:.45;}
-.chkw{display:none;align-items:center;gap:5px;background:rgba(139,26,26,.1);border:1px solid var(--red);border-radius:3px;padding:5px 8px;margin-bottom:6px;font-family:Georgia,serif;font-size:10px;letter-spacing:1px;color:var(--red);text-transform:uppercase;}
+.chkw{display:none;align-items:center;gap:5px;background:rgba(139,26,26,.1);border:1px solid var(--red);border-radius:3px;padding:5px 8px;margin-bottom:6px;font-family:'IM Fell English',serif;font-size:10px;letter-spacing:1px;color:var(--red);text-transform:uppercase;}
 .chkw.show{display:flex;}
 .log{max-height:150px;overflow-y:auto;font-size:11px;line-height:1.8;}
 .le{border-bottom:1px solid rgba(0,0,0,.07);padding:1px 0;}
 .le.p1{color:#5a3000;}.le.p2{color:#003a5a;}.le.s{color:var(--red);font-style:italic;}
 .cap{font-size:18px;min-height:22px;letter-spacing:1px;}
-.secbox{background:var(--parchment2);border:1px dashed var(--gold);border-radius:3px;padding:7px 9px;font-style:italic;font-size:12px;line-height:1.6;margin-top:4px;display:none;}
-.winbig{font-family:Georgia,serif;font-size:18px;letter-spacing:2px;text-align:center;margin:5px 0 9px;}
+.secbox{background:var(--parchment2);border:1px dashed var(--gold);border-radius:3px;padding:7px 9px;font-family:'IM Fell English',serif;font-style:italic;font-size:12px;line-height:1.6;margin-top:4px;display:none;}
+.winbig{font-family:'UnifrakturMaguntia',Georgia,serif;font-size:22px;text-align:center;margin:5px 0 9px;}
 .emoji{text-align:center;font-size:26px;margin:4px 0 8px;animation:bop .6s ease-in-out infinite alternate;}
 @keyframes bop{from{transform:scale(1)}to{transform:scale(1.15)}}
 #fw{position:fixed;inset:0;pointer-events:none;z-index:300;}
-@media(max-width:700px){:root{--sq:44px;}.sq{font-size:28px;}.panel{width:100%;max-width:500px;}.game-wrap{flex-direction:column;align-items:center;}.board-wrap{padding:10px;}}
+#pcv{position:fixed;inset:0;pointer-events:none;z-index:290;}
+/* Capture quip toast */
+#quip{position:fixed;left:50%;transform:translateX(-50%);top:18%;z-index:400;background:rgba(14,9,0,.92);border:1px solid var(--gold);border-radius:6px;padding:10px 22px;font-family:'IM Fell English',serif;font-style:italic;font-size:15px;color:var(--parchment);text-align:center;max-width:320px;pointer-events:none;visibility:hidden;opacity:0;transition:opacity .3s;}
+#quip.show{visibility:visible;opacity:1;}
+/* Game title */
+#g-title{font-family:'UnifrakturMaguntia',Georgia,serif!important;font-size:28px!important;}
+#g-sub{font-family:'IM Fell English',serif;font-style:italic;}
+/* Player bar — mobile only, above board */
+#player-bar{display:none;gap:8px;width:100%;max-width:500px;margin-bottom:8px;}
+.pcard{flex:1;background:var(--parchment);border:2px solid var(--gold);border-radius:6px;padding:10px 8px 8px;position:relative;transition:border-color .25s,background .25s;overflow:hidden;}
+.pcard .pname{font-family:'UnifrakturMaguntia',Georgia,serif;font-size:17px;color:var(--gold);text-align:center;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;margin-bottom:6px;}
+.pcard .pname.dim{opacity:.4;}
+/* P2 move slots — three stripes at bottom */
+.pslots{display:flex;gap:3px;height:6px;}
+.pslot{flex:1;border-radius:2px;background:#3a6aaa;transition:opacity .3s;}
+.pslot.off{opacity:.15;}
+/* P1 single gold slot */
+.pslot-gold{flex:1;border-radius:2px;background:var(--gold2);transition:opacity .3s;}
+.pslot-gold.off{opacity:.15;}
+/* Active states */
+.pcard.p1-active{border-color:var(--gold2);background:#fdf5e0;box-shadow:0 0 12px rgba(184,134,11,.35);}
+.pcard.p2-active{border-color:#4488cc;background:#eef4fc;box-shadow:0 0 12px rgba(40,110,200,.3);}
+.pcard.p1-active .pname{opacity:1;}
+.pcard.p2-active .pname{opacity:1;color:#1a4a8a;}
+/* Check pulse on card */
+.pcard.chk-pulse{animation:cpulse 1s ease-in-out infinite;}
+@keyframes cpulse{0%,100%{border-color:#8b1a1a;}50%{border-color:#ff4444;box-shadow:0 0 14px rgba(220,30,30,.6);}}
+@media(max-width:700px){
+  :root{--sq:44px;}
+  .sq{font-size:28px;}
+  .panel{width:100%;max-width:500px;}
+  .game-wrap{flex-direction:column;align-items:center;}
+  .board-wrap{padding:10px;}
+  #player-bar{display:flex;}
+  /* Left panel internal order */
+  #panel-left{display:flex;flex-direction:column;}
+  #panel-btns{order:1;}
+  #panel-goal{order:2;}
+  #panel-dots{order:3;}
+  #panel-chk{order:4;}
+  #panel-status{order:5;}
+  /* game-wrap children order */
+  #panel-left{order:1;}
+  #player-bar{order:6;}
+  .board-wrap{order:7;}
+  .panel-right{order:8;}
+}
 @media(max-width:400px){:root{--sq:38px;}.sq{font-size:24px;}}
 </style>
   <link rel="manifest" href="manifest.json">
@@ -72,6 +124,8 @@ textarea{width:100%;padding:9px 12px;font-family:inherit;font-size:15px;backgrou
 </head>
 <body>
 <canvas id="fw" style="display:none"></canvas>
+<canvas id="pcv" style="display:none"></canvas>
+<div id="quip"></div>
 
 <!-- iOS WebView warning - hidden by default, JS shows only if needed -->
 <div id="ios-warn" style="display:none;position:fixed;inset:0;background:#0e0900;z-index:999;flex-direction:column;align-items:center;justify-content:center;padding:28px;text-align:center;gap:16px">
@@ -79,6 +133,14 @@ textarea{width:100%;padding:9px 12px;font-family:inherit;font-size:15px;backgrou
   <div id="iw-title" style="font-family:Georgia,serif;font-size:20px;color:#daa520;letter-spacing:2px"></div>
   <div id="iw-body" style="font-size:14px;color:#c8a870;line-height:1.8;max-width:320px"></div>
   <a id="safari-link" href="" style="background:#daa520;color:#150900;font-family:Georgia,serif;font-size:13px;letter-spacing:1px;padding:14px 28px;border-radius:4px;text-decoration:none;text-transform:uppercase;margin-top:8px"></a>
+</div>
+
+<!-- WIN OVERLAY -->
+<div id="win-overlay" style="display:none;position:fixed;inset:0;background:rgba(5,3,0,.97);z-index:350;flex-direction:column;align-items:center;justify-content:center;gap:16px;padding:32px;text-align:center;">
+  <div id="wo-emoji" style="font-size:72px;animation:bop .6s ease-in-out infinite alternate;">🏆</div>
+  <div id="wo-name" style="font-family:'UnifrakturMaguntia',Georgia,serif;font-size:48px;color:var(--gold);text-shadow:0 0 40px rgba(184,134,11,.7);line-height:1.2;"></div>
+  <div id="wo-sub" style="font-family:'IM Fell English',serif;font-style:italic;font-size:22px;color:#c8a060;"></div>
+  <div id="wo-quote" style="font-family:'IM Fell English',serif;font-style:italic;font-size:14px;color:#8a7050;max-width:300px;line-height:1.7;margin-top:8px;"></div>
 </div>
 
 <!-- BLACK SCREEN -->
@@ -99,6 +161,16 @@ textarea{width:100%;padding:9px 12px;font-family:inherit;font-size:15px;backgrou
     <p id="t-intro"></p>
     <p style="font-size:12px;color:#6a5030" id="t-rules"></p>
     <hr class="g">
+    <div style="display:flex;gap:8px;margin-bottom:10px;">
+      <div style="flex:1">
+        <div class="sl" id="t-p1name-label">Имя Игрока 1</div>
+        <input id="p1name" type="text" maxlength="16" placeholder="Игрок 1" style="width:100%;padding:7px 10px;font-family:'IM Fell English',serif;font-size:14px;background:var(--parchment2);border:1px solid var(--gold);border-radius:4px;color:var(--ink);">
+      </div>
+      <div style="flex:1">
+        <div class="sl" id="t-p2name-label">Имя Игрока 2</div>
+        <input id="p2name" type="text" maxlength="16" placeholder="Игрок 2" style="width:100%;padding:7px 10px;font-family:'IM Fell English',serif;font-size:14px;background:var(--parchment2);border:1px solid var(--gold);border-radius:4px;color:var(--ink);">
+      </div>
+    </div>
     <button class="btn bg block" id="t-start" onclick="showBlack()"></button>
   </div>
 </div>
@@ -111,6 +183,7 @@ textarea{width:100%;padding:9px 12px;font-family:inherit;font-size:15px;backgrou
     <hr class="g">
     <div class="sl" id="g-goal-label"></div>
     <textarea id="gi" rows="3"></textarea>
+    <button class="btn block" id="g-random-goal" onclick="randomGoal()" style="background:var(--parchment2);border:1px solid var(--gold);color:var(--ink);font-family:'IM Fell English',serif;font-size:11px;padding:6px;cursor:pointer;width:100%;margin-bottom:8px;" id="g-rnd-btn"></button>
     <button class="btn bg block" id="g-confirm" onclick="confirmGoal()"></button>
   </div>
 </div>
@@ -122,34 +195,60 @@ textarea{width:100%;padding:9px 12px;font-family:inherit;font-size:15px;backgrou
     <div id="g-sub" style="font-style:italic;font-size:11px;color:#8a7050"></div>
   </div>
   <div class="game-wrap">
-    <div class="panel">
-      <div class="pt" id="g-status-pt"></div><div class="ps" id="g-status-ps"></div>
-      <div class="sbox p1c" id="sb">
-        <div class="who" id="wd"></div>
-        <div id="sd" style="font-size:11px;margin-top:2px"></div>
+    <div class="panel" id="panel-left">
+      <div id="panel-status">
+        <div class="pt" id="g-status-pt"></div><div class="ps" id="g-status-ps"></div>
+        <div class="sbox p1c" id="sb">
+          <div class="who" id="wd"></div>
+          <div id="sd" style="font-size:11px;margin-top:2px"></div>
+        </div>
       </div>
-      <div id="p2ui" style="display:none">
-        <div class="sl" id="g-p2label"></div>
-        <div class="dots" id="dots"></div>
-        <div style="font-size:10px;font-style:italic;color:#8a6030;margin-bottom:4px" id="fl"></div>
+      <div id="panel-dots">
+        <div id="p2ui" style="display:none">
+          <div style="font-size:10px;font-style:italic;color:#8a6030;margin-bottom:4px" id="fl"></div>
+        </div>
       </div>
-      <div class="chkw" id="cw"></div>
+      <div id="panel-chk">
+        <div class="chkw" id="cw"></div>
+      </div>
       <hr class="g">
-      <button class="btn bg block" id="bw" onclick="p1Win()"></button>
-      <button class="btn bb block" id="bl" onclick="p1Lose()" style="padding:6px;"></button>
+      <div id="panel-btns">
+        <button class="btn bg block" id="bw" onclick="p1Win()"></button>
+        <button class="btn bb block" id="bl" onclick="p1Lose()" style="padding:6px;"></button>
+      </div>
       <hr class="g">
-      <div class="sl" id="g-goal-sl"></div>
-      <button class="btn block" id="g-showhide" onclick="toggleGoal()" style="background:var(--parchment2);border:1px solid var(--gold);color:var(--ink);font-family:Georgia,serif;font-size:10px;padding:5px;cursor:pointer;width:100%;margin-bottom:4px;"></button>
-      <div class="secbox" id="gd"></div>
-      <hr class="g">
-      <div class="sl" id="g-history-sl"></div>
-      <div class="log" id="log"></div>
+      <div id="panel-goal">
+        <div class="sl" id="g-goal-sl"></div>
+        <button class="btn block" id="g-showhide" onclick="toggleGoal()" style="background:var(--parchment2);border:1px solid var(--gold);color:var(--ink);font-family:'IM Fell English',serif;font-size:10px;padding:5px;cursor:pointer;width:100%;margin-bottom:4px;"></button>
+        <div class="secbox" id="gd"></div>
+      </div>
+    </div>
+    <div id="player-bar">
+      <div class="pcard" id="pc1">
+        <div class="pname" id="pc1-name">Игрок 1</div>
+        <div class="pslots" id="pc1-slots">
+          <div class="pslot-gold" id="pslot-p1"></div>
+        </div>
+      </div>
+      <div class="pcard" id="pc2">
+        <div class="pname" id="pc2-name">Игрок 2</div>
+        <div class="pslots" id="pc2-slots">
+          <div class="pslot" id="pslot-0"></div>
+          <div class="pslot" id="pslot-1"></div>
+          <div class="pslot" id="pslot-2"></div>
+        </div>
+      </div>
     </div>
     <div class="board-wrap"><div class="board" id="board"></div></div>
-    <div class="panel">
+    <div class="panel panel-right">
       <div class="pt" id="g-cap-pt"></div><div class="ps" id="g-cap-ps"></div>
       <div class="sl" id="g-white-sl"></div><div class="cap" id="cw2"></div>
       <div class="sl" id="g-black-sl"></div><div class="cap" id="cb"></div>
+      <hr class="g">
+      <div id="panel-history">
+        <div class="sl" id="g-history-sl"></div>
+        <div class="log" id="log"></div>
+      </div>
       <hr class="g">
       <div id="rules">
         <div class="sl" id="g-rules-sl"></div>
@@ -161,6 +260,8 @@ textarea{width:100%;padding:9px 12px;font-family:inherit;font-size:15px;backgrou
         <div class="winbig" id="rb"></div>
         <div class="sl" id="g-goalwas-sl"></div>
         <div style="background:var(--parchment2);border:1px dashed var(--gold);border-radius:3px;padding:7px 9px;font-style:italic;font-size:12px;line-height:1.6;margin-bottom:7px" id="rg"></div>
+        <div class="sl" id="g-endword-sl"></div>
+        <div id="rc" style="font-size:12px;line-height:1.75;color:#3a2800;font-style:italic;min-height:36px;margin-bottom:6px"></div>
         <hr class="g">
       </div>
       <button class="btn br block" id="g-newgame" onclick="location.reload()"></button>
@@ -168,7 +269,7 @@ textarea{width:100%;padding:9px 12px;font-family:inherit;font-size:15px;backgrou
   </div>
 </div>
 
-<script>// ── TRANSLATIONS (must be before game code) ──────────────
+<script>// ── TRANSLATIONS ──────────────────────────────────────────
 const T={
   ru:{
     title:'Детектив × 2', sub:'шахматная игра с тайной целью — два игрока',
@@ -193,7 +294,10 @@ const T={
     pieceForb:'Эта фигура запрещена!', pieceUsed:'Этой фигурой уже ходили в этом сете!',
     enterGoal:'Введите тайную цель!',
     openSafari:'Откройте в Safari', safariBody:'WhatsApp открывает файл во встроенном браузере — игра не запускается.<br><br><b style="color:#fff">Как:</b> нажмите ⋯ → Открыть в браузере', openBtn:'Открыть в Safari →',
-    p1abbr:'И1', p2abbr:'И2'
+    p1abbr:'И1', p2abbr:'И2',
+    endWordSl:'Слово Красной Королевы',
+    p1nameLbl:'Имя Игрока 1', p2nameLbl:'Имя Игрока 2',
+    p1def:'Игрок 1', p2def:'Игрок 2'
   },
   en:{
     title:'Detective × 2', sub:'chess game with a secret goal — two players',
@@ -218,13 +322,608 @@ const T={
     pieceForb:'This piece is forbidden!', pieceUsed:'Already moved this piece this set!',
     enterGoal:'Please enter a secret goal!',
     openSafari:'Open in Safari', safariBody:'WhatsApp opens files in a restricted browser.<br><br><b style="color:#fff">How:</b> tap ⋯ → Open in browser', openBtn:'Open in Safari →',
-    p1abbr:'P1', p2abbr:'P2'
+    p1abbr:'P1', p2abbr:'P2',
+    endWordSl:'The Red Queen speaks',
+    p1nameLbl:'Player 1 name', p2nameLbl:'Player 2 name',
+    p1def:'Player 1', p2def:'Player 2'
   }
 };
 let lang='en';
 
+// ── 150 SECRET GOALS ─────────────────────────────────────
+const GOALS_RU=[
+  // Пешки
+  'Убрать все белые пешки с доски',
+  'Убрать все чёрные пешки с доски',
+  'Провести белую пешку в ферзи',
+  'Провести чёрную пешку в ферзи',
+  'Убрать пешки с колонки e',
+  'Убрать пешки с колонки d',
+  'Оставить на доске только одну белую пешку',
+  'Оставить на доске только одну чёрную пешку',
+  'Убрать три белые пешки',
+  'Убрать три чёрные пешки',
+  'Провести пешку на седьмую горизонталь',
+  'Убрать все пешки с правой половины доски (e–h)',
+  'Убрать все пешки с левой половины доски (a–d)',
+  'Создать связанные проходные пешки',
+  'Убрать пять пешек любого цвета',
+  // Лёгкие фигуры
+  'Убрать обоих белых коней',
+  'Убрать обоих чёрных коней',
+  'Убрать обоих белых слонов',
+  'Убрать обоих чёрных слонов',
+  'Убрать белого коня на g1',
+  'Убрать чёрного слона на c8',
+  'Убрать всех коней с доски',
+  'Убрать всех слонов с доски',
+  'Оставить только одного коня на доске',
+  'Оставить только одного слона на доске',
+  'Убрать коня и слона одного цвета',
+  'Поставить коня на центральную клетку (d4, d5, e4 или e5)',
+  'Убрать трёх лёгких фигур любого цвета',
+  // Ладьи и ферзи
+  'Убрать обе белые ладьи',
+  'Убрать обе чёрные ладьи',
+  'Убрать белого ферзя',
+  'Убрать чёрного ферзя',
+  'Убрать обоих ферзей',
+  'Поставить ладью на открытую вертикаль',
+  'Создать батарею: ладья + ферзь на одной вертикали',
+  'Убрать ладью и ферзя одного цвета',
+  'Убрать обе ладьи одного цвета',
+  // Короли и позиция
+  'Загнать белого короля в угол',
+  'Загнать чёрного короля в угол',
+  'Поставить белого короля на e4',
+  'Поставить чёрного короля на e5',
+  'Провести рокировку белых',
+  'Провести рокировку чёрных',
+  'Провести обе рокировки в одной партии',
+  'Не дать ни одному королю покинуть первую горизонталь',
+  // Взятия и обмены
+  'Взять пять фигур противника любым цветом',
+  'Взять ферзя не ферзём',
+  'Взять три фигуры пешками',
+  'Взять фигуру конём три раза',
+  'Взять фигуру слоном три раза',
+  'Взять фигуру ладьёй три раза',
+  'Взять фигуру ферзём три раза',
+  'Убрать шесть фигур противника',
+  'Убрать восемь фигур с доски суммарно',
+  'Взять фигуру на центральной клетке',
+  // Контроль пространства
+  'Поставить три фигуры на четвёртую горизонталь',
+  'Поставить три фигуры на пятую горизонталь',
+  'Занять все четыре центральные клетки фигурами',
+  'Поставить две фигуры на вертикаль d',
+  'Поставить две фигуры на вертикаль e',
+  'Поставить фигуру на каждую угловую клетку (a1, a8, h1, h8)',
+  'Контролировать клетку d5 тремя фигурами',
+  'Контролировать клетку e4 тремя фигурами',
+  // Шах и угрозы
+  'Дать шах белому королю',
+  'Дать шах чёрному королю',
+  'Дать шах обоим королям за одну партию',
+  'Создать двойной шах',
+  'Создать вилку конём',
+  'Создать связку слоном',
+  'Создать связку ладьёй',
+  'Создать угрозу двойного взятия',
+  // Структура и гармония
+  'Создать пешечную цепь из четырёх пешек',
+  'Оставить только пешки и королей на доске',
+  'Убрать все лёгкие фигуры (кони и слоны)',
+  'Убрать все тяжёлые фигуры (ладьи и ферзи)',
+  'Оставить только тяжёлые фигуры и королей',
+  'Оставить только лёгкие фигуры и королей',
+  'Создать позицию с тремя ферзями на доске',
+  'Создать позицию без пешек',
+  // Диагонали и вертикали
+  'Поставить слона на большую диагональ (a1–h8)',
+  'Поставить ладью на восьмую горизонталь',
+  'Поставить ладью на первую горизонталь противника',
+  'Открыть вертикаль e для ладьи',
+  'Открыть вертикаль d для ладьи',
+  'Занять вертикаль a ладьёй',
+  'Занять вертикаль h ладьёй',
+  // Нестандартные
+  'Иметь на доске четыре ферзя одновременно',
+  'Провести две пешки в ферзи',
+  'Создать позицию с шестью пешками одного цвета в ряд',
+  'Оставить одного короля без фигур (голый король)',
+  'Создать позицию где у одной стороны больше 15 очков материала',
+  'Убрать все фигуры с одной половины доски',
+  'Убрать все фигуры белых кроме короля',
+  'Убрать все фигуры чёрных кроме короля',
+  'Создать позицию с симметричными пешечными структурами',
+  'Поставить три ладьи на одну вертикаль',
+  // Кэрролловские
+  'Поставить белого ферзя на d1 (домой)',
+  'Поставить чёрного ферзя на d8 (домой)',
+  'Провести самую тихую партию: ни одного взятия до хода 10',
+  'Создать позицию где оба короля на одной диагонали',
+  'Поставить коня на a1',
+  'Поставить коня на h8',
+  'Создать позицию с пятью пешками в центре',
+  'Убрать все белые фигуры с первой горизонтали',
+  'Убрать все чёрные фигуры с восьмой горизонтали',
+  'Поставить ферзя на угол (a1, a8, h1 или h8)',
+  // Смешанные
+  'Создать позицию где у белых нет пешек',
+  'Создать позицию где у чёрных нет пешек',
+  'Убрать все пешки с центральных вертикалей (c, d, e, f)',
+  'Создать проходную пешку на вертикали a',
+  'Создать проходную пешку на вертикали h',
+  'Убрать обе фигуры на одной вертикали',
+  'Иметь пешку на каждой вертикали одновременно',
+  'Поставить двух коней рядом',
+  'Поставить двух слонов рядом',
+  'Убрать четыре фигуры с первых двух горизонталей',
+  // Ещё нестандартные
+  'Создать позицию с восемью пешками одного цвета',
+  'Убрать всё кроме ладей и королей',
+  'Взять пешку на проходе',
+  'Создать крепость: закрытая позиция без взятий 5 ходов',
+  'Поставить ферзя на b2 или g7',
+  'Оставить ферзя и пешку против ферзя',
+  'Создать батарею слонов на одной диагонали',
+  'Занять центр четырьмя пешками',
+  'Поставить обоих коней на край доски',
+  'Поставить обоих слонов в центр',
+  // Последние
+  'Убрать ферзя и ладью одного цвета',
+  'Провести пешку h в ферзи',
+  'Провести пешку a в ферзи',
+  'Создать позицию где оба ферзя на одной горизонтали',
+  'Иметь три фигуры на третьей горизонтали',
+  'Иметь три фигуры на шестой горизонтали',
+  'Создать позицию где у одной стороны только пешки',
+  'Убрать три фигуры за три хода',
+  'Поставить ладью позади проходной пешки',
+  'Создать позицию без единого шаха за всю партию',
+  'Убрать слона с длинной диагонали',
+  'Создать изолированную пешку у противника',
+  'Создать сдвоенные пешки у противника',
+  'Убрать четыре фигуры одного цвета',
+  'Поставить ферзя на четвёртую горизонталь',
+  'Поставить ферзя на пятую горизонталь',
+  'Создать позицию с двумя проходными пешками',
+  'Убрать все фигуры с вертикали e',
+  'Убрать все фигуры с вертикали d',
+  'Создать позицию где один цвет контролирует всё левое поле',
+  'Поставить обе ладьи на одну горизонталь',
+  'Убрать суммарно десять фигур с доски',
+  'Создать позицию где у белых три лёгкие фигуры',
+  'Создать позицию где у чёрных три лёгкие фигуры',
+];
+const GOALS_EN=[
+  // Pawns
+  'Remove all white pawns from the board',
+  'Remove all black pawns from the board',
+  'Promote a white pawn to queen',
+  'Promote a black pawn to queen',
+  'Clear all pawns from the e-file',
+  'Clear all pawns from the d-file',
+  'Leave only one white pawn on the board',
+  'Leave only one black pawn on the board',
+  'Remove three white pawns',
+  'Remove three black pawns',
+  'Advance a pawn to the seventh rank',
+  'Clear all pawns from the kingside (e–h)',
+  'Clear all pawns from the queenside (a–d)',
+  'Create connected passed pawns',
+  'Remove five pawns of any colour',
+  // Minor pieces
+  'Remove both white knights',
+  'Remove both black knights',
+  'Remove both white bishops',
+  'Remove both black bishops',
+  'Remove the white knight on g1',
+  'Remove the black bishop on c8',
+  'Remove all knights from the board',
+  'Remove all bishops from the board',
+  'Leave only one knight on the board',
+  'Leave only one bishop on the board',
+  'Remove a knight and bishop of the same colour',
+  'Place a knight on a central square (d4, d5, e4 or e5)',
+  'Remove three minor pieces of any colour',
+  // Rooks and queens
+  'Remove both white rooks',
+  'Remove both black rooks',
+  'Remove the white queen',
+  'Remove the black queen',
+  'Remove both queens',
+  'Place a rook on an open file',
+  'Create a battery: rook and queen on the same file',
+  'Remove a rook and queen of the same colour',
+  'Remove both rooks of one colour',
+  // Kings and position
+  'Drive the white king into a corner',
+  'Drive the black king into a corner',
+  'Place the white king on e4',
+  'Place the black king on e5',
+  'Castle kingside with white',
+  'Castle kingside with black',
+  'Castle with both sides in one game',
+  'Keep both kings on their home rank all game',
+  // Captures and exchanges
+  'Capture five enemy pieces with either colour',
+  'Capture the queen with a non-queen piece',
+  'Capture three pieces with pawns',
+  'Capture a piece with a knight three times',
+  'Capture a piece with a bishop three times',
+  'Capture a piece with a rook three times',
+  'Capture a piece with a queen three times',
+  'Remove six enemy pieces',
+  'Remove eight pieces from the board in total',
+  'Capture a piece on a central square',
+  // Space control
+  'Place three pieces on the fourth rank',
+  'Place three pieces on the fifth rank',
+  'Occupy all four central squares with pieces',
+  'Place two pieces on the d-file',
+  'Place two pieces on the e-file',
+  'Place a piece on every corner square (a1, a8, h1, h8)',
+  'Control d5 with three pieces',
+  'Control e4 with three pieces',
+  // Check and threats
+  'Give check to the white king',
+  'Give check to the black king',
+  'Give check to both kings in one game',
+  'Create a double check',
+  'Create a knight fork',
+  'Create a bishop pin',
+  'Create a rook pin',
+  'Create a double capture threat',
+  // Structure and harmony
+  'Create a pawn chain of four pawns',
+  'Leave only pawns and kings on the board',
+  'Remove all minor pieces (knights and bishops)',
+  'Remove all major pieces (rooks and queens)',
+  'Leave only major pieces and kings',
+  'Leave only minor pieces and kings',
+  'Create a position with three queens on the board',
+  'Create a pawnless position',
+  // Diagonals and files
+  'Place a bishop on the long diagonal (a1–h8)',
+  'Place a rook on the eighth rank',
+  'Place a rook on the opponent\'s first rank',
+  'Open the e-file for a rook',
+  'Open the d-file for a rook',
+  'Occupy the a-file with a rook',
+  'Occupy the h-file with a rook',
+  // Unusual
+  'Have four queens on the board simultaneously',
+  'Promote two pawns to queens',
+  'Create a position with six pawns of one colour in a row',
+  'Leave one king with no pieces (bare king)',
+  'Create a position where one side has more than 15 points of material',
+  'Clear all pieces from one half of the board',
+  'Remove all white pieces except the king',
+  'Remove all black pieces except the king',
+  'Create a position with symmetrical pawn structures',
+  'Stack three rooks on one file',
+  // Carroll-flavoured
+  'Return the white queen to d1',
+  'Return the black queen to d8',
+  'Play a quiet game: no captures before move 10',
+  'Create a position where both kings share a diagonal',
+  'Place a knight on a1',
+  'Place a knight on h8',
+  'Create a position with five pawns in the centre',
+  'Clear all white pieces from the first rank',
+  'Clear all black pieces from the eighth rank',
+  'Place a queen in a corner (a1, a8, h1 or h8)',
+  // Mixed
+  'Create a position where white has no pawns',
+  'Create a position where black has no pawns',
+  'Remove all pawns from the central files (c, d, e, f)',
+  'Create a passed pawn on the a-file',
+  'Create a passed pawn on the h-file',
+  'Remove two pieces from the same file',
+  'Have a pawn on every file simultaneously',
+  'Place both knights side by side',
+  'Place both bishops side by side',
+  'Remove four pieces from the first two ranks',
+  // More unusual
+  'Create a position with eight pawns of one colour',
+  'Leave only rooks and kings on the board',
+  'Capture en passant',
+  'Build a fortress: closed position with no captures for 5 moves',
+  'Place a queen on b2 or g7',
+  'Leave queen and pawn versus queen',
+  'Create a bishop battery on one diagonal',
+  'Occupy the centre with four pawns',
+  'Place both knights on the edge of the board',
+  'Place both bishops in the centre',
+  // Final
+  'Remove a queen and rook of the same colour',
+  'Promote the h-pawn to queen',
+  'Promote the a-pawn to queen',
+  'Create a position where both queens share a rank',
+  'Have three pieces on the third rank',
+  'Have three pieces on the sixth rank',
+  'Create a position where one side has only pawns',
+  'Remove three pieces in three moves',
+  'Place a rook behind a passed pawn',
+  'Play a game with no checks at all',
+  'Remove a bishop from the long diagonal',
+  'Create an isolated pawn for the opponent',
+  'Create doubled pawns for the opponent',
+  'Remove four pieces of one colour',
+  'Place a queen on the fourth rank',
+  'Place a queen on the fifth rank',
+  'Create a position with two passed pawns',
+  'Clear all pieces from the e-file',
+  'Clear all pieces from the d-file',
+  'Create a position where one colour controls the entire queenside',
+  'Place both rooks on the same rank',
+  'Remove ten pieces from the board in total',
+  'Create a position where white has three minor pieces',
+  'Create a position where black has three minor pieces',
+];
+let lastGoalIdx=-1;
+function randomGoal(){
+  const pool=lang==='ru'?GOALS_RU:GOALS_EN;
+  let i;do{i=Math.floor(Math.random()*pool.length);}while(i===lastGoalIdx&&pool.length>1);
+  lastGoalIdx=i;
+  document.getElementById('gi').value=pool[i];
+}
 
+// ── CARROLL CAPTURE QUIPS ────────────────────────────────
+const QUIPS_RU=[
+  'Любопытнее и любопытнее!',
+  'Рубить головы! — Красная Королева',
+  'Всё страньше и страньше…',
+  'Это совершенно не по правилам!',
+  'Здесь нужно бежать со всех ног, чтобы хоть куда-нибудь попасть.',
+  'Слова означают то, что я хочу, чтобы они означали.',
+  'Начнём с начала — кто здесь кто?',
+  'Гораздо легче сказать, что невозможно, чем сделать, что возможно.',
+  'Это ход конём. Буквально.',
+  'Иногда я думала о шести невозможных вещах до завтрака.',
+  'Вот тебе и загадка без ответа!',
+  'Чем ворон похож на письменный стол?',
+  'Прочь с дороги! — с уважением, ладья.',
+  'Фигура пала. Занавес. Ах.',
+  'Мы все здесь немного не в своём уме.',
+];
+const QUIPS_EN=[
+  'Curiouser and curiouser!',
+  'Off with their heads! — The Red Queen',
+  'Things keep getting stranger…',
+  'That is entirely against the rules!',
+  'Here it takes all the running you can do to get anywhere.',
+  'Words mean exactly what I choose them to mean.',
+  'Let us begin at the beginning — who is who here?',
+  'It is much easier to say what is impossible.',
+  'A knight\'s move. Quite literally.',
+  'I sometimes think of six impossible things before breakfast.',
+  'A riddle with no answer!',
+  'Why is a raven like a writing desk?',
+  'Out of the way! — yours sincerely, the rook.',
+  'A piece has fallen. The curtain drops.',
+  'We are all a little mad here.',
+];
 
+// Quips for check specifically
+const CHECK_QUIPS_RU=[
+  '⚠ Шах! — Рубить головы!',
+  '⚠ Король под угрозой! Любопытнее и любопытнее…',
+  '⚠ Шах! Бегите со всех ног!',
+];
+const CHECK_QUIPS_EN=[
+  '⚠ Check! Off with his head!',
+  '⚠ The king is threatened. Curiouser and curiouser…',
+  '⚠ Check! Run, run, run!',
+];
+
+let usedQuips=[];
+function randQuip(arr){
+  if(usedQuips.length>=arr.length)usedQuips=[];
+  let i;do{i=Math.floor(Math.random()*arr.length);}while(usedQuips.includes(i));
+  usedQuips.push(i);return arr[i];
+}
+
+// ── END-GAME PHRASES (Red Queen style) ───────────────────
+const SARCS_P1_RU=[
+  'Всё вышло именно так, как я и не планировала.',
+  'Любопытнее и любопытнее! Цель достигнута.',
+  'Иногда достаточно просто верить в шесть невозможных вещей.',
+  'Тайное стало явным. Красная Королева недовольна.',
+  'Победа! Хотя здесь все победы немного понарошку.',
+  'Цель выполнена. В Зазеркалье это называется «начать сначала».',
+  'Игрок 1 победил. Чудесато!',
+  'Тайна раскрыта. Шляпник аплодирует.',
+  'Это не по правилам — и именно поэтому сработало.',
+  'Победа пахнет пергаментом и старым чаем.',
+  'Король жив, цель выполнена, занавес.',
+  'Красная Королева бежит, но уже не догоняет.',
+  'Всё страньше и победнее!',
+  'Цель была тайной. Теперь она — история.',
+  'Игрок 2 так и не догадался. Как и положено.',
+  'В этой игре побеждает тот, кто знает зачем ходит.',
+  'Шахматная доска отдаёт честь.',
+  'Миссия выполнена. Кролик опаздывает, но уже неважно.',
+  'Тайное оказалось сильнее очевидного.',
+  'Победа без объяснений — лучшая победа.',
+  'Игрок 1 прошёл сквозь зеркало и вышел победителем.',
+  'Цель достигнута. Гусеница одобряет, хотя виду не показывает.',
+  'Именно так и должна выглядеть победа в Зазеркалье.',
+  'Финал! Карточный домик устоял.',
+  'Тайная цель выполнена. Это называется: детектив.',
+];
+const SARCS_P2_RU=[
+  'Мат. Тайная цель умерла нераскрытой. Романтично.',
+  'Король пал. Рубить головы! — Красная Королева',
+  'Всё страньше и страньше — особенно этот мат.',
+  'Игрок 1 проиграл. Тайна ушла вместе с королём.',
+  'Чем ворон похож на письменный стол? Примерно как эта партия на победу.',
+  'Мат! Здесь нужно бежать ещё быстрее.',
+  'Тайная цель осталась тайной навсегда.',
+  'Король в ловушке. Зеркало треснуло.',
+  'Игрок 2 победил. Любопытнее и любопытнее!',
+  'Шах и мат. Шляпник смеётся.',
+  'Тайна не раскрыта. Занавес опускается.',
+  'Это совершенно не по правилам — и всё же мат.',
+  'Игрок 1 бежал со всех ног и всё равно остался на месте.',
+  'Мат. Гусеница пускает кольцо дыма и молчит.',
+  'Финал без тайны — тоже финал.',
+  'Король сдался. В Зазеркалье это происходит до начала игры.',
+  'Мат. Слова означают то, что я хочу — в данном случае «проигрыш».',
+  'Тайная цель Игрока 1 унесена ветром.',
+  'Игрок 2 выиграл три хода подряд. Математика Зазеркалья.',
+  'Мат. Даже Белая Королева этого не предвидела.',
+  'Карточный домик рухнул. Король первый.',
+  'Игрок 1 знал цель. Не знал пути.',
+  'Мат — это мат, как ни называй.',
+  'Тайна погребена под конём и двумя пешками.',
+  'Финита ла комедия. В Зазеркалье говорят наоборот.',
+];
+const SARCS_P1_EN=[
+  'Goal achieved? Curiouser and curiouser.',
+  'Player 1 wins. Here it takes all the running you can do to get anywhere.',
+  'Victory! But what it means — don\'t ask the Red Queen.',
+  'Goal reached. Words mean what I want — in this case, "victory".',
+  'Player 1 wins. In Looking-Glass land this is called losing in reverse.',
+  'The secret is out. Player 2 never suspected.',
+  'Mission complete. The White Rabbit was late, but no matter.',
+  'The hidden became visible. The board applauds.',
+  'Against all rules — and that\'s precisely why it worked.',
+  'Victory smells of parchment and cold tea.',
+  'The king lives. The goal is done. Curtain.',
+  'The Red Queen is running, but can\'t catch up now.',
+  'Stranger and more victorious!',
+  'The goal was secret. Now it\'s history.',
+  'In this game, the one who knows why they move wins.',
+  'The chessboard salutes.',
+  'Player 1 stepped through the mirror and came out winning.',
+  'Goal achieved. The Caterpillar approves, though shows nothing.',
+  'This is exactly what victory looks like in Looking-Glass land.',
+  'The card castle held.',
+  'Secret goal complete. That\'s what we call a detective.',
+  'The hidden proved stronger than the obvious.',
+  'A victory without explanation is the best kind.',
+  'The Hatter applauds. Briefly, then returns to tea.',
+  'Six impossible things before breakfast — and one of them worked.',
+];
+const SARCS_P2_EN=[
+  'Checkmate. The secret goal died unrevealed. Poetic.',
+  'The king has fallen. Off with their heads! — The Red Queen',
+  'Things keep getting stranger — especially this checkmate.',
+  'Player 1 lost. The secret went with the king.',
+  'Why is a raven like a writing desk? About as much as this resembles a win.',
+  'Checkmate! Here you need to run even faster.',
+  'The secret goal remains secret forever.',
+  'The king is trapped. The mirror has cracked.',
+  'Player 2 wins. Curiouser and curiouser!',
+  'Check and mate. The Hatter laughs.',
+  'The secret unrevealed. The curtain falls.',
+  'Entirely against the rules — and yet: checkmate.',
+  'Player 1 ran as fast as they could and stayed in the same place.',
+  'Checkmate. The Caterpillar blows a smoke ring and says nothing.',
+  'A finale without a secret is still a finale.',
+  'The king surrendered. In Looking-Glass land this happens before the game starts.',
+  'Checkmate. Words mean what I choose — here, "defeat".',
+  'Player 1\'s secret goal was carried off by the wind.',
+  'Player 2 won in three moves each set. Looking-Glass mathematics.',
+  'Checkmate. Even the White Queen didn\'t see this coming.',
+  'The card castle fell. The king went first.',
+  'Player 1 knew the goal. Not the path.',
+  'Checkmate is checkmate, whatever you call it.',
+  'The secret lies buried under a knight and two pawns.',
+  'Finita la commedia. In Looking-Glass land they say it backwards.',
+];
+let usedSarcs=[];
+
+// ── PLAYER NAMES ─────────────────────────────────────────
+let p1name='', p2name='';
+
+// ── CARROLL INSTRUCTION PHRASES ──────────────────────────
+const INST_P1_RU=[
+  (n)=>`${n}, ваш ход. Одна фигура — любого цвета.`,
+  (n)=>`${n}, выберите фигуру. Любого цвета, как в Зазеркалье.`,
+  (n)=>`Пора ходить, ${n}. Одна фигура, любой цвет.`,
+  (n)=>`${n}! Одна фигура. Белая или чёрная — не важно.`,
+  (n)=>`Ход за вами, ${n}. Одна фигура, любой цвет.`,
+];
+const INST_P2_RU=[
+  (n,o)=>`${n}, три хода разными фигурами. Не той которой ходил ${o}.`,
+  (n,o)=>`${n}! Три разные фигуры. Фигура ${o} — под запретом.`,
+  (n,o)=>`Ваш черёд, ${n}. Три хода, три разные фигуры.`,
+  (n,o)=>`${n}, сходите трижды. Каждый раз — другая фигура. Не ${o}'s.`,
+  (n,o)=>`${n} — три хода! Разными. Фигура ${o} не считается.`,
+];
+const INST_P1_EN=[
+  (n)=>`${n}, your move. One piece — any colour.`,
+  (n)=>`${n}, choose a piece. Any colour, as in Looking-Glass land.`,
+  (n)=>`Your turn, ${n}. One piece, any colour.`,
+  (n)=>`${n}! One piece. White or black — it doesn't matter.`,
+  (n)=>`Move, ${n}. One piece of any colour.`,
+];
+const INST_P2_EN=[
+  (n,o)=>`${n}, three moves with different pieces. Not the one ${o} moved.`,
+  (n,o)=>`${n}! Three different pieces. ${o}'s piece is forbidden.`,
+  (n,o)=>`Your turn, ${n}. Three moves, three different pieces.`,
+  (n,o)=>`${n}, move three times. Each time a different piece. Not ${o}'s.`,
+  (n,o)=>`${n} — three moves! Different ones. ${o}'s piece doesn't count.`,
+];
+const INST_FORB_RU=(p1n)=>`Эта фигура под запретом! ${p1n} уже ею ходил.`;
+const INST_FORB_EN=(p1n)=>`This piece is forbidden! ${p1n} already moved it.`;
+const INST_USED_RU=(n)=>`${n}, этой фигурой вы уже ходили в этом сете!`;
+const INST_USED_EN=(n)=>`${n}, you already moved this piece this set!`;
+
+let usedInst1=[],usedInst2=[];
+function randInst(arr,used){
+  if(used.length>=arr.length)used.length=0;
+  let i;do{i=Math.floor(Math.random()*arr.length);}while(used.includes(i));
+  used.push(i);return arr[i];
+}
+let quipTimer=null;
+function showQuip(text){
+  const el=document.getElementById('quip');
+  if(quipTimer)clearTimeout(quipTimer);
+  el.textContent=text;el.classList.add('show');
+  quipTimer=setTimeout(()=>el.classList.remove('show'),2500);
+}
+
+// ── PIECE PARTICLE EXPLOSION ─────────────────────────────
+function burstAt(r,c,pieceColor){
+  const bd=document.getElementById('board');
+  const sqs=bd.querySelectorAll('.sq');
+  const sq=sqs[r*8+c];if(!sq)return;
+  const rect=sq.getBoundingClientRect();
+  const x=rect.left+rect.width/2,y=rect.top+rect.height/2;
+  const cv=document.getElementById('pcv');
+  cv.width=window.innerWidth;cv.height=window.innerHeight;
+  cv.style.display='block';
+  const ctx=cv.getContext('2d');
+  // colour palette: warm cream for white pieces, dark for black
+  const PAL=pieceColor==='w'
+    ?['#f5edd8','#daa520','#ede0c4','#fff8e8','#c8a060']
+    :['#2a1a0a','#5a3a1a','#3a2a0a','#1a0a00','#8a6030'];
+  const parts=[];
+  for(let i=0;i<36;i++){
+    const a=Math.random()*Math.PI*2,s=2+Math.random()*5;
+    parts.push({x,y,vx:Math.cos(a)*s,vy:Math.sin(a)*s-1,col:PAL[Math.floor(Math.random()*PAL.length)],life:1,dec:.04+Math.random()*.03,sz:2+Math.random()*3});
+  }
+  function tick(){
+    ctx.clearRect(0,0,cv.width,cv.height);
+    let alive=false;
+    for(const p of parts){
+      p.x+=p.vx;p.y+=p.vy;p.vy+=.12;p.vx*=.97;p.life-=p.dec;
+      if(p.life<=0)continue;alive=true;
+      ctx.beginPath();ctx.arc(p.x,p.y,p.sz,0,Math.PI*2);
+      ctx.fillStyle=p.col;ctx.globalAlpha=p.life;ctx.fill();ctx.globalAlpha=1;
+    }
+    if(alive)requestAnimationFrame(tick);
+    else{ctx.clearRect(0,0,cv.width,cv.height);cv.style.display='none';}
+  }
+  tick();
+}
+
+// ── CHESS ENGINE ─────────────────────────────────────────
 const G={wK:'♔',wQ:'♕',wR:'♖',wB:'♗',wN:'♘',wP:'♙',bK:'♚',bQ:'♛',bR:'♜',bB:'♝',bN:'♞',bP:'♟'};
 const F='abcdefgh';
 const pc=p=>p?p[0]:null,pt=p=>p?p[1]:null,opp=c=>c==='w'?'b':'w';
@@ -287,13 +986,11 @@ function castlingMoves(b,r,c){
   if(r!==homeRow||c!==4)return[];
   if(inCheck(b,col))return[];
   if(hasMoved(col+'K'))return[];
-  // King-side
   if(!hasMoved(col+'Rh')&&b[homeRow][7]===col+'R'&&!b[homeRow][5]&&!b[homeRow][6]){
     const n5=b.map(row=>[...row]);n5[homeRow][5]=col+'K';n5[homeRow][4]=null;
     const n6=b.map(row=>[...row]);n6[homeRow][6]=col+'K';n6[homeRow][4]=null;
     if(!inCheck(n5,col)&&!inCheck(n6,col))mv.push({r:homeRow,c:6,cap:false,castle:'K'});
   }
-  // Queen-side
   if(!hasMoved(col+'Ra')&&b[homeRow][0]===col+'R'&&!b[homeRow][1]&&!b[homeRow][2]&&!b[homeRow][3]){
     const n3=b.map(row=>[...row]);n3[homeRow][3]=col+'K';n3[homeRow][4]=null;
     const n2=b.map(row=>[...row]);n2[homeRow][2]=col+'K';n2[homeRow][4]=null;
@@ -308,62 +1005,84 @@ function applyCastle(b,r,c,castle){
   return nb;
 }
 
-let board,sel,pm=[],phase,p2left,fp,p2used,p2checkDone;
-let capW=[],capB=[],logs=[],goal='',goalVis=false,lf=null,lt=null,over=false;
+// ── STATE ────────────────────────────────────────────────
+let board,sel,pm=[],phase,p2left,fp,fpId,p2used,p2checkDone;
+let capW=[],capB=[],logs=[],goal='',goalVis=false;
+let lf=null,lt=null,lastMovePhase='p1'; // track which player made last move
+let over=false;
 
-// Generate a unique ID for each piece on the board at game start
-// We stamp each piece with a hidden id so we can track it across moves
-let pieceIds; // Map: pid(r,c) -> uniqueId
-let nextPieceId=0;
-function stampPieces(){
-  pieceIds={};
-  for(let r=0;r<8;r++)for(let c=0;c<8;c++)if(board[r][c])pieceIds[pid(r,c)]=nextPieceId++;
-}
-function movePieceId(r1,c1,r2,c2){
-  const id=pieceIds[pid(r1,c1)];
-  delete pieceIds[pid(r1,c1)];
-  if(id!==undefined)pieceIds[pid(r2,c2)]=id;
-}
+let pieceIds={},nextPieceId=0;
+function stampPieces(){pieceIds={};for(let r=0;r<8;r++)for(let c=0;c<8;c++)if(board[r][c])pieceIds[pid(r,c)]=nextPieceId++;}
+function movePieceId(r1,c1,r2,c2){const id=pieceIds[pid(r1,c1)];delete pieceIds[pid(r1,c1)];if(id!==undefined)pieceIds[pid(r2,c2)]=id;}
 function getPieceId(r,c){return pieceIds[pid(r,c)];}
 
+// ── INCREMENTAL rBoard() ──────────────────────────────────
+// First call builds DOM; subsequent calls only update classes & text
+let boardBuilt=false;
 function rBoard(){
-  const bd=document.getElementById('board');bd.innerHTML='';
+  const bd=document.getElementById('board');
   const ps=new Set(pm.map(m=>pid(m.r,m.c)));
   const cs=new Set(pm.filter(m=>m.cap).map(m=>pid(m.r,m.c)));
-  for(let r=0;r<8;r++){
-    const rl=document.createElement('div');rl.className='cr';rl.textContent=rn(r);rl.style.cssText=`grid-row:${r+1};grid-column:1`;bd.appendChild(rl);
-    for(let c=0;c<8;c++){
-      const sq=document.createElement('div');sq.className='sq '+((r+c)%2===0?'l':'d');
-      sq.style.cssText=`grid-row:${r+1};grid-column:${c+2}`;
-      if(sel&&sel.r===r&&sel.c===c)sq.classList.add('sel');
-      if(lf&&lf.r===r&&lf.c===c)sq.classList.add('lf');
-      if(lt&&lt.r===r&&lt.c===c)sq.classList.add('lt');
-      const pp=board[r][c];
-      if(pp&&pt(pp)==='K'&&inCheck(board,pc(pp)))sq.classList.add('chk');
-      if(cs.has(pid(r,c)))sq.classList.add('pc');else if(ps.has(pid(r,c)))sq.classList.add('pm');
-      if(pp){const sp=document.createElement('span');sp.textContent=gl(pp);sq.appendChild(sp);}
-      sq.addEventListener('click',()=>click(r,c));
-      bd.appendChild(sq);
+
+  if(!boardBuilt){
+    // Full build
+    bd.innerHTML='';
+    for(let r=0;r<8;r++){
+      const rl=document.createElement('div');rl.className='cr';rl.textContent=rn(r);
+      rl.style.cssText=`grid-row:${r+1};grid-column:1`;bd.appendChild(rl);
+      for(let c=0;c<8;c++){
+        const sq=document.createElement('div');
+        sq.className='sq '+((r+c)%2===0?'l':'d');
+        sq.style.cssText=`grid-row:${r+1};grid-column:${c+2}`;
+        sq.dataset.r=r;sq.dataset.c=c;
+        sq.addEventListener('click',()=>click(r,c));
+        const sp=document.createElement('span');sq.appendChild(sp);
+        bd.appendChild(sq);
+      }
     }
+    for(let c=0;c<8;c++){
+      const cl=document.createElement('div');cl.className='cc';cl.textContent=cn(c);
+      cl.style.cssText=`grid-row:9;grid-column:${c+2}`;bd.appendChild(cl);
+    }
+    boardBuilt=true;
   }
-  for(let c=0;c<8;c++){const cl=document.createElement('div');cl.className='cc';cl.textContent=cn(c);cl.style.cssText=`grid-row:9;grid-column:${c+2}`;bd.appendChild(cl);}
+
+  // Incremental update — only touch what changed
+  const sqs=bd.querySelectorAll('.sq');
+  sqs.forEach(sq=>{
+    const r=+sq.dataset.r,c=+sq.dataset.c;
+    const base='sq '+((r+c)%2===0?'l':'d');
+    const classes=[base];
+    if(sel&&sel.r===r&&sel.c===c)classes.push('sel');
+    // Two-colour last-move highlight
+    if(lf&&lf.r===r&&lf.c===c)classes.push(lastMovePhase==='p1'?'p1lf':'p2lf');
+    if(lt&&lt.r===r&&lt.c===c)classes.push(lastMovePhase==='p1'?'p1lt':'p2lt');
+    const pp=board[r][c];
+    if(pp&&pt(pp)==='K'&&inCheck(board,pc(pp)))classes.push('chk');
+    if(cs.has(pid(r,c)))classes.push('pc');else if(ps.has(pid(r,c)))classes.push('pm');
+    sq.className=classes.join(' ');
+    // Update piece span
+    const sp=sq.querySelector('span');
+    if(sp)sp.textContent=pp?gl(pp):'';
+  });
 }
 
 function rUI(){
   const sb=document.getElementById('sb'),wd=document.getElementById('wd'),sd=document.getElementById('sd');
   const bw=document.getElementById('bw'),bl=document.getElementById('bl');
+  const n1=p1name||T[lang].p1def, n2=p2name||T[lang].p2def;
   if(phase==='p1'){
-    wd.textContent=T[lang].p1turn;sb.className='sbox p1c';
-    sd.textContent=T[lang].pick;
+    wd.textContent=n1;sb.className='sbox p1c';
+    const fn=randInst(lang==='ru'?INST_P1_RU:INST_P1_EN,usedInst1);
+    sd.textContent=fn(n1);
     document.getElementById('p2ui').style.display='none';
     bw.disabled=over;bl.disabled=over;
   } else {
-    wd.textContent=T[lang].p2turn+' ('+p2left+')';sb.className='sbox p2c';
-    sd.textContent=T[lang].p2moves;
+    wd.textContent=n2;sb.className='sbox p2c';
+    const fn=randInst(lang==='ru'?INST_P2_RU:INST_P2_EN,usedInst2);
+    sd.textContent=fn(n2,n1);
     document.getElementById('p2ui').style.display='block';
-    const dt=document.getElementById('dots');dt.innerHTML='';
-    for(let i=0;i<3;i++){const d=document.createElement('div');d.className='dot '+(i<p2left?'on':'off');d.textContent=i<p2left?(3-i):'✓';dt.appendChild(d);}
-    document.getElementById('fl').textContent=fp?T[lang].forbidden+gl(fp)+' ('+fp+')':'';
+    document.getElementById('fl').textContent=fpId!==undefined?(lang==='ru'?INST_FORB_RU(n1):INST_FORB_EN(n1)):'';
     bw.disabled=true;bl.disabled=over;
   }
   document.getElementById('cw2').textContent=capW.map(gl).join('');
@@ -371,11 +1090,37 @@ function rUI(){
   document.getElementById('log').innerHTML=logs.slice().reverse().map(e=>`<div class="le ${e.c}">${e.t}</div>`).join('');
   const wK=inCheck(board,'w'),bK=inCheck(board,'b');
   const cw=document.getElementById('cw');
-  const L=T[lang];if(wK||bK){cw.textContent=wK&&bK?L.checkBoth:wK?L.checkWhite:L.checkBlack;cw.classList.add('show');}
-  else cw.classList.remove('show');
+  const L=T[lang];
+  if(wK||bK){
+    cw.textContent=wK&&bK?L.checkBoth:wK?L.checkWhite:L.checkBlack;
+    cw.classList.add('show');
+    showQuip(randQuip(lang==='ru'?CHECK_QUIPS_RU:CHECK_QUIPS_EN));
+  } else cw.classList.remove('show');
+  rPlayerBar();
+}
+
+function rPlayerBar(){
+  const pc1=document.getElementById('pc1'),pc2=document.getElementById('pc2');
+  if(!pc1||!pc2)return;
+  const n1=p1name||T[lang].p1def, n2=p2name||T[lang].p2def;
+  document.getElementById('pc1-name').textContent=n1;
+  document.getElementById('pc2-name').textContent=n2;
+  const wK=inCheck(board,'w'),bK=inCheck(board,'b');
+  const anyChk=wK||bK;
+  pc1.className='pcard'+(phase==='p1'?' p1-active':'')+(anyChk&&phase==='p1'?' chk-pulse':'');
+  pc2.className='pcard'+(phase==='p2'?' p2-active':'')+(anyChk&&phase==='p2'?' chk-pulse':'');
+  // Update P1 gold slot
+  const p1slot=document.getElementById('pslot-p1');
+  if(p1slot)p1slot.className='pslot-gold'+(phase==='p1'?'':' off');
+  // Update P2 slots
+  for(let i=0;i<3;i++){
+    const sl=document.getElementById('pslot-'+i);
+    if(sl)sl.className='pslot'+(phase==='p2'&&i<p2left?'':' off');
+  }
 }
 function addLog(t,c){logs.push({t,c});}
 
+// ── PLAYER CLICKS ────────────────────────────────────────
 function click(r,c){
   if(over)return;
   const p=board[r][c];
@@ -387,19 +1132,23 @@ function click(r,c){
     if(p)selP2(r,c);
   }
 }
-function selP(r,c,isP1){sel={r,c};pm=isP1?legal1(board,r,c):legal2(board,r,c);rBoard();}
+function selP(r,c){sel={r,c};pm=legal1(board,r,c);rBoard();}
 function selP2(r,c){
   const p=board[r][c];if(!p)return;
-  if(p===fp){addLog(T[lang].pieceForb,'s');rUI();return;}
+  const n1=p1name||T[lang].p1def, n2=p2name||T[lang].p2def;
   const id=getPieceId(r,c);
-  if(id!==undefined&&p2used.has(id)){addLog(T[lang].pieceUsed,'s');rUI();return;}
-  // If check already given this set, filter out moves that would give another check (unless mate)
+  if(fpId!==undefined&&id===fpId){
+    addLog(lang==='ru'?INST_FORB_RU(n1):INST_FORB_EN(n1),'s');rUI();return;
+  }
+  if(id!==undefined&&p2used.has(id)){
+    addLog(lang==='ru'?INST_USED_RU(n2):INST_USED_EN(n2),'s');rUI();return;
+  }
   sel={r,c};
   let moves=legal2(board,r,c);
   if(p2checkDone){
     moves=moves.filter(m=>{
-      if(givesMate2(board,r,c,m.r,m.c))return true; // mate always allowed
-      return !givesCheck2(board,r,c,m.r,m.c);        // no further checks
+      if(givesMate2(board,r,c,m.r,m.c))return true;
+      return !givesCheck2(board,r,c,m.r,m.c);
     });
   }
   pm=moves;rBoard();
@@ -409,10 +1158,18 @@ function applyM2(b,r1,c1,r2,c2){const nb=b.map(row=>[...row]);nb[r2][c2]=nb[r1][
 function givesCheck2(b,r1,c1,r2,c2){const nb=applyM2(b,r1,c1,r2,c2);return inCheck(nb,'w')||inCheck(nb,'b');}
 function givesMate2(b,r1,c1,r2,c2){const nb=applyM2(b,r1,c1,r2,c2);return['w','b'].some(col=>inCheck(nb,col)&&!anyLegal(nb,col));}
 
+// ── EXECUTE MOVE ──────────────────────────────────────────
 function doMove(r2,c2){
   const r1=sel.r,c1=sel.c,p=board[r1][c1],tgt=board[r2][c2];
   const isCastle=pt(p)==='K'&&Math.abs(c2-c1)===2;
-  if(tgt&&!isCastle)(pc(tgt)==='w'?capW:capB).push(tgt);
+
+  // Capture: burst animation + Carroll quip
+  if(tgt&&!isCastle){
+    burstAt(r2,c2,pc(tgt));
+    setTimeout(()=>showQuip(randQuip(lang==='ru'?QUIPS_RU:QUIPS_EN)),150);
+    (pc(tgt)==='w'?capW:capB).push(tgt);
+  }
+
   const movedId=getPieceId(r1,c1);
   if(isCastle){
     const side=c2>c1?'K':'Q';
@@ -429,12 +1186,15 @@ function doMove(r2,c2){
   lf={r:r1,c:c1};lt={r:r2,c:c2};
   const note=isCastle?`${gl(p)} ${c2>c1?'0-0':'0-0-0'}`:`${gl(p)} ${cn(c1)}${rn(r1)}→${cn(c2)}${rn(r2)}${tgt?' ×'+gl(tgt):''}`;
   sel=null;pm=[];
+
   if(phase==='p1'){
-    addLog((T[lang].p1abbr||'P1')+': '+note,'p1');
-    fp=p;p2left=3;p2used=new Set();p2checkDone=false;
+    lastMovePhase='p1';
+    addLog(`${p1name||T[lang].p1def}: `+note,'p1');
+    fp=p;fpId=movedId;p2left=3;p2used=new Set();p2checkDone=false;
     phase='p2';rBoard();rUI();
   } else {
-    addLog((T[lang].p2abbr||'P2')+'('+(4-p2left)+'): '+note,'p2');
+    lastMovePhase='p2';
+    addLog(`${p2name||T[lang].p2def}(`+(4-p2left)+'): '+note,'p2');
     p2left--;
     if(movedId!==undefined)p2used.add(movedId);
     if((givesCheck2(board,r1,c1,r2,c2)&&!isCastle)||givesMate2(board,r1,c1,r2,c2))p2checkDone=true;
@@ -452,23 +1212,79 @@ function checkMate(){
   }return false;
 }
 
+function showWinOverlay(p1wins, onDone){
+  const n1=p1name||T[lang].p1def, n2=p2name||T[lang].p2def;
+  const winner=p1wins?n1:n2;
+  const ov=document.getElementById('win-overlay');
+  document.getElementById('wo-emoji').textContent=p1wins?'🏆':'👑';
+  document.getElementById('wo-name').textContent=winner;
+  document.getElementById('wo-name').style.color=p1wins?'var(--gold)':'#4488cc';
+  document.getElementById('wo-name').style.textShadow=p1wins
+    ?'0 0 40px rgba(184,134,11,.7)':'0 0 40px rgba(40,110,200,.6)';
+  document.getElementById('wo-sub').textContent=lang==='ru'?'победил(а)!':'wins!';
+  // Carroll quote
+  const pool=lang==='ru'?(p1wins?SARCS_P1_RU:SARCS_P2_RU):(p1wins?SARCS_P1_EN:SARCS_P2_EN);
+  const qi=Math.floor(Math.random()*pool.length);
+  document.getElementById('wo-quote').textContent='«'+pool[qi]+'»';
+  ov.style.opacity='1';
+  ov.style.transition='';
+  ov.style.display='flex';
+  setTimeout(()=>{
+    ov.style.transition='opacity .7s';
+    ov.style.opacity='0';
+    setTimeout(()=>{
+      ov.style.display='none';
+      ov.style.opacity='1';
+      ov.style.transition='';
+      if(onDone)onDone();
+    },700);
+  },3000);
+}
+
 function endGame(p1wins,msg){
   over=true;
+  const n1=p1name||T[lang].p1def, n2=p2name||T[lang].p2def;
+  // Show overlay first, fireworks after it fades
+  showWinOverlay(p1wins, ()=>fireworks(p1wins));
   document.getElementById('rules').style.display='none';
   document.getElementById('res').style.display='block';
-  document.getElementById('rb').textContent=p1wins?T[lang].p1wins:T[lang].p2wins;
+  document.getElementById('rb').textContent=p1wins
+    ?(lang==='ru'?`${n1} ПОБЕДИЛ!`:`${n1} WINS!`)
+    :(lang==='ru'?`${n2} ПОБЕДИЛ!`:`${n2} WINS!`);
   document.getElementById('rb').style.color=p1wins?'var(--gold)':'#1a5a9a';
   document.getElementById('re').textContent=p1wins?'🏆':'👑';
   document.getElementById('rg').textContent=goal;
+  // goalWasSl — with player name
+  const gws=document.getElementById('g-goalwas-sl');
+  if(gws)gws.textContent=lang==='ru'?`Тайная цель ${n1}`:`${n1}'s secret goal`;
+  // End-game phrase
+  const sl=document.getElementById('g-endword-sl');
+  const rc=document.getElementById('rc');
+  if(sl)sl.textContent=T[lang].endWordSl;
+  if(rc){
+    if(usedSarcs.length>=(p1wins?SARCS_P1_RU.length:SARCS_P2_RU.length))usedSarcs=[];
+    const pool=lang==='ru'?(p1wins?SARCS_P1_RU:SARCS_P2_RU):(p1wins?SARCS_P1_EN:SARCS_P2_EN);
+    let i;do{i=Math.floor(Math.random()*pool.length);}while(usedSarcs.includes(i)&&pool.length>1);
+    usedSarcs.push(i);rc.textContent='«'+pool[i]+'»';
+  }
   addLog(msg,'s');rUI();
-  fireworks(p1wins);
 }
 
-function p1Win(){if(phase!=='p1'||over)return;endGame(true,T[lang].p1winLog);}
-function p1Lose(){if(over)return;endGame(false,T[lang].p1loseLog);}
+function p1Win(){
+  if(phase!=='p1'||over)return;
+  const n1=p1name||T[lang].p1def;
+  const msg=lang==='ru'?`${n1} объявил победу!`:`${n1} declared victory!`;
+  endGame(true,msg);
+}
+function p1Lose(){
+  if(over)return;
+  const n1=p1name||T[lang].p1def;
+  const msg=lang==='ru'?`${n1} признал поражение.`:`${n1} resigned.`;
+  endGame(false,msg);
+}
 function toggleGoal(){goalVis=!goalVis;const g=document.getElementById('gd');g.style.display=goalVis?'block':'none';g.textContent=goal;}
 
-// ── FIREWORKS ──────────────────────────────────────────
+// ── FIREWORKS ────────────────────────────────────────────
 function fireworks(gold){
   const cv=document.getElementById('fw');
   cv.width=window.innerWidth;cv.height=window.innerHeight;cv.style.display='block';
@@ -476,99 +1292,6 @@ function fireworks(gold){
   const PAL=gold
     ?['#FFD700','#FFA500','#FF8C00','#FFEC8B','#fffacd','#DAA520','#fff']
     :['#4488ff','#88ccff','#aaddff','#ffffff','#66aaee','#2255cc','#aaffff'];
-  let parts=[],rockets=[],frame=0,MAX=280;
-  function spawn(){rockets.push({x:Math.random()*cv.width,y:cv.height,vx:(Math.random()-.5)*3,vy:-(11+Math.random()*7),life:0,max:50+Math.random()*20});}
-  function boom(x,y){
-    const c1=PAL[Math.floor(Math.random()*PAL.length)],c2=PAL[Math.floor(Math.random()*PAL.length)];
-    for(let i=0;i<100;i++){const a=Math.random()*Math.PI*2,s=1+Math.random()*5;parts.push({x,y,vx:Math.cos(a)*s,vy:Math.sin(a)*s,col:Math.random()>.5?c1:c2,life:1,dec:.012+Math.random()*.018,sz:2+Math.random()*2.5,tr:[]});}
-    for(let i=0;i<16;i++){const a=(i/16)*Math.PI*2;parts.push({x,y,vx:Math.cos(a)*8,vy:Math.sin(a)*8,col:'#fff',life:1,dec:.045,sz:1.5,tr:[]});}
-  }
-  function tick(){
-    ctx.fillStyle='rgba(0,0,0,.17)';ctx.fillRect(0,0,cv.width,cv.height);
-    if(frame%16===0&&frame<MAX-60)spawn();
-    rockets=rockets.filter(r=>{
-      r.x+=r.vx;r.y+=r.vy;r.vy+=.2;r.life++;
-      ctx.beginPath();ctx.arc(r.x,r.y,2,0,Math.PI*2);ctx.fillStyle=PAL[0];ctx.fill();
-      if(r.life>=r.max){boom(r.x,r.y);return false;}return true;
-    });
-    parts=parts.filter(p=>{
-      p.tr.push({x:p.x,y:p.y});if(p.tr.length>5)p.tr.shift();
-      p.x+=p.vx;p.y+=p.vy;p.vy+=.07;p.vx*=.98;p.life-=p.dec;
-      if(p.life<=0)return false;
-      for(let i=0;i<p.tr.length;i++){ctx.beginPath();ctx.arc(p.tr[i].x,p.tr[i].y,p.sz*.4,0,Math.PI*2);ctx.fillStyle=p.col;ctx.globalAlpha=(i/p.tr.length)*p.life*.4;ctx.fill();}
-      ctx.beginPath();ctx.arc(p.x,p.y,p.sz,0,Math.PI*2);ctx.fillStyle=p.col;ctx.globalAlpha=p.life;ctx.fill();ctx.globalAlpha=1;
-      return true;
-    });
-    frame++;
-    if(frame<MAX||parts.length>0)requestAnimationFrame(tick);
-    else{ctx.clearRect(0,0,cv.width,cv.height);cv.style.display='none';}
-  }
-  spawn();spawn();spawn();tick();
-}
-
-// ── FLOW ───────────────────────────────────────────────
-function showBlack(){document.getElementById('ms').style.display='none';document.getElementById('bs').style.display='flex';}
-function showGoal(){document.getElementById('bs').style.display='none';document.getElementById('mg').style.display='flex';setTimeout(()=>document.getElementById('gi').focus(),100);}
-function confirmGoal(){
-  const g=document.getElementById('gi').value.trim();
-  if(!g){alert(T[lang].enterGoal);return;}
-  goal=g;document.getElementById('mg').style.display='none';
-  board=initB();sel=null;pm=[];phase='p1';p2left=0;fp=null;p2used=new Set();p2checkDone=false;
-  capW=[];capB=[];logs=[];lf=null;lt=null;over=false;
-  nextPieceId=0;stampPieces();recordStartIds();
-  document.getElementById('game').style.display='block';
-  rBoard();rUI();
-}
-
-
-</script>
-<script>
-
-// Language init done in script 1
-
-function applyLang(){
-  const L=T[lang];
-  const s=(id,v,html)=>{const e=document.getElementById(id);if(e){if(html)e.innerHTML=v;else e.textContent=v;}};
-  // Buttons
-  document.getElementById('btn-ru').style.background=lang==='ru'?'var(--gold)':'var(--parchment2)';
-  document.getElementById('btn-ru').style.border=lang==='ru'?'none':'1px solid var(--gold)';
-  document.getElementById('btn-ru').style.color=lang==='ru'?'#150900':'var(--ink)';
-  document.getElementById('btn-en').style.background=lang==='en'?'var(--gold)':'var(--parchment2)';
-  document.getElementById('btn-en').style.border=lang==='en'?'none':'1px solid var(--gold)';
-  document.getElementById('btn-en').style.color=lang==='en'?'#150900':'var(--ink)';
-  // Start modal
-  s('t-title',L.title); s('t-intro',L.intro); s('t-rules',L.rules,true); s('t-start',L.startBtn);
-  // Black screen
-  s('bs-h',L.bsH); s('bs-p',L.bsP); s('bs-btn',L.bsBtn);
-  // Goal modal
-  s('g-modal-title',L.goalModalTitle); s('g-modal-intro',L.goalModalIntro);
-  s('g-goal-label',L.goalLabel); s('g-confirm',L.confirmBtn);
-  const gi=document.getElementById('gi');if(gi)gi.placeholder=L.goalPh;
-  // Game
-  s('g-title',L.title.toUpperCase()); s('g-sub',L.sub);
-  s('g-status-pt',L.statusPt); s('g-status-ps',L.statusPs);
-  s('bw',L.p1win); s('bl',L.p1lose); s('g-showhide',L.showHide);
-  s('g-goal-sl',L.goalSl); s('g-history-sl',L.historysl);
-  s('g-p2label',L.p2label);
-  s('g-cap-pt',L.capPt); s('g-cap-ps',L.capPs);
-  s('g-white-sl',L.whiteSl); s('g-black-sl',L.blackSl);
-  s('g-rules-sl',L.rulesSl); s('g-rules-text',L.rulesText,true);
-  s('g-newgame',L.newGame); s('g-goalwas-sl',L.goalWasSl);
-  // iOS warn
-  s('iw-title',L.openSafari); s('iw-body',L.safariBody,true); s('safari-link',L.openBtn);
-}
-
-function setLang(l){lang=l;applyLang();}
-
-// Init with English
-applyLang();
-
-// Fireworks
-function fireworks(gold){
-  const cv=document.getElementById('fw');
-  cv.width=window.innerWidth;cv.height=window.innerHeight;cv.style.display='block';
-  const ctx=cv.getContext('2d');
-  const PAL=gold?['#FFD700','#FFA500','#FF8C00','#FFEC8B','#fffacd','#DAA520','#fff']:['#4488ff','#88ccff','#aaddff','#ffffff','#66aaee','#2255cc','#aaffff'];
   let parts=[],rockets=[],frame=0,MAX=280;
   function spawn(){rockets.push({x:Math.random()*cv.width,y:cv.height,vx:(Math.random()-.5)*3,vy:-(11+Math.random()*7),life:0,max:50+Math.random()*20});}
   function boom(x,y){
@@ -594,7 +1317,82 @@ function fireworks(gold){
   spawn();spawn();spawn();tick();
 }
 
-// iOS WebView detection - only shows for known apps on iOS, never on Android/PC
+// ── FLOW ─────────────────────────────────────────────────
+function showBlack(){
+  p1name=(document.getElementById('p1name').value.trim())||T[lang].p1def;
+  p2name=(document.getElementById('p2name').value.trim())||T[lang].p2def;
+  // Update black screen with real names
+  const L=T[lang];
+  document.getElementById('bs-h').textContent=lang==='ru'?`${p2name}, отвернитесь!`:`${p2name}, look away!`;
+  document.getElementById('bs-p').textContent=lang==='ru'?`${p1name} сейчас введёт тайную цель.`:`${p1name} is about to enter a secret goal.`;
+  document.getElementById('bs-btn').textContent=(lang==='ru'?`${p2name} отвернулся →`:`${p2name} is ready →`);
+  document.getElementById('ms').style.display='none';
+  document.getElementById('bs').style.display='flex';
+}
+function showGoal(){
+  document.getElementById('bs').style.display='none';
+  document.getElementById('mg').style.display='flex';
+  // Personalize goal modal
+  const n1=p1name||T[lang].p1def;
+  document.getElementById('g-modal-intro').textContent=lang==='ru'
+    ?`Только ${n1}! Введите вашу тайную цель. Например: убрать все белые пешки.`
+    :`${n1} only! Enter your secret goal. E.g.: remove all white pawns.`;
+  setTimeout(()=>document.getElementById('gi').focus(),100);
+}
+function confirmGoal(){
+  const g=document.getElementById('gi').value.trim();
+  if(!g){alert(T[lang].enterGoal);return;}
+  goal=g;document.getElementById('mg').style.display='none';
+  board=initB();sel=null;pm=[];phase='p1';p2left=0;fp=null;fpId=undefined;p2used=new Set();p2checkDone=false;
+  capW=[];capB=[];logs=[];lf=null;lt=null;over=false;boardBuilt=false;usedSarcs=[];usedQuips=[];
+  usedInst1=[];usedInst2=[];
+  nextPieceId=0;stampPieces();recordStartIds();
+  document.getElementById('game').style.display='block';
+  // Update labels with real player names
+  const n1=p1name||T[lang].p1def;
+  const n2=p2name||T[lang].p2def;
+  document.getElementById('bw').textContent=(lang==='ru'?`✓ ${n1} победил!`:`✓ ${n1} wins!`);
+  document.getElementById('bl').textContent=(lang==='ru'?`✗ ${n1} проиграл`:`✗ ${n1} resigns`);
+  document.getElementById('g-goal-sl').textContent=lang==='ru'?`Тайная цель (${n1})`:`Secret goal (${n1})`;
+  document.getElementById('g-p2label') && (document.getElementById('g-p2label').textContent=lang==='ru'?`Ходы ${n2}`:`${n2}'s moves`);
+  rBoard();rUI();
+}
+
+// ── LANGUAGE ─────────────────────────────────────────────
+function applyLang(){
+  const L=T[lang];
+  const s=(id,v,html)=>{const e=document.getElementById(id);if(e){if(html)e.innerHTML=v;else e.textContent=v;}};
+  document.getElementById('btn-ru').style.background=lang==='ru'?'var(--gold)':'var(--parchment2)';
+  document.getElementById('btn-ru').style.border=lang==='ru'?'none':'1px solid var(--gold)';
+  document.getElementById('btn-ru').style.color=lang==='ru'?'#150900':'var(--ink)';
+  document.getElementById('btn-en').style.background=lang==='en'?'var(--gold)':'var(--parchment2)';
+  document.getElementById('btn-en').style.border=lang==='en'?'none':'1px solid var(--gold)';
+  document.getElementById('btn-en').style.color=lang==='en'?'#150900':'var(--ink)';
+  s('t-title',L.title);s('t-intro',L.intro);s('t-rules',L.rules,true);s('t-start',L.startBtn);
+  s('t-p1name-label',L.p1nameLbl);s('t-p2name-label',L.p2nameLbl);
+  const p1in=document.getElementById('p1name');if(p1in)p1in.placeholder=L.p1def;
+  const p2in=document.getElementById('p2name');if(p2in)p2in.placeholder=L.p2def;
+  s('bs-h',L.bsH);s('bs-p',L.bsP);s('bs-btn',L.bsBtn);
+  s('g-modal-title',L.goalModalTitle);s('g-modal-intro',L.goalModalIntro);
+  s('g-goal-label',L.goalLabel);s('g-confirm',L.confirmBtn);
+  const rndBtn=document.getElementById('g-random-goal');
+  if(rndBtn)rndBtn.textContent=lang==='ru'?'🎲 Случайная цель':'🎲 Random goal';
+  const gi=document.getElementById('gi');if(gi)gi.placeholder=L.goalPh;
+  s('g-title',L.title.toUpperCase());s('g-sub',L.sub);
+  s('g-status-pt',L.statusPt);s('g-status-ps',L.statusPs);
+  s('bw',L.p1win);s('bl',L.p1lose);s('g-showhide',L.showHide);
+  s('g-goal-sl',L.goalSl);s('g-history-sl',L.historysl);
+  s('g-p2label',L.p2label);
+  s('g-cap-pt',L.capPt);s('g-cap-ps',L.capPs);
+  s('g-white-sl',L.whiteSl);s('g-black-sl',L.blackSl);
+  s('g-rules-sl',L.rulesSl);s('g-rules-text',L.rulesText,true);
+  s('g-newgame',L.newGame);s('g-goalwas-sl',L.goalWasSl);s('g-endword-sl',L.endWordSl);
+  s('iw-title',L.openSafari);s('iw-body',L.safariBody,true);s('safari-link',L.openBtn);
+}
+function setLang(l){lang=l;usedQuips=[];applyLang();}
+applyLang();
+
+// ── iOS WEBVIEW ──────────────────────────────────────────
 (function(){
   const ua=navigator.userAgent||'';
   const isIOS=/iPhone|iPad|iPod/i.test(ua);
@@ -605,7 +1403,6 @@ function fireworks(gold){
     try{document.getElementById('safari-link').href=window.location.href;}catch(e){}
   }
 })();
-
 </script>
 <script>
 if('serviceWorker' in navigator){

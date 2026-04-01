@@ -3,71 +3,189 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
-<title>Детектив — против компьютера</title>
+<title>Детектив — Зазеркалье</title>
 <style>
+@import url('https://fonts.googleapis.com/css2?family=IM+Fell+English:ital@0;1&family=UnifrakturMaguntia&display=swap');
 :root{
-  --ink:#1a1410;--parchment:#f5edd8;--parchment2:#ede0c4;
+  --ink:#1a0e08;--parchment:#f4e8cc;--parchment2:#ede0bb;
   --gold:#b8860b;--gold2:#daa520;--red:#8b1a1a;
-  --light-sq:#f0d9b5;--dark-sq:#b58863;--sq:62px;
+  --white-sq:#e8d5b0;--black-sq:#5a3825;
+  --sq:70px;
 }
 *{box-sizing:border-box;margin:0;padding:0;-webkit-tap-highlight-color:transparent;}
-body{background:#0e0900;font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;color:var(--ink);min-height:100vh;display:flex;flex-direction:column;align-items:center;padding:16px;}
-.overlay{position:fixed;inset:0;background:rgba(5,3,0,.93);display:flex;align-items:center;justify-content:center;z-index:100;padding:16px;}
-.modal{background:var(--parchment);border:2px solid var(--gold);border-radius:6px;padding:28px 32px;max-width:440px;width:100%;box-shadow:6px 6px 0 var(--gold);position:relative;}
-.modal::after{content:'';position:absolute;inset:6px;border:1px solid rgba(184,134,11,.3);border-radius:4px;pointer-events:none;}
-.modal h2{font-family:Georgia,serif;font-size:20px;letter-spacing:3px;color:var(--gold);margin-bottom:12px;}
-.modal p{font-size:14px;line-height:1.7;color:#3a2800;margin-bottom:8px;}
-hr.g{border:none;border-top:1px solid var(--gold);opacity:.4;margin:12px 0;}
-textarea{width:100%;padding:9px 12px;font-family:inherit;font-size:15px;background:var(--parchment2);border:1px solid var(--gold);border-radius:4px;color:var(--ink);resize:none;margin-bottom:10px;}
-.btn{font-family:Georgia,serif;font-size:12px;letter-spacing:1px;padding:10px 18px;border:none;border-radius:4px;cursor:pointer;text-transform:uppercase;transition:.15s;touch-action:manipulation;}
-.bg{background:var(--gold);color:#150900;}.bg:active{background:var(--gold2);}
+body{
+  background:#08040c;
+  font-family:'IM Fell English',Georgia,serif;
+  color:var(--ink);min-height:100vh;
+  display:flex;flex-direction:column;align-items:center;padding:16px;
+  background-image:
+    radial-gradient(ellipse at 20% 10%,rgba(60,0,100,.35) 0%,transparent 45%),
+    radial-gradient(ellipse at 80% 90%,rgba(100,0,30,.3) 0%,transparent 45%);
+}
+.overlay{position:fixed;inset:0;background:rgba(4,1,10,.96);display:flex;align-items:center;justify-content:center;z-index:100;padding:16px;}
+.modal{background:var(--parchment);border:2px solid var(--gold);border-radius:2px;padding:24px 28px;max-width:460px;width:100%;box-shadow:8px 8px 0 rgba(184,134,11,.3),0 0 60px rgba(80,0,100,.3);position:relative;}
+.modal::after{content:'';position:absolute;inset:5px;border:1px solid rgba(184,134,11,.2);border-radius:1px;pointer-events:none;}
+.modal h2{font-family:'UnifrakturMaguntia',serif;font-size:32px;color:var(--gold);letter-spacing:2px;text-align:center;margin-bottom:4px;text-shadow:0 0 30px rgba(184,134,11,.5);}
+.modal-verse{font-style:italic;font-size:11px;color:#7a5a20;text-align:center;margin-bottom:12px;line-height:1.6;}
+.modal p{font-size:13px;line-height:1.8;color:#3a2000;margin-bottom:8px;}
+hr.g{border:none;border-top:1px solid rgba(184,134,11,.3);margin:11px 0;}
+textarea{width:100%;padding:9px 12px;font-family:'IM Fell English',Georgia,serif;font-size:14px;background:var(--parchment2);border:1px solid var(--gold);border-radius:2px;color:var(--ink);resize:none;margin-bottom:10px;transition:border-color .2s;}
+textarea:focus{outline:none;border-color:var(--gold2);}
+.btn{font-family:'IM Fell English',Georgia,serif;font-size:12px;letter-spacing:1px;padding:10px 18px;border:none;border-radius:2px;cursor:pointer;text-transform:uppercase;transition:.15s;touch-action:manipulation;}
+.bg{background:var(--gold);color:#150900;}.bg:hover,.bg:active{background:var(--gold2);}
 .br{background:var(--red);color:#fff;}.br:active{background:#a02020;}
 .bb{background:var(--parchment2);border:1px solid var(--red);color:var(--red);}
 .block{display:block;width:100%;margin-bottom:8px;}
-.btn:disabled{opacity:.45;}
+.btn:disabled{opacity:.4;}
+/* DIFFICULTY */
+.diff-row{display:flex;gap:7px;margin-bottom:12px;}
+.diff-btn{flex:1;padding:9px 5px;font-family:'IM Fell English',Georgia,serif;font-size:11px;border:1.5px solid rgba(184,134,11,.5);border-radius:2px;background:var(--parchment2);color:#5a3800;cursor:pointer;transition:.15s;text-align:center;}
+.diff-btn:hover{background:#e8d0a0;border-color:var(--gold);}
+.diff-btn.active{background:var(--gold);color:#150900;border-color:var(--gold2);}
+.diff-btn .di{font-size:20px;display:block;margin-bottom:3px;}
+.diff-btn .dn{font-size:11px;font-style:italic;}
+.diff-btn .dd{font-size:9px;color:#7a5a30;margin-top:2px;}
+.diff-btn.active .dd{color:#4a2800;}
+/* GAME */
 .game-wrap{display:flex;gap:14px;align-items:flex-start;flex-wrap:wrap;justify-content:center;max-width:1200px;width:100%;}
-.panel{background:var(--parchment);border:2px solid var(--gold);border-radius:4px;box-shadow:3px 3px 0 var(--gold);padding:14px 16px;width:230px;position:relative;}
-.panel::after{content:'';position:absolute;inset:4px;border:1px solid rgba(184,134,11,.25);border-radius:3px;pointer-events:none;}
-.pt{font-family:Georgia,serif;font-size:14px;color:var(--gold);letter-spacing:2px;margin-bottom:2px;}
-.ps{font-style:italic;font-size:11px;color:#8a6a30;margin-bottom:9px;}
-.sl{font-family:Georgia,serif;font-size:9px;letter-spacing:2px;color:var(--gold);margin:7px 0 3px;text-transform:uppercase;}
-.board-wrap{background:var(--parchment);border:2px solid var(--gold);border-radius:4px;box-shadow:3px 3px 0 var(--gold);padding:14px;}
-.board{display:grid;grid-template-columns:16px repeat(8,var(--sq));grid-template-rows:repeat(8,var(--sq)) 16px;border:1.5px solid #7a5c30;}
-.cr{display:flex;align-items:center;justify-content:center;font-family:Georgia,serif;font-size:10px;color:var(--gold);grid-column:1;}
-.cc{display:flex;align-items:center;justify-content:center;font-family:Georgia,serif;font-size:10px;color:var(--gold);grid-row:9;}
-.sq{width:var(--sq);height:var(--sq);display:flex;align-items:center;justify-content:center;cursor:pointer;position:relative;font-size:38px;user-select:none;touch-action:manipulation;}
-.sq.l{background:var(--light-sq);}.sq.d{background:var(--dark-sq);}
-.sq.sel{outline:3px solid rgba(255,210,30,.9);outline-offset:-3px;}
-.sq.lf{background:rgba(100,180,100,.35)!important;}.sq.lt{background:rgba(100,180,100,.55)!important;}
-.sq.pm::after{content:'';position:absolute;width:20px;height:20px;background:rgba(0,0,0,.22);border-radius:50%;pointer-events:none;}
-.sq.pc::after{content:'';position:absolute;inset:0;border:4px solid rgba(0,0,0,.22);border-radius:50%;pointer-events:none;}
-.sq.chk{background:rgba(220,30,30,.6)!important;animation:ck 1s ease-in-out infinite;}
-@keyframes ck{0%,100%{background:rgba(220,30,30,.55)}50%{background:rgba(220,30,30,.9)}}
-.sbox{background:var(--parchment2);border:1px solid var(--gold);border-radius:3px;padding:7px 10px;margin-bottom:7px;font-size:12px;line-height:1.6;}
-.sbox .who{font-family:Georgia,serif;font-size:12px;color:var(--gold);}
-.dots{display:flex;gap:5px;margin:4px 0;}
+.panel{background:var(--parchment);border:2px solid var(--gold);border-radius:2px;box-shadow:3px 3px 0 rgba(184,134,11,.25);padding:13px 15px;width:230px;position:relative;}
+.panel::after{content:'';position:absolute;inset:4px;border:1px solid rgba(184,134,11,.18);border-radius:1px;pointer-events:none;}
+.pt{font-family:'UnifrakturMaguntia',serif;font-size:14px;color:var(--gold);letter-spacing:1px;margin-bottom:2px;}
+.ps{font-style:italic;font-size:10px;color:#8a6a30;margin-bottom:9px;}
+.sl{font-family:'IM Fell English',serif;font-size:9px;letter-spacing:2px;color:var(--gold);margin:7px 0 3px;text-transform:uppercase;}
+/* BOARD WRAP — zoom target */
+.board-wrap{background:var(--parchment);border:3px solid #7a5020;border-radius:2px;box-shadow:0 8px 40px rgba(0,0,0,.6),0 0 0 3px #7a5020,0 0 0 6px #3a2010;padding:14px;position:relative;transform-origin:center center;overflow-x:auto;}
+
+.board{display:grid;grid-template-columns:16px repeat(8,var(--sq));grid-template-rows:repeat(8,var(--sq)) 16px;border:2px solid #4a2c10;box-shadow:inset 0 0 40px rgba(0,0,0,.15);}
+.cr{display:flex;align-items:center;justify-content:center;font-family:'IM Fell English',serif;font-size:10px;color:#9a7040;grid-column:1;}
+.cc{display:flex;align-items:center;justify-content:center;font-family:'IM Fell English',serif;font-size:10px;color:#9a7040;grid-row:9;}
+.sq{width:var(--sq);height:var(--sq);display:flex;align-items:center;justify-content:center;cursor:pointer;position:relative;font-size:44px;user-select:none;touch-action:manipulation;}
+.sq.l{background:var(--white-sq);}.sq.d{background:var(--black-sq);}
+.sq.sel{outline:3px solid rgba(255,220,50,.95);outline-offset:-3px;background:rgba(255,220,50,.22)!important;}
+.sq.lf{background:rgba(80,140,80,.3)!important;}.sq.lt{background:rgba(80,140,80,.45)!important;}
+.sq.pm::after{content:'';position:absolute;width:24px;height:24px;background:rgba(180,200,255,.45);border-radius:50%;pointer-events:none;box-shadow:0 0 5px rgba(150,180,255,.35);}
+.sq.pc::after{content:'';position:absolute;inset:0;border:4px solid rgba(150,185,255,.65);border-radius:50%;pointer-events:none;}
+.sq.chk{background:rgba(180,0,120,.55)!important;animation:ck 1s ease-in-out infinite;}
+@keyframes ck{0%,100%{background:rgba(180,0,120,.5);}50%{background:rgba(220,0,100,.9);}}
+.sq span{
+  display:block;line-height:1;
+  transition:transform .15s cubic-bezier(.34,1.56,.64,1);
+  /* White pieces — cream with dark outline */
+  color:#f5ead0;
+  text-shadow:-1px -1px 0 #3a1a00, 1px -1px 0 #3a1a00, -1px 1px 0 #3a1a00, 1px 1px 0 #3a1a00,
+              0 2px 4px rgba(0,0,0,.5);
+}
+/* Black pieces — deep charcoal with light halo */
+.sq.d span, .sq.l span { }
+.sq[data-black="1"] span {
+  color:#1a0a00;
+  text-shadow:-1px -1px 0 #c8a870, 1px -1px 0 #c8a870, -1px 1px 0 #c8a870, 1px 1px 0 #c8a870,
+              0 2px 4px rgba(0,0,0,.7);
+}
+.sq:hover span{transform:scale(1.15) translateY(-2px);}
+.sq.sel span{
+  transform:scale(1.18) translateY(-3px);
+  filter:drop-shadow(0 0 8px rgba(255,210,50,.8));
+  animation:selwiggle 1.8s ease-in-out infinite;
+}
+@keyframes selwiggle{0%,100%{transform:scale(1.18) translateY(-3px) rotate(-2deg);}50%{transform:scale(1.18) translateY(-4px) rotate(2deg);}}
+/* FLYING PIECE */
+.slide{position:fixed;pointer-events:none;z-index:999;font-size:40px;line-height:1;filter:drop-shadow(2px 4px 6px rgba(0,0,0,.5));transition:left var(--anim-dur,.55s) cubic-bezier(.4,0,.2,1),top var(--anim-dur,.55s) cubic-bezier(.4,0,.2,1);}
+.slide.capturing{transition:left calc(var(--anim-dur,.55s)*.8) cubic-bezier(.6,0,.4,1),top calc(var(--anim-dur,.55s)*.8) cubic-bezier(.6,0,.4,1);}
+
+/* AI last-moved piece stays enlarged */
+.sq.ai-last span{transform:scale(1.45) translateY(-4px);filter:drop-shadow(0 5px 12px rgba(0,0,0,.6)) drop-shadow(0 0 10px rgba(184,134,11,.7));transition:transform .3s cubic-bezier(.34,1.56,.64,1);}
+.sq.player-last span{transform:scale(1.38) translateY(-3px);filter:drop-shadow(0 4px 10px rgba(0,0,0,.5)) drop-shadow(0 0 8px rgba(100,160,100,.6));transition:transform .3s cubic-bezier(.34,1.56,.64,1);}
+
+/* Speed slider */
+.speed-row{display:flex;align-items:center;gap:8px;margin-bottom:7px;}
+.speed-row input[type=range]{flex:1;accent-color:var(--gold);height:3px;cursor:pointer;}
+.speed-label{font-size:10px;color:#8a6a30;font-style:italic;white-space:nowrap;}
+/* QUIP POPUP */
+#quip-popup{position:fixed;z-index:600;background:rgba(10,4,20,.97);border:1px solid var(--gold);border-radius:4px;padding:12px 18px;max-width:260px;font-family:'IM Fell English',Georgia,serif;font-style:italic;font-size:14px;color:#e8d090;line-height:1.6;box-shadow:0 4px 24px rgba(0,0,0,.7);pointer-events:none;opacity:0;transform:translateY(6px);transition:opacity .3s,transform .3s;}
+#quip-popup.show{opacity:1;transform:translateY(0);}
+#quip-popup .qchar{font-size:20px;margin-bottom:4px;}
+/* STATUS */
+.sbox{background:var(--parchment2);border:1px solid var(--gold);border-radius:2px;padding:7px 10px;margin-bottom:7px;font-size:12px;line-height:1.6;min-height:58px;}
+.sbox .who{font-family:'IM Fell English',serif;font-size:13px;color:var(--gold);}
+.dots{display:flex;gap:5px;margin:4px 0;min-height:32px;}
 .dot{width:22px;height:22px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-family:Georgia,serif;font-size:11px;font-weight:700;transition:.3s;}
-.dot.on{background:var(--gold);color:#150900;}.dot.off{background:#c8b080;color:#7a5c20;opacity:.45;}
-.chkw{display:none;align-items:center;gap:5px;background:rgba(139,26,26,.1);border:1px solid var(--red);border-radius:3px;padding:5px 8px;margin-bottom:6px;font-family:Georgia,serif;font-size:10px;letter-spacing:1px;color:var(--red);text-transform:uppercase;}
-.chkw.show{display:flex;}
-.think{display:none;align-items:center;gap:6px;font-style:italic;font-size:11px;color:#5a4030;margin:4px 0;}
-.think.show{display:flex;}
+.dot.on{background:var(--gold);color:#150900;}.dot.off{background:#c8b080;color:#7a5c20;opacity:.4;}
+.chkw{display:flex;align-items:center;gap:5px;background:rgba(100,0,80,.1);border:1px solid transparent;border-radius:2px;padding:5px 8px;margin-bottom:6px;font-family:'IM Fell English',serif;font-size:10px;letter-spacing:1px;color:#c0007a;text-transform:uppercase;visibility:hidden;min-height:28px;}
+.chkw.show{visibility:visible;border-color:#a0006a;background:rgba(100,0,80,.1);}
+.think{display:flex;align-items:center;gap:6px;font-style:italic;font-size:11px;color:#6a4a30;margin:4px 0;min-height:24px;visibility:hidden;}
+.think.show{visibility:visible;}
 .spin{width:13px;height:13px;border-radius:50%;border:2px solid var(--gold2);border-top-color:transparent;animation:sp .8s linear infinite;}
 @keyframes sp{to{transform:rotate(360deg)}}
-.suspbox{background:var(--parchment2);border:1px dashed var(--gold);border-radius:3px;padding:7px 9px;font-style:italic;font-size:12px;line-height:1.6;color:#3a4a3a;min-height:28px;}
+.suspbox{background:var(--parchment2);border:1px dashed rgba(184,134,11,.5);border-radius:2px;padding:7px 9px;font-style:italic;font-size:12px;line-height:1.7;color:#3a4a3a;min-height:60px;max-height:60px;overflow:hidden;}
 .log{max-height:150px;overflow-y:auto;font-size:11px;line-height:1.8;}
 .le{border-bottom:1px solid rgba(0,0,0,.07);padding:1px 0;}
 .le.p1{color:#5a3000;}.le.ai{color:#003a50;}.le.s{color:var(--red);font-style:italic;}
-.cap{font-size:18px;min-height:22px;letter-spacing:1px;}
-.secbox{background:var(--parchment2);border:1px dashed var(--gold);border-radius:3px;padding:7px 9px;font-style:italic;font-size:12px;line-height:1.6;margin-top:4px;display:none;}
-.slide{position:fixed;pointer-events:none;z-index:999;font-size:38px;line-height:1;transition:left .3s cubic-bezier(.4,0,.2,1),top .3s cubic-bezier(.4,0,.2,1);}
-.winbig{font-family:Georgia,serif;font-size:18px;letter-spacing:2px;text-align:center;margin:5px 0 8px;}
-.emoji{text-align:center;font-size:26px;margin:4px 0 8px;animation:bop .6s ease-in-out infinite alternate;}
-@keyframes bop{from{transform:scale(1)}to{transform:scale(1.15)}}
+.cap{font-size:18px;min-height:22px;letter-spacing:2px;}
+.secbox{background:var(--parchment2);border:1px dashed rgba(184,134,11,.5);border-radius:2px;padding:7px 9px;font-style:italic;font-size:12px;line-height:1.6;margin-top:4px;display:none;}
+.winbig{font-family:'UnifrakturMaguntia',serif;font-size:22px;letter-spacing:2px;text-align:center;margin:5px 0 8px;}
+.emoji{text-align:center;font-size:28px;margin:4px 0 8px;animation:bop .7s ease-in-out infinite alternate;}
+@keyframes bop{from{transform:scale(1)}to{transform:scale(1.18)}}
+#ios-warn{display:none;position:fixed;inset:0;background:#08040c;z-index:999;flex-direction:column;align-items:center;justify-content:center;padding:28px;text-align:center;gap:16px;}
 #fw{position:fixed;inset:0;pointer-events:none;z-index:300;}
-@media(max-width:700px){:root{--sq:44px;}.sq{font-size:28px;}.panel{width:100%;max-width:500px;}.game-wrap{flex-direction:column;align-items:center;}.board-wrap{padding:10px;}}
-@media(max-width:400px){:root{--sq:38px;}.sq{font-size:24px;}}
+
+/* Result overlay */
+#result-overlay{
+  display:none;position:fixed;inset:0;z-index:400;
+  background:rgba(5,2,12,.88);
+  flex-direction:column;align-items:center;justify-content:center;
+  padding:28px;text-align:center;
+  animation:fadeInOverlay .5s ease;
+}
+@keyframes fadeInOverlay{from{opacity:0;}to{opacity:1;}}
+#result-overlay.show{display:flex;}
+.result-ov-emoji{font-size:52px;margin-bottom:10px;animation:bop .6s ease-in-out infinite alternate;}
+.result-ov-title{
+  font-family:'UnifrakturMaguntia',serif;
+  font-size:34px;letter-spacing:3px;
+  margin-bottom:12px;
+  text-shadow:0 0 30px currentColor;
+}
+.result-ov-text{
+  font-family:'IM Fell English',Georgia,serif;
+  font-style:italic;font-size:15px;line-height:1.75;
+  max-width:320px;color:#e8d090;margin-bottom:20px;
+}
+.result-ov-btn{
+  font-family:'IM Fell English',Georgia,serif;
+  font-size:13px;letter-spacing:1px;padding:12px 28px;
+  border:none;border-radius:2px;cursor:pointer;
+  text-transform:uppercase;background:var(--gold);color:#150900;
+  touch-action:manipulation;
+}
+@media(max-width:700px){
+  :root{--sq:40px;}
+  .sq{font-size:30px;}
+  .panel{width:100%;max-width:520px;}
+  .board-wrap{
+    padding:6px;width:auto;max-width:100%;
+    margin:0 auto;
+    position:sticky;
+    top:8px;
+    z-index:10;
+  }
+  .game-wrap{flex-direction:column;align-items:center;width:100%;}
+  body{padding:8px;}
+  .panel-left{order:1;}
+  .board-wrap{order:2;}
+  .panel-right{order:3;}
+  .mob-only{display:block!important;}
+  .desk-only{display:none!important;}
+}
+@media(min-width:701px){
+  .mob-only{display:none!important;}
+  .desk-only{display:block!important;}
+}
+@media(max-width:400px){:root{--sq:38px;}.sq{font-size:20px;}}
 </style>
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link rel="manifest" href="manifest.json">
   <meta name="mobile-web-app-capable" content="yes">
   <meta name="apple-mobile-web-app-capable" content="yes">
@@ -77,6 +195,15 @@ textarea{width:100%;padding:9px 12px;font-family:inherit;font-size:15px;backgrou
   <meta name="theme-color" content="#b8860b">
 </head>
 <body>
+<!-- Result overlay -->
+<div id="result-overlay">
+  <div class="result-ov-emoji" id="ov-emoji">🪞</div>
+  <div class="result-ov-title" id="ov-title"></div>
+  <div class="result-ov-text" id="ov-text"></div>
+  <button class="result-ov-btn" onclick="closeResultOverlay()">Продолжить</button>
+</div>
+
+<div id="quip-popup"><div class="qchar" id="qchar"></div><div id="qtext"></div></div>
 <canvas id="fw" style="display:none"></canvas>
 
 <!-- iOS WebView warning — hidden by default, shown only by JS when needed -->
@@ -102,6 +229,7 @@ textarea{width:100%;padding:9px 12px;font-family:inherit;font-size:15px;backgrou
     </div>
 
     <h2 id="t-title">Детектив</h2>
+    <div class="modal-verse" id="t-verse">«Нужно бежать со всех ног, чтобы только оставаться на месте»</div>
     <p id="t-intro">Вы играете против компьютера. Задайте тайную цель — он не знает её, но будет мешать!</p>
     <p style="font-size:12px;color:#6a5030" id="t-rules">
       <b>Ваш ход:</b> одна любая фигура любого цвета<br>
@@ -109,8 +237,25 @@ textarea{width:100%;padding:9px 12px;font-family:inherit;font-size:15px;backgrou
       <b>Мат</b> любому королю = победа компьютера
     </p>
     <hr class="g">
+    <div class="sl" id="t-diff-label">Сложность</div>
+    <div class="diff-row">
+      <div class="diff-btn active" onclick="setDiff(0)" id="diff-0">
+        <span class="di">🐛</span><span class="dn" id="dl-0">Гусеница</span>
+        <div class="dd" id="dd-0">Кто ты такой?</div>
+      </div>
+      <div class="diff-btn" onclick="setDiff(1)" id="diff-1">
+        <span class="di">🎩</span><span class="dn" id="dl-1">Шляпник</span>
+        <div class="dd" id="dd-1">Время сломалось</div>
+      </div>
+      <div class="diff-btn" onclick="setDiff(2)" id="diff-2">
+        <span class="di">👑</span><span class="dn" id="dl-2">Красная Королева</span>
+        <div class="dd" id="dd-2">С головы долой!</div>
+      </div>
+    </div>
+    <hr class="g">
     <div class="sl" id="t-goal-label">Ваша тайная цель</div>
     <textarea id="gi" rows="3" placeholder="Например: убрать все белые пешки, или поставить ферзя на e4…"></textarea>
+    <button class="btn block" onclick="randomGoal()" style="background:var(--parchment2);border:1px solid var(--gold);color:var(--ink);font-family:'IM Fell English',Georgia,serif;font-size:11px;padding:6px;cursor:pointer;width:100%;margin-bottom:8px;" id="t-rnd-goal">🎲 Случайная проверяемая цель</button>
     <button class="btn bg block" onclick="startGame()" id="t-start">Начать игру</button>
   </div>
 </div>
@@ -122,39 +267,84 @@ textarea{width:100%;padding:9px 12px;font-family:inherit;font-size:15px;backgrou
   </div>
   <div class="game-wrap">
 
-    <div class="panel">
+    <div class="panel panel-left desk-only">
+      <!-- 1. Кнопки -->
+      <button class="btn bg block" id="bw" onclick="pWin()">✓ Я победил!</button>
+      <button class="btn bb block" id="bl" onclick="pLose()" style="padding:6px;">✗ Я проиграл</button>
+      <hr class="g">
+      <!-- 2. Цель -->
+      <div class="sl" id="g-goal-label">Тайная цель</div>
+      <button class="btn block" id="g-showhide" onclick="toggleGoal()" style="background:var(--parchment2);border:1px solid var(--gold);color:var(--ink);font-family:Georgia,serif;font-size:10px;padding:5px;cursor:pointer;width:100%;margin-bottom:4px;">Показать / скрыть</button>
+      <div class="secbox" id="gd"></div>
+      <hr class="g">
+      <!-- 4. Ходы компьютера (dots) -->
+      <div id="aiui" style="visibility:hidden">
+        <div class="sl" id="g-ai-moves-label">Ходы компьютера</div>
+        <div class="dots" id="dots"></div>
+        <div style="font-size:10px;font-style:italic;color:#8a6030;margin-bottom:4px" id="fl"></div>
+      </div>
+      <!-- 5. Думаю / шах -->
+      <div class="think" id="th"><div class="spin"></div><span id="g-thinking">Компьютер думает…</span></div>
+      <div class="chkw" id="cw">⚠ Шах!</div>
+      <!-- 6. Статус -->
       <div class="pt" id="g-status-title">Состояние</div><div class="ps" id="g-status-sub">текущий ход</div>
       <div class="sbox" id="sb">
         <div class="who" id="wd">Ваш ход</div>
         <div id="sd" style="font-size:11px;margin-top:2px">Выберите любую фигуру</div>
       </div>
-      <div id="aiui" style="display:none">
-        <div class="sl" id="g-ai-moves-label">Ходы компьютера</div>
-        <div class="dots" id="dots"></div>
-        <div style="font-size:10px;font-style:italic;color:#8a6030;margin-bottom:4px" id="fl"></div>
-      </div>
-      <div class="chkw" id="cw">⚠ Шах!</div>
-      <div class="think" id="th"><div class="spin"></div><span id="g-thinking">Компьютер думает…</span></div>
-      <hr class="g">
-      <button class="btn bg block" id="bw" onclick="pWin()">✓ Я победил!</button>
-      <button class="btn bb block" id="bl" onclick="pLose()" style="padding:6px;">✗ Я проиграл</button>
-      <hr class="g">
-      <div class="sl" id="g-goal-label">Тайная цель</div>
-      <button class="btn block" id="g-showhide" onclick="toggleGoal()" style="background:var(--parchment2);border:1px solid var(--gold);color:var(--ink);font-family:Georgia,serif;font-size:10px;padding:5px;cursor:pointer;width:100%;margin-bottom:4px;">Показать / скрыть</button>
-      <div class="secbox" id="gd"></div>
-      <hr class="g">
+      <!-- 7. Версия компьютера -->
       <div class="sl" id="g-ai-version-label">Версия компьютера</div>
       <div class="suspbox" id="susp">Пока неясно…</div>
       <hr class="g">
+      <!-- История -->
       <div class="sl" id="g-history-label">История</div>
       <div class="log" id="log"></div>
     </div>
 
-    <div class="board-wrap">
+
+
+    <!-- MOBILE PANEL (mob-only) -->
+    <div class="panel mob-only" style="order:1">
+      <!-- 1. Кнопки -->
+      <button class="btn bg block" id="bw-m" onclick="pWin()">✓ Я победил!</button>
+      <button class="btn bb block" id="bl-m" onclick="pLose()" style="padding:6px;">✗ Я проиграл</button>
+      <hr class="g">
+      <!-- 2. Цель -->
+      <button class="btn block" onclick="toggleGoal()" style="background:var(--parchment2);border:1px solid var(--gold);color:var(--ink);font-family:Georgia,serif;font-size:10px;padding:5px;cursor:pointer;width:100%;margin-bottom:4px;">Показать / скрыть цель</button>
+      <div class="secbox" id="gd-m"></div>
+      <hr class="g">
+      <!-- 3. Скорость -->
+      <div class="sl">Скорость анимации</div>
+      <div class="speed-row">
+        <span class="speed-label">🐢</span>
+        <input type="range" id="speed-slider" min="1" max="5" value="3" oninput="setSpeed(this.value)">
+        <span class="speed-label">⚡</span>
+      </div>
+      <div style="text-align:center;font-size:10px;font-style:italic;color:#8a6a30;margin-bottom:4px" id="speed-label-val">Средняя</div>
+      <hr class="g">
+      <!-- 4. Ходы компьютера (dots) -->
+      <div id="aiui-m" style="visibility:hidden">
+        <div class="dots" id="dots-m"></div>
+        <div style="font-size:10px;font-style:italic;color:#8a6030;margin-bottom:4px" id="fl-m"></div>
+      </div>
+      <!-- 5. Думаю / шах -->
+      <div class="think" id="th-m"><div class="spin"></div><span>Думаю…</span></div>
+      <div class="chkw" id="cw-m"></div>
+      <!-- 6. Статус -->
+      <div class="sbox" id="sb-m">
+        <div class="who" id="wd-m">Ваш ход</div>
+        <div id="sd-m" style="font-size:11px;margin-top:2px">Выберите любую фигуру</div>
+      </div>
+      <!-- 7. Версия компьютера -->
+      <div class="sl">Версия компьютера</div>
+      <div class="suspbox" id="susp-m">Пока неясно…</div>
+    </div>
+
+    <div class="board-wrap" id="board-wrap" style="order:2">
       <div class="board" id="board"></div>
     </div>
 
-    <div class="panel">
+    <div class="panel panel-right desk-only">
       <div class="pt" id="g-cap-title">Взятые</div><div class="ps" id="g-cap-sub">фигуры вне игры</div>
       <div class="sl" id="g-white-lost">Белые потеряли</div><div class="cap" id="cw2"></div>
       <div class="sl" id="g-black-lost">Чёрные потеряли</div><div class="cap" id="cb"></div>
@@ -180,16 +370,61 @@ textarea{width:100%;padding:9px 12px;font-family:inherit;font-size:15px;backgrou
       <button class="btn br block" id="g-newgame" onclick="location.reload()">Новая игра</button>
     </div>
 
+    <!-- MOBILE BOTTOM (mob-only) -->
+    <div class="panel mob-only" style="order:3">
+      <div class="sl">Взятые</div>
+      <div class="sl" id="g-white-lost-m">Белые потеряли</div><div class="cap" id="cw2-m"></div>
+      <div class="sl" id="g-black-lost-m">Чёрные потеряли</div><div class="cap" id="cb-m"></div>
+      <hr class="g">
+      <div id="res-m" style="display:none">
+        <div class="emoji" id="re-m">🪞</div>
+        <div class="winbig" id="rb-m"></div>
+        <div class="sl">Тайная цель была</div>
+        <div style="background:var(--parchment2);border:1px dashed var(--gold);border-radius:3px;padding:7px 9px;font-style:italic;font-size:12px;line-height:1.6;margin-bottom:7px" id="rg-m"></div>
+        <div class="sl">Слово компьютера</div>
+        <div id="rc-m" style="font-size:12px;line-height:1.75;color:#3a2800;font-style:italic;min-height:36px"></div>
+        <hr class="g">
+      </div>
+      <div class="sl">История</div>
+      <div class="log" id="log-m"></div>
+      <hr class="g">
+      <div class="sl">Правила</div>
+      <div style="font-size:11.5px;line-height:1.85;color:#5a4030;font-style:italic;">
+        Вы ходите <em>одной</em> фигурой любого цвета.<br>
+        Компьютер ходит <em>тремя</em> разными фигурами, но не той которой ходили вы.
+      </div>
+      <hr class="g">
+      <button class="btn br block" onclick="location.reload()">Новая игра</button>
+    </div>
+
   </div>
 </div>
 
 <script>
 // ── PIECES ──────────────────────────────────────────────
-const G={wK:'♔',wQ:'♕',wR:'♖',wB:'♗',wN:'♘',wP:'♙',bK:'♚',bQ:'♛',bR:'♜',bB:'♝',bN:'♞',bP:'♟'};
+// Looking-Glass character map — chess Unicode pieces, styled via CSS
+const CHARS={
+  wK:{e:"♔",qRu:["Зеркало! Где моё зеркало!","Это не по правилам!","Я ещё не дочитал инструкцию…","Но я же Белый Король…"],qEn:["The mirror! Where is my mirror!","This is not in the rules!","I had not finished the manual…","But I am the White King…"]},
+  wQ:{e:"♕",qRu:["Невозможно — я только что была тут!","Это противоречит логике!","Я требую апелляцию!","Я могу двигаться в любую сторону!"],qEn:["Impossible — I was just here!","This defies all logic!","I demand an appeal!","I can move in any direction!"]},
+  wR:{e:"♖",qRu:["Башня рухнула!","Ровно и медленно, а потом — бах.","Я же шёл по прямой!","Камни в пыль…"],qEn:["The tower has fallen!","Straight and steady, then crash.","But I was going straight!","Stone to dust…"]},
+  wB:{e:"♗",qRu:["Кто ты такой? — спрошу напоследок.","Ещё три дюйма — и я бы ушёл.","Дым. Нужен дым.","Я же только что объяснял это…"],qEn:["Who are YOU? One last time.","Three more inches and I would have escaped.","Smoke. I need smoke.","I was just explaining this…"]},
+  wN:{e:"♘",qRu:["Время остановилось! Ровно сейчас!","Всегда шесть часов — теперь навсегда.","Бедняга шляпа…","Это было не чаепитие, это была засада."],qEn:["Time has stopped! Right now!","Always six o clock — forever now.","Poor hat…","That was not a tea party, it was an ambush."]},
+  wP:{e:"♙",qRu:["Я ещё не дошла до восьмой клетки…","Была бы ферзём…","Ещё чуть-чуть…","Крестовые не лучше."],qEn:["I had not reached the eighth square…","I could have been a queen…","Just a little further…","Clubs are no better."]},
+  bK:{e:"♚",qRu:["С головы долой!!! — кричу сам себе.","Но я сражался как настоящий монарх!","Зеркало треснуло…","Красная Королева будет недовольна."],qEn:["Off with my head!!! I shout to myself.","But I fought like a true monarch!","The mirror cracked…","The Red Queen will be displeased."]},
+  bQ:{e:"♛",qRu:["НЕВОЗМОЖНО!!!","С головы долой всех!!!","Я бегу — а остаюсь на месте!","Правила писала Я — и они меня не спасли!"],qEn:["IMPOSSIBLE!!!","Off with everyone heads!!!","I run but stay in place!","I wrote the rules and they did not save me!"]},
+  bR:{e:"♜",qRu:["Через зеркало не видно…","Я стоял ровно! Ровно!","Правила симметрии нарушены.","Оба сразу или никто."],qEn:["Cannot see through the mirror…","I stood perfectly straight!","The rules of symmetry are violated.","Both at once or neither."]},
+  bB:{e:"♝",qRu:["Я уже не совсем та…","Мотылёк? Или слон? Непонятно.","Превращение не удалось.","Вообще-то мы сами не знаем кто мы."],qEn:["I am not quite myself anymore…","Moth? Or bishop? Hard to say.","The transformation failed.","Actually none of us know who we are."]},
+  bN:{e:"♞",qRu:["Через зеркало — и обратно!","Я стоял на правильном поле!","Красный конь падает.","Прыжком — вперёд и в сторону. Всегда."],qEn:["Through the mirror and back!","I was on the correct square!","Red knight falls.","Jump forward and sideways. Always."]},
+  bP:{e:"♟",qRu:["Красить розы некому…","Карты всё равно падают.","Меня нарисовали неправильно.","Пятёрка, шестёрка — нет разницы."],qEn:["There is no one to paint the roses…","Cards fall anyway.","They painted me wrong to begin with.","Five six makes no difference."]},
+};
+function getPiece(p){return CHARS[p]||{e:'?',qRu:['…'],qEn:['…']};}
+function pieceEmoji(p){return getPiece(p).e;}
+function captureQuip(p){const c=getPiece(p);const a=lang==='en'?c.qEn:c.qRu;return a[Math.floor(Math.random()*a.length)]||'…';}
+const gl=p=>p?pieceEmoji(p):'';
 const F='abcdefgh';
 const pc=p=>p?p[0]:null,pt=p=>p?p[1]:null,opp=c=>c==='w'?'b':'w';
 const inB=(r,c)=>r>=0&&r<8&&c>=0&&c<8;
-const rn=r=>(8-r)+'',cn=c=>F[c],pid=(r,c)=>r*8+c,gl=p=>G[p]||'?';
+const rn=r=>(8-r)+'',cn=c=>F[c],pid=(r,c)=>r*8+c;
 
 // ── BOARD ───────────────────────────────────────────────
 function initB(){
@@ -340,23 +575,59 @@ function evalB(b){
 
 // ── PLAN 3 MOVES (check XOR mate per set, no piece reuse) ─
 function plan3(b,fp,usedIds){
+  const di=typeof difficulty!=='undefined'?difficulty:2;
+
+  // Cheap sort: captures by value, no givesMate/givesCheck
+  function cheapSort(moves,b){
+    return moves.sort((a,bm)=>{
+      const va=b[a.r2]&&b[a.r2][a.c2]?(PV[pt(b[a.r2][a.c2])]||0):0;
+      const vb=b[bm.r2]&&b[bm.r2][bm.c2]?(PV[pt(b[bm.r2][bm.c2])]||0):0;
+      if(vb!==va) return vb-va;
+      return(PV[pt(b[bm.r1][bm.c1])]||0)-(PV[pt(b[a.r1][a.c1])]||0);
+    });
+  }
+
+  // Caterpillar (0): depth=1, picks from top-5, occasionally worse
+  if(di===0){
+    const moves=cheapSort(allAIMoves(b,fp,usedIds),b);
+    if(!moves.length) return null;
+    const pool=Math.random()<0.45?moves.length:Math.min(5,moves.length);
+    return[moves[Math.floor(Math.random()*pool)]];
+  }
+
+  // Hatter (1): depth=2, cheap sort, moderate branching
+  // Red Queen (2): depth=3, cheap sort + mate check, full branching
+  const depth=di===1?2:3;
+  const topPerLevel=di===1?[12,7]:[18,11,7];
+
   let bestSeq=null,bestScore=-Infinity;
   function search(b,left,usedIds,seq,chkDone){
-    for(const col of['w','b']){if(inCheck(b,col)&&!anyLegal(b,col)){const s=999999+left*1000;if(s>bestScore){bestScore=s;bestSeq=[...seq];}return;}}
-    if(left===0){const s=evalB(b)+(inCheck(b,'w')?180:0)+(inCheck(b,'b')?180:0);if(s>bestScore){bestScore=s;bestSeq=[...seq];}return;}
-    const moves=allAIMoves(b,fp,usedIds);
+    for(const col of['w','b']){
+      if(inCheck(b,col)&&!anyLegal(b,col)){
+        const s=999999+left*1000;
+        if(s>bestScore){bestScore=s;bestSeq=[...seq];}
+        return;
+      }
+    }
+    if(left===0){
+      const s=evalB(b)+(inCheck(b,'w')?180:0)+(inCheck(b,'b')?180:0);
+      if(s>bestScore){bestScore=s;bestSeq=[...seq];}
+      return;
+    }
+    const moves=cheapSort(allAIMoves(b,fp,usedIds),b);
     if(!moves.length){const s=evalB(b);if(s>bestScore){bestScore=s;bestSeq=[...seq];}return;}
-    moves.sort((a,bm)=>{
-      const rank=m=>{
-        if(givesMate(b,m.r1,m.c1,m.r2,m.c2))return 5;
-        if(!chkDone&&givesCheck(b,m.r1,m.c1,m.r2,m.c2))return 4;
-        if(b[m.r2][m.c2])return 2+(PV[pt(b[m.r2][m.c2])]||0)/1000;
-        return(PV[pt(b[m.r1][m.c1])]||0)>300?1:0;
-      };return rank(bm)-rank(a);
-    });
-    const top=left===3?22:left===2?14:9;
+    // For Red Queen only: check for immediate mate first (cheap early exit)
+    if(di===2){
+      for(const m of moves){
+        if(givesMate(b,m.r1,m.c1,m.r2,m.c2)){
+          seq.push(m);bestScore=999999+left*1000;bestSeq=[...seq];seq.pop();return;
+        }
+      }
+    }
+    const levelIdx=depth-left;
+    const top=topPerLevel[Math.min(levelIdx,topPerLevel.length-1)];
     for(const m of moves.slice(0,top)){
-      const isMate=givesMate(b,m.r1,m.c1,m.r2,m.c2);
+      const isMate=di===2&&givesMate(b,m.r1,m.c1,m.r2,m.c2);
       const isChk=!isMate&&givesCheck(b,m.r1,m.c1,m.r2,m.c2);
       if(chkDone&&isChk)continue;
       const nb=applyM(b,m.r1,m.c1,m.r2,m.c2);
@@ -365,26 +636,22 @@ function plan3(b,fp,usedIds){
       if(bestScore>=999999)return;
     }
   }
-  search(b,3,usedIds,[],false);
+  search(b,depth,usedIds,[],false);
   return bestSeq;
 }
 
-// ── VARIABLE OPENINGS (so AI doesn't always do same thing) ─
-// A pool of first-3-move sequences for the AI, randomly chosen
 const OPENINGS=[
-  // Aggressive king-side
-  [[6,4,4,4],[7,6,5,5],[7,5,4,3]],   // e4, Nf3, Bc4
-  [[6,3,4,3],[7,1,5,2],[6,4,4,4]],   // d4, Nc3, e4
-  [[6,4,4,4],[7,5,4,3],[7,3,5,1]],   // e4, Bc4, Qh5 (scholar's)
-  [[6,2,4,2],[7,6,5,5],[6,4,4,4]],   // c4, Nf3, e4
-  [[6,4,4,4],[7,1,5,2],[6,6,5,6]],   // e4, Nc3, g3
-  [[6,3,4,3],[6,2,4,2],[7,6,5,5]],   // d4, c4, Nf3
-  [[6,4,4,4],[7,6,5,5],[6,5,5,5]],   // e4, Nf3, f4
-  [[7,6,5,5],[6,4,4,4],[7,5,4,3]],   // Nf3, e4, Bc4
-  [[6,4,4,4],[7,2,5,3],[7,5,3,1]],   // e4, Nd2(?), Qe2 unusual
-  [[6,3,4,3],[7,6,5,5],[7,1,5,2]],   // d4, Nf3, Nc3
+  [[6,4,4,4],[7,6,5,5],[7,5,4,3]],
+  [[6,3,4,3],[7,1,5,2],[6,4,4,4]],
+  [[6,4,4,4],[7,5,4,3],[7,3,5,1]],
+  [[6,2,4,2],[7,6,5,5],[6,4,4,4]],
+  [[6,4,4,4],[7,1,5,2],[6,6,5,6]],
+  [[6,3,4,3],[6,2,4,2],[7,6,5,5]],
+  [[6,4,4,4],[7,6,5,5],[6,5,5,5]],
+  [[7,6,5,5],[6,4,4,4],[7,5,4,3]],
+  [[6,4,4,4],[7,2,5,3],[7,5,3,1]],
+  [[6,3,4,3],[7,6,5,5],[7,1,5,2]],
 ];
-// Filter opening moves to only those actually legal
 function getOpeningMove(b,fp,usedIds,openIdx,moveIdx){
   if(openIdx===null)return null;
   const op=OPENINGS[openIdx];
@@ -398,155 +665,110 @@ function getOpeningMove(b,fp,usedIds,openIdx,moveIdx){
   return{r1,c1,r2,c2,p,id};
 }
 
-// ── 100 SARCASTIC PHRASES ────────────────────────────────
+// ── LOOKING-GLASS SARCASTIC PHRASES ──────────────────────────
 const SARCS=[
-  'Мат. Твоя тайная цель так и осталась тайной — даже от тебя.',
-  'Игра окончена. Король пал. Мечты рухнули. Всё как я и хотел.',
-  'Мат! Честно говоря, я ожидал большего сопротивления.',
-  'Твой король сдался. Надеюсь, твоя цель была не "выжить".',
-  'Мат. Попробуй снова — я никуда не тороплюсь.',
-  'Король повержен. Твои планы умерли вместе с ним.',
-  'Мат. Не знаю что ты задумал, но у тебя явно не вышло.',
-  'Игра окончена. Твоя тайна останется тайной — навсегда.',
-  'Мат! Я даже не успел как следует угадать твою цель.',
-  'Твой король бежал некуда. Примерно как и твоя стратегия.',
-  'Мат. Признаю — ты держался дольше чем я рассчитывал. Ненамного.',
-  'Король пал. Я мог бы пожалеть тебя, но решил не тратить время.',
-  'Мат. Интересные у тебя ходы. Жаль что они ни к чему не привели.',
-  'Игра окончена. Следующий раз попробуй не проигрывать.',
-  'Мат. В каком-то смысле это даже красиво — такое полное поражение.',
-  'Твой король в ловушке. Твоя цель — тоже, по всей видимости.',
-  'Мат! Браво за попытку. Искренне. Ну почти искренне.',
-  'Король повержен. Я бы сказал "неплохо сыграно", но врать не умею.',
-  'Мат. Твой план был смелым. Возможно, слишком смелым.',
-  'Игра окончена. Счёт: я — 1, твоя тайная цель — 0.',
-  'Мат. Хочешь узнать что пошло не так? Почти всё.',
-  'Твой король пал с честью. Ну, хотя бы что-то.',
-  'Мат! Я подозревал что ты проиграешь, но всё равно приятно.',
-  'Король сдался. Его можно понять — позиция была безнадёжна.',
-  'Мат. Красивый финал для некрасивой игры с твоей стороны.',
-  'Игра окончена. Твоя цель была мне непонятна. Теперь уже неважно.',
-  'Мат. Я мог бы потянуть ещё пару ходов для напряжения, но зачем.',
-  'Твой король в мате. Не расстраивайся — проигрывают все. Просто ты сегодня.',
-  'Мат! Впечатляющая игра. Впечатляюще неудачная.',
-  'Король повержен. Хорошая новость: это быстро закончилось.',
-  'Мат. Плохая новость: ты проиграл. Хорошая: есть кнопка "Новая игра".',
-  'Игра окончена. Знаешь, в чём была твоя ошибка? Я не буду говорить.',
-  'Мат. Я заметил интересный паттерн в твоей игре. Ты проигрываешь.',
-  'Твой король больше не ходит никуда. Как и твоя карьера шахматиста.',
-  'Мат! Позволь угадать — твоя тайная цель была "как-нибудь не проиграть"?',
-  'Король пал. Момент торжества для меня, момент размышлений для тебя.',
-  'Мат. Статистически, следующая партия сложится так же. Но попробуй.',
-  'Игра окончена. Я честно старался угадать твою цель. Ты честно старался её выполнить. Только я справился.',
-  'Мат. Если тебя утешит — это был хороший мат. С моей стороны.',
-  'Твой король поставлен в мат. Твоя тайна — в архив. Всё логично.',
-  'Мат! Знаешь что самое смешное? Я так и не понял что ты задумал.',
-  'Король в ловушке. Выхода нет. Примерно как и из этого проигрыша.',
-  'Мат. Я бы пообещал сыграть слабее в следующий раз, но врать — не в моих правилах.',
-  'Игра окончена. Ты сражался как лев. К сожалению, лев проиграл.',
-  'Мат. Твои ходы рассказывали историю. Историю поражения, но всё же.',
-  'Король повержен! Если хочешь реванш — кнопка "Новая игра" ждёт.',
-  'Мат. Анализируя твою игру, я пришёл к выводу что у тебя был план. Плохой план.',
-  'Твой король устал и сдался. Я его понимаю.',
-  'Мат! Твоя тайная цель умерла молодой. Соболезную.',
-  'Игра окончена. Я победил. Ты проиграл. Мир стал немного более справедливым.',
-  'Мат. Возможно, в другой жизни ты стал бы великим шахматистом. Но не в этой партии.',
-  'Король в мате. Твоя цель нереализована. Такое бывает. Часто с тобой.',
-  'Мат! Я чувствую что ты старался. Этого недостаточно, но это мило.',
-  'Твой король пал. Момом малое утешение, но твои пешки ещё живы.',
-  'Мат. Финальный счёт: компьютер — всё, ты — воспоминание о лучших намерениях.',
-  'Игра окончена. Не переживай — это просто игра. Которую ты проиграл.',
-  'Мат. Я уважаю твою попытку. Уважаю и складываю её на полку рядом с другими.',
-  'Король сдался. Спасибо за игру. Проигравший всегда так говорит.',
-  'Мат! Твоя цель была так близко... нет, на самом деле совсем не близко.',
-  'Твой король больше не ходит. Финита ла комедия.',
-  'Мат. Ты играл нестандартно. К сожалению, нестандартно плохо.',
-  'Игра окончена. Я победил со счётом 1:0. Это максимально возможный счёт.',
-  'Мат. Признаю, мне было интересно наблюдать за твоей тайной целью. Почти как детектив.',
-  'Король повержен. Конец игры. Начало размышлений.',
-  'Мат! Ты проиграл изящно. Ну, более-менее изящно.',
-  'Твой король в мате. Твои мечты — тоже. Доброй ночи.',
-  'Мат. Я анализировал твои ходы и подумал: интересный подход. Неправильный, но интересный.',
-  'Игра окончена. Если хочешь, я могу объяснить где именно всё пошло не так. Везде.',
-  'Мат. Надеюсь, ты получил удовольствие от процесса. Я точно получил.',
-  'Король пал. Ты можешь утешить себя тем, что компьютеры всегда выигрывают. Это неправда, но звучит лучше.',
-  'Мат! Твоя тайная цель будет жить в наших сердцах. Нет, не будет.',
-  'Твой король сдался без боя. Точнее, после боя. Но сдался.',
-  'Мат. Хорошие новости: игра закончилась. Плохие новости: не в твою пользу.',
-  'Игра окончена. Статистика говорит, что следующая будет лучше. Статистика иногда врёт.',
-  'Мат. Твои ходы были полны замысла. Замысел не сработал.',
-  'Король повержен. Я выиграл. Ты поиграл. Всё справедливо.',
-  'Мат! Я видел потенциал в твоей игре. Где-то глубоко. Очень глубоко.',
-  'Твой король в ловушке и выхода нет. Как в лифте, только хуже.',
-  'Мат. Ты почти меня удивил. Почти.',
-  'Игра окончена. Ты играл с душой. К сожалению, душа — не стратегия.',
-  'Мат. Следующий раз попробуй думать на два хода вперёд. Я думаю на три.',
-  'Король пал. Прими это с достоинством. Или не принимай — мне всё равно.',
-  'Мат! Конец игры. Начало традиции проигрывать мне.',
-  'Твой король сдался. Мудрое решение в безнадёжной ситуации.',
-  'Мат. Я заметил что ты ходил фигурами. Это правильно. Результат — нет.',
-  'Игра окончена. Я тебя победил. Ты меня — нет. Такова жизнь.',
-  'Мат. Знаешь, что мне нравится в этой игре? Когда я выигрываю.',
-  'Король повержен. Твоя тайная цель умерла нераскрытой. Романтично.',
-  'Мат! Ты дал мне хорошую игру. Я дал тебе мат. Обмен состоялся.',
-  'Твой король в мате. Где-то должна звучать торжественная музыка.',
-  'Мат. Финал. Занавес. Выход через кассу. То есть через "Новая игра".',
-  'Игра окончена. Поздравляю с участием — это тоже что-то значит.',
-  'Мат. Твоя цель была интригующей. Жаль что ты не успел её выполнить.',
-  'Король пал. Это был честный бой. Честно говоря, нечестный — я сильнее.',
-  'Мат! Я рад что ты попробовал. Это важно. Результат не важен. Нет, важен.',
-  'Твой король больше не участвует в игре. Как и твои шансы на победу.',
-  'Мат. И тишина.',
+  'Мат. «Нужно бежать со всех ног — чтобы оставаться на месте». Ты не бежал.',
+  'Мат. Зазеркалье поглотило ещё одну тайну.',
+  'С головы долой! — но корректно, по правилам шахмат.',
+  'Мат. Если смотреть в зеркало — ты выиграл. Но мы не в зеркале.',
+  'Мат. Шляпник сказал бы: «Сегодня не твой день рождения». Он прав.',
+  'Король в ловушке. Красная Королева довольна.',
+  'Мат. Гусеница спросила: «Кто ты?». Ты не ответил достаточно убедительно.',
+  'Мат. Три хода — и дело сделано. Такова математика зазеркалья.',
+  'Король пал. Тут нет ничего невозможного — невозможное просто занимает чуть больше времени.',
+  'Мат. Часы идут назад, а ты всё равно проиграл вперёд.',
+  'Мат. Красная Королева бежит — и оказывается на месте. Ты стоял — и проиграл.',
+  'Король сдался. Алиса бы выбрала другой ход. Наверное.',
+  'Мат. В зазеркалье слова значат именно то, что я хочу — а я хочу сказать: ты проиграл.',
+  'Мат. Труляля и Траляля согласны: ты проиграл дважды одновременно.',
+  'Мат. Чеширский кот исчез, оставив только улыбку. Ты исчез, оставив только поражение.',
+  'Мат. «Верь шести невозможным вещам до завтрака» — седьмая: что ты выиграешь. Не сложилось.',
+  'Мат. Зеркало треснуло — это ты так отразился.',
+  'Мат. Белая Королева умела верить в невозможное. Ты верил в победу — почти одно и то же.',
+  'Мат. Это было красиво. С моей стороны.',
+  'Мат. Ход конём — в смысле, я победил.',
+  'Мат. Партия закончилась. Часы продолжают идти в обратную сторону.',
+  'Мат. Зеркало не лжёт — оно просто показывает наоборот.',
+  'Мат. Рокировка не помогла, тайная цель не помогла. Помогла только математика.',
+  'Мат. Красная Королева сказала бы «с головы долой!» — но это лишнее после мата.',
+  'Мат. Три хода. Всё спланировано заранее. Как и должно быть в зазеркалье.',
+  'Мат. Шляпник налил бы тебе чай — утешение небольшое, но всё же.',
+  'Мат. Алиса прошла сквозь зеркало. Ты не прошёл сквозь мою защиту.',
+  'Мат. Бармаглот мчится сквозь лес — и он на моей стороне.',
+  'Мат. Мне жаль. Нет, не жаль. Ладно, немного жаль.',
+  'Мат. И тишина, нарушаемая только тиканьем часов в обратную сторону.',
+  'Мат. Шахматная доска — это зазеркалье. И здесь я король.',
+  'Мат. Невозможное случилось — ты проиграл. Как обычно.',
+  'Мат. В зазеркалье выигрывает тот, кто смотрит в правильную сторону.',
+  'Мат. Белая Королева бежала — я стоял и ждал. Стратегия.',
+  'Мат. Я думал за три хода вперёд. Ты думал за один. Разница очевидна.',
+  'Мат. Чеширский кот улыбается. Это плохой знак для тебя.',
+  'Мат. Я рассчитал — ты сделал. Один из нас был точнее.',
+  'Мат. В зазеркалье всё наоборот. Включая счёт — в мою пользу.',
+  'Мат. Труляля сказал бы «это так», Траляля — «и не иначе». Оба правы.',
+  'Мат. Твои ходы были логичны. Зазеркалье не любит логику.',
+  'Мат. Шляпник остановил время — я использовал это.',
+  'Мат. Красная Королева довольна. Это достижение.',
+  'Мат. Отражение в зеркале всегда делает наоборот — ты проиграл, я выиграл.',
+  'Мат. И снова часы бьют шесть. Время пить чай поражения.',
+  'Мат. Финита ла комедия. Начинай трагедию — или новую игру.',
+  'Мат. Я посмотрел в зазеркалье и увидел твоё поражение заранее.',
+  'Мат. Ты ходил фигурами — я ходил точнее.',
+  'Мат. Зеркало треснуло по твоей вине.',
+  'Мат. Гусеница права: надо было думать иначе.',
+  'Мат. Конец истории. Начало следующей — за тобой.',
 ];
 
-// 20 funny guesses shown locally (no API needed)
+// Looking-Glass suspicion guesses
 const GUESSES=[
-  'Хочет расставить пешки в форме своего имени…',
-  'Планирует собрать всех коней в одном углу — для выпаса…',
-  'Явно влюблён в моего ферзя и пытается до него добраться…',
-  'Строит геометрическую фигуру из пешек — кажется, трапецию…',
-  'Пытается оставить ровно семь фигур — по числу дней недели…',
-  'Хочет чтобы все фигуры одного цвета стояли на белых клетках…',
-  'Замысел связан с нумерологией — я чувствую…',
-  'Собирает редкую коллекцию: по одной взятой фигуре каждого вида…',
-  'Пытается воспроизвести на доске созвездие Большой Медведицы…',
-  'Хочет поставить короля прямо в центр доски — ради эстетики…',
-  'Его ходы образуют маршрут. Куда-то идёт. Буквально…',
-  'Хочет выиграть настолько странным способом чтобы написать мемуары…',
-  'Пытается сделать так, чтобы доска выглядела симметрично…',
-  'Планирует уничтожить всех коней — обиделся на них лично…',
-  'Подозрительно часто двигает ладьи — связано с периметром доски…',
-  'Хочет оставить в игре ровно одного из каждого вида фигур…',
-  'Цель явно абсурдная — это единственное объяснение таким ходам…',
-  'Пытается меня запутать. И это немного работает. Немного…',
-  'Его план завязан на астрологии и фазах луны, не иначе…',
-  'Хочет завершить партию с красивым результатом — и ни разу не взять ферзя…',
+  'Пытается переставить все пешки в форме улыбки Чеширского кота…',
+  'Хочет, чтобы ферзь оказался там, где его быть не должно — строго по правилам зазеркалья…',
+  'Планирует убрать всех коней. Личная обида на прыжки…',
+  'Двигает фигуры так, как будто доска перевёрнута. Возможно, так оно и есть…',
+  'Цель явно связана с числом три — магическое число этой стороны зеркала…',
+  'Хочет поставить короля ровно в центр доски. Ради баланса…',
+  'Пытается создать идеальную симметрию. В зазеркалье это опасно…',
+  'Замысел завязан на Красной Королеве — либо уничтожить её, либо стать ей…',
+  'Собирает ровно по одной взятой фигуре каждого вида — коллекционер…',
+  'Ходы образуют маршрут. Куда-то идёт. Буквально через доску…',
+  'Цель явно абсурдная — это единственное логичное объяснение таким ходам…',
+  'Пытается меня запутать. Немного работает. Немного…',
+  'Его план завязан на фазах луны и положении Шляпника…',
+  'Хочет завершить партию, не тронув ни одного слона. Принципиально…',
+  'Подозрительно много ходов ладьями — что-то с периметром…',
+  'Планирует воспроизвести сцену из «Алисы». Не уточняет из какой…',
+  'Хочет выиграть так, чтобы Красная Королева не заметила…',
+  'Его цель — оставить на доске ровно семь фигур. По числу глав…',
+  'Цель — поставить ферзя туда, где Алиса нашла зеркало…',
+  'Хочет закончить без единого взятого ферзя. Уважение к сопернику или план?…',
 ];
 const GUESSES_EN=[
-  'Wants to arrange pawns to spell their own name…',
-  'Planning to gather all knights in one corner — for grazing…',
-  'Clearly in love with my queen and trying to get close…',
-  'Building a geometric shape with pawns — looks like a trapezoid…',
-  'Trying to leave exactly seven pieces — one for each day of the week…',
-  'Wants all pieces of one colour on white squares for aesthetic reasons…',
-  'The plan involves numerology, I can feel it…',
-  'Collecting one captured piece of each type like a rare set…',
-  'Trying to recreate the Big Dipper constellation on the board…',
-  'Wants to place the king right in the centre — purely for style…',
-  'The moves form a route. Going somewhere. Literally…',
-  'Wants to win in such a bizarre way that it becomes a memoir…',
-  'Attempting to make the board look perfectly symmetrical…',
-  'Planning to eliminate all knights — took it personally…',
-  'Suspiciously many rook moves — something to do with the perimeter…',
-  'Wants exactly one piece of each type left on the board…',
-  'The goal is clearly absurd — it\'s the only explanation for these moves…',
+  'Trying to arrange pawns into the Cheshire Cat\'s smile…',
+  'Wants the queen somewhere she shouldn\'t be — Looking-Glass logic…',
+  'Plans to remove all knights. Personal grudge against jumping…',
+  'Moving as though the board is upside down. It might be…',
+  'The goal involves the number three — a magical number on this side…',
+  'Wants the king in the exact centre. For balance…',
+  'Attempting perfect board symmetry. Dangerous in the Looking-Glass…',
+  'The plan involves the Red Queen — destroy her or become her…',
+  'Collecting one captured piece of each type — a collector…',
+  'The moves form a route. Going somewhere. Literally across the board…',
+  'The goal is clearly absurd — the only logical explanation…',
   'Trying to confuse me. It\'s working. A little…',
-  'The plan is tied to astrology and lunar phases, obviously…',
-  'Wants to finish the game beautifully — without ever taking the queen…',
+  'Plan tied to lunar phases and the Hatter\'s position…',
+  'Wants to finish without ever touching a bishop. On principle…',
+  'Suspiciously many rook moves — something about the perimeter…',
+  'Planning to recreate an Alice scene. Won\'t say which one…',
+  'Wants to win without the Red Queen noticing…',
+  'Goal: leave exactly seven pieces on the board. One per chapter…',
+  'Aims to place the queen where Alice found the mirror…',
+  'Wants to finish without capturing a single queen. Respect or plan?…',
 ];
+
 
 // ── STATE ────────────────────────────────────────────────
 let board,sel,pm=[],phase,aiLeft,fp,aiUsed,aiQueue=[];
+let playerLastSq=null;
 let capW=[],capB=[],logs=[],goal='',goalVis=false,lf=null,lt=null,over=false;
 let openIdx=null,openMoveIdx=0,moveCount=0;
 let usedSarcs=[],usedGuesses=[];
@@ -565,52 +787,103 @@ function randPick(arr,used){
 
 // ── RENDER ───────────────────────────────────────────────
 function rBoard(){
-  const bd=document.getElementById('board');bd.innerHTML='';
+  const bd=document.getElementById('board');
+  // First call: build skeleton if not yet built
+  if(!bd.dataset.built){
+    bd.innerHTML='';
+    for(let r=0;r<8;r++){
+      const rl=document.createElement('div');
+      rl.className='cr';rl.style.cssText=`grid-row:${r+1};grid-column:1`;
+      rl.textContent=rn(r);bd.appendChild(rl);
+      for(let c=0;c<8;c++){
+        const sq=document.createElement('div');
+        sq.className='sq '+((r+c)%2===0?'l':'d');
+        sq.style.cssText=`grid-row:${r+1};grid-column:${c+2}`;
+        sq.dataset.r=r;sq.dataset.c=c;
+        sq.addEventListener('click',()=>click(r,c));
+        const sp=document.createElement('span');
+        sq.appendChild(sp);
+        bd.appendChild(sq);
+      }
+    }
+    for(let c=0;c<8;c++){
+      const cl=document.createElement('div');
+      cl.className='cc';cl.style.cssText=`grid-row:9;grid-column:${c+2}`;
+      cl.textContent=cn(c);bd.appendChild(cl);
+    }
+    bd.dataset.built='1';
+  }
+  // Update every square in place — no DOM restructure, no layout jump
   const ps=new Set(pm.map(m=>pid(m.r,m.c)));
   const cs=new Set(pm.filter(m=>m.cap).map(m=>pid(m.r,m.c)));
+  const allSqs=bd.querySelectorAll('.sq');
   for(let r=0;r<8;r++){
-    const rl=document.createElement('div');rl.className='cr';rl.textContent=rn(r);rl.style.cssText=`grid-row:${r+1};grid-column:1`;bd.appendChild(rl);
     for(let c=0;c<8;c++){
-      const sq=document.createElement('div');sq.className='sq '+((r+c)%2===0?'l':'d');
-      sq.style.cssText=`grid-row:${r+1};grid-column:${c+2}`;
-      if(sel&&sel.r===r&&sel.c===c)sq.classList.add('sel');
-      if(lf&&lf.r===r&&lf.c===c)sq.classList.add('lf');
-      if(lt&&lt.r===r&&lt.c===c)sq.classList.add('lt');
+      const sq=allSqs[r*8+c];
       const pp=board[r][c];
-      if(pp&&pt(pp)==='K'&&inCheck(board,pc(pp)))sq.classList.add('chk');
-      if(cs.has(pid(r,c)))sq.classList.add('pc');else if(ps.has(pid(r,c)))sq.classList.add('pm');
-      if(pp){const sp=document.createElement('span');sp.textContent=gl(pp);sq.appendChild(sp);}
-      sq.addEventListener('click',()=>click(r,c));
-      bd.appendChild(sq);
+      const base='sq '+((r+c)%2===0?'l':'d');
+      // Build class list without touching layout properties
+      let cls=base;
+      if(sel&&sel.r===r&&sel.c===c) cls+=' sel';
+      if(lf&&lf.r===r&&lf.c===c) cls+=' lf';
+      if(lt&&lt.r===r&&lt.c===c) cls+=' lt';
+      if(pp&&pt(pp)==='K'&&inCheck(board,pc(pp))) cls+=' chk';
+      if(cs.has(pid(r,c))) cls+=' pc';
+      else if(ps.has(pid(r,c))) cls+=' pm';
+      if(aiLastSquares.some(s=>s.r===r&&s.c===c)) cls+=' ai-last';
+      if(playerLastSq&&playerLastSq.r===r&&playerLastSq.c===c) cls+=' player-last';
+      sq.className=cls;
+      // Update piece span
+      const sp=sq.querySelector('span');
+      if(sp){
+        const newText=pp?gl(pp):'';
+        if(sp.textContent!==newText) sp.textContent=newText;
+        // Color for black pieces
+        if(pp&&pp[0]==='b'){
+          sq.setAttribute('data-black','1');
+        } else {
+          sq.removeAttribute('data-black');
+        }
+      }
     }
   }
-  for(let c=0;c<8;c++){const cl=document.createElement('div');cl.className='cc';cl.textContent=cn(c);cl.style.cssText=`grid-row:9;grid-column:${c+2}`;bd.appendChild(cl);}
 }
+
+
 function rUI(){
   const L=LANG[lang];
   const bw=document.getElementById('bw'),bl=document.getElementById('bl');
   if(phase==='player'){
     document.getElementById('wd').textContent=L.yourTurn;
     document.getElementById('sd').textContent=L.pickAny;
-    document.getElementById('aiui').style.display='none';
+    document.getElementById('aiui').style.visibility='hidden';
     document.getElementById('th').classList.remove('show');
     bw.disabled=over;bl.disabled=over;
   } else {
     document.getElementById('wd').textContent=L.aiTurn+aiLeft+')';
     document.getElementById('sd').textContent=L.aiMoves;
-    document.getElementById('aiui').style.display='block';
-    const dt=document.getElementById('dots');dt.innerHTML='';
-    for(let i=0;i<3;i++){const d=document.createElement('div');d.className='dot '+(i<aiLeft?'on':'off');d.textContent=i<aiLeft?(3-i):'✓';dt.appendChild(d);}
+    document.getElementById('aiui').style.visibility='visible';
+    const dt=document.getElementById('dots');
+    if(!dt.children.length){for(let i=0;i<3;i++){const d=document.createElement('div');d.className='dot';dt.appendChild(d);}}
+    for(let i=0;i<3;i++){const d=dt.children[i];d.className='dot '+(i<aiLeft?'on':'off');d.textContent=i<aiLeft?(3-i):'✓';}
     document.getElementById('fl').textContent=fp?L.forbidden+gl(fp)+' ('+fp+')':'';
     bw.disabled=true;bl.disabled=over;
   }
-  document.getElementById('cw2').textContent=capW.map(gl).join('');
-  document.getElementById('cb').textContent=capB.map(gl).join('');
-  document.getElementById('log').innerHTML=logs.slice().reverse().map(e=>`<div class="le ${e.c}">${e.t}</div>`).join('');
+  const cw2t=capW.map(gl).join('');const cbt=capB.map(gl).join('');
+  const cw2el=document.getElementById('cw2');if(cw2el&&cw2el.textContent!==cw2t)cw2el.textContent=cw2t;
+  const cbel=document.getElementById('cb');if(cbel&&cbel.textContent!==cbt)cbel.textContent=cbt;
+  // Log: only rebuild if new entries added
+  const logEl=document.getElementById('log');
+  const logCount=parseInt(logEl.dataset.count||'0');
+  if(logs.length!==logCount){
+    logEl.innerHTML=logs.slice().reverse().map(e=>`<div class="le ${e.c}">${e.t}</div>`).join('');
+    logEl.dataset.count=logs.length;
+  }
   const wK=inCheck(board,'w'),bK=inCheck(board,'b');
   const cw=document.getElementById('cw');
   if(wK||bK){cw.textContent=wK&&bK?L.checkBoth:wK?L.checkWhite:L.checkBlack;cw.classList.add('show');}
   else cw.classList.remove('show');
+  syncMobile();
 }
 function addLog(t,c){logs.push({t,c});}
 
@@ -653,9 +926,16 @@ function doMove(r2,c2,isPlayer){
     addLog('Вы: '+note,'p1');
     if(!isCastle)movePId(r1,c1,r2,c2);
     fp=p;aiLeft=3;aiUsed=new Set();aiQueue=[];
+    clearAILast();
+    markPlayerLast(r2,c2);
     phase='ai';rBoard();rUI();
-    if(moveCount%2===1){document.getElementById('susp').textContent='«'+randPick(lang==='en'?GUESSES_EN:GUESSES,usedGuesses)+'»';}
-    setTimeout(()=>runAI(),350);
+    if(moveCount%2===1){
+      const guess='«'+randPick(lang==='en'?GUESSES_EN:GUESSES,usedGuesses)+'»';
+      document.getElementById('susp').textContent=guess;
+      const sm=document.getElementById('susp-m');if(sm)sm.textContent=guess;
+    }
+    if(tgt&&!isCastle) setTimeout(()=>showQuip(tgt,r2,c2),150);
+    setTimeout(()=>runAI(),Math.round(aiPause*.5));
   } else {
     addLog(`ИИ(${4-aiLeft}): `+note,'ai');
     aiLeft--;
@@ -664,9 +944,15 @@ function doMove(r2,c2,isPlayer){
     if(movedId!==undefined)aiUsed.add(movedId);
     sel=null;pm=[];
     rBoard();rUI();
+    if(tgt&&!isCastle) setTimeout(()=>showQuip(tgt,r2,c2),180);
     if(checkMate())return;
-    if(aiLeft===0){phase='player';rBoard();rUI();}
-    else setTimeout(()=>runAI(),340);
+    if(aiLeft===0){
+      phase='player';
+      playerLastSq=null;
+      rBoard();rUI();
+    }
+    markAILast(r2,c2);
+    if(aiLeft>0) setTimeout(()=>runAI(),aiPause);
   }
 }
 
@@ -675,19 +961,26 @@ function getSqRect(r,c){
   const sqs=document.getElementById('board').querySelectorAll('.sq');
   const sq=sqs[r*8+c];return sq?sq.getBoundingClientRect():null;
 }
-function animMove(r1,c1,r2,c2,cb){
+function animMove(r1,c1,r2,c2,cb,isCapture){
   const fr=getSqRect(r1,c1),to=getSqRect(r2,c2),p=board[r1][c1];
   if(!fr||!to||!p){cb();return;}
   const sqs=document.getElementById('board').querySelectorAll('.sq');
   const src=sqs[r1*8+c1];const sp=src&&src.querySelector('span');
   if(sp)sp.style.visibility='hidden';
-  const fly=document.createElement('div');fly.className='slide';fly.textContent=gl(p);
-  fly.style.left=(fr.left+fr.width/2-20)+'px';fly.style.top=(fr.top+fr.height/2-22)+'px';
+  const fly=document.createElement('div');
+  fly.className='slide'+(isCapture?' capturing':'');
+  fly.textContent=gl(p);
+  // Color styling for flying piece
+  if(p&&p[0]==='w'){fly.style.color='#f5ead0';fly.style.textShadow='-1px -1px 0 #3a1a00,1px 1px 0 #3a1a00,0 2px 4px rgba(0,0,0,.5)';}
+  else{fly.style.color='#1a0a00';fly.style.textShadow='-1px -1px 0 #c8a870,1px 1px 0 #c8a870,0 2px 4px rgba(0,0,0,.7)';}
+  fly.style.left=(fr.left+fr.width/2-22)+'px';fly.style.top=(fr.top+fr.height/2-22)+'px';
   document.body.appendChild(fly);
   requestAnimationFrame(()=>requestAnimationFrame(()=>{
-    fly.style.left=(to.left+to.width/2-20)+'px';fly.style.top=(to.top+to.height/2-22)+'px';
+    fly.style.left=(to.left+to.width/2-22)+'px';fly.style.top=(to.top+to.height/2-22)+'px';
   }));
-  setTimeout(()=>{fly.remove();if(sp)sp.style.visibility='';cb();},320);
+  if(isCapture) setTimeout(()=>boardZoomCapture(r2,c2),100);
+  const dur=isCapture?Math.round(animDur*.75):animDur;
+  setTimeout(()=>{fly.remove();if(sp)sp.style.visibility='';cb();},dur);
 }
 
 // ── AI TURN ──────────────────────────────────────────────
@@ -705,7 +998,7 @@ function runAI(){
     return;
   }
   // Plan 3 moves
-  document.getElementById('th').classList.add('show');rUI();
+  document.getElementById('th').classList.add('show');const thm2=document.getElementById('th-m');if(thm2)thm2.classList.add('show');rUI();
   setTimeout(()=>{
     // Try opening book first
     let firstMove=null;
@@ -715,18 +1008,14 @@ function runAI(){
     }
     if(firstMove){
       aiQueue=[];
-      document.getElementById('th').classList.remove('show');
+      document.getElementById('th').classList.remove('show');const thm3=document.getElementById('th-m');if(thm3)thm3.classList.remove('show');
       sel={r:firstMove.r1,c:firstMove.c1};pm=legalMoves(board,firstMove.r1,firstMove.c1);
       // Plan remaining 2 moves
-      const nb=applyM(board,firstMove.r1,firstMove.c1,firstMove.r2,firstMove.c2);
-      const nu=new Set(aiUsed);nu.add(pid(firstMove.r1,firstMove.c1));
-      const rest=plan3(nb,fp,nu);
-      if(rest)aiQueue=[...rest];
       animMove(firstMove.r1,firstMove.c1,firstMove.r2,firstMove.c2,()=>doMove(firstMove.r2,firstMove.c2,false));
     } else {
       // Minimax planning
       aiQueue=plan3(board,fp,aiUsed)||[];
-      document.getElementById('th').classList.remove('show');
+      document.getElementById('th').classList.remove('show');const thm4=document.getElementById('th-m');if(thm4)thm4.classList.remove('show');
       if(!aiQueue.length){aiLeft=0;phase='player';rBoard();rUI();return;}
       const m=aiQueue.shift();
       sel={r:m.r1,c:m.c1};pm=legalMoves(board,m.r1,m.c1);
@@ -738,7 +1027,8 @@ function fallbackMove(){
   const all=allAIMoves(board,fp,aiUsed);
   if(!all.length){aiLeft=0;phase='player';rBoard();rUI();return;}
   const m=all[0];sel={r:m.r1,c:m.c1};pm=legalMoves(board,m.r1,m.c1);
-  animMove(m.r1,m.c1,m.r2,m.c2,()=>doMove(m.r2,m.c2,false));
+  const isCap2=!!(board[m.r2]&&board[m.r2][m.c2]);
+  animMove(m.r1,m.c1,m.r2,m.c2,()=>doMove(m.r2,m.c2,false),isCap2);
 }
 
 // ── CHECKMATE ────────────────────────────────────────────
@@ -746,112 +1036,662 @@ function checkMate(){
   for(const col of['w','b']){
     if(inCheck(board,col)&&!anyLegal(board,col)){
       const L=LANG[lang];
-      endGame(false,col==='w'?L.matWhite:L.matBlack);return true;
+      const k=findK(board,col);
+      boardShake();
+      if(k) setTimeout(()=>boardZoomMate(k.r,k.c),520);
+      setTimeout(()=>endGame(false,col==='w'?L.matWhite:L.matBlack),820);
+      return true;
     }
   }return false;
 }
 
-// English sarcastic phrases (short selection — same spirit as Russian)
+// Looking-Glass EN phrases
 const SARCS_EN=[
-  'Checkmate. Your secret goal dies with your king.',
-  'Game over. I expected more resistance. I was wrong.',
-  'Mate! Whatever you were planning, it didn\'t work.',
-  'Your king has nowhere to go. Much like your strategy.',
-  'Checkmate. The secret goal remains a secret — even from you now.',
-  'I win. You lose. The universe is in balance.',
-  'Mate. Your plan was bold. Boldly incorrect.',
-  'Game over. Better luck with your next secret goal.',
-  'Checkmate! I almost felt bad about it. Almost.',
-  'Your king fell. Your dreams fell with it. Poetic.',
-  'Mate. I could tell you where it went wrong. Everywhere.',
-  'Checkmate. On the bright side, the "New Game" button works perfectly.',
-  'Your king is trapped. Like your chances were from the start.',
-  'Mate! A valiant effort. Valiant but futile.',
-  'Game over. I noticed a pattern in your play: losing.',
-  'Checkmate. Your secret goal was intriguing. Past tense.',
-  'Mate. I\'d play weaker next time, but that would be dishonest.',
-  'Your king surrendered. Wise choice given the circumstances.',
-  'Checkmate! The board has spoken. It said "you lose".',
-  'Game over. The king is dead. Long live the "New Game" button.',
+  'Checkmate. You ran as fast as you could — and stayed in the same place.',
+  'Mate. The Red Queen is pleased. That\'s rarely a good sign.',
+  'Game over. Your secret goal is now a secret even from history.',
+  'Checkmate. The Caterpillar asked: "Who are you?" You never answered well enough.',
+  'Mate. Off with your king\'s head! — but politely, via checkmate.',
+  'Game over. The Cheshire Cat smiles. Only the smile remains.',
+  'Checkmate. I planned three moves ahead. You planned. I planned better.',
+  'Mate. Tweedledee says it\'s so. Tweedledum says so too.',
+  'Game over. The looking glass cracked — that was you reflecting.',
+  'Checkmate. The Mad Hatter would say: today is not your unbirthday. It\'s your un-win.',
+  'Mate. Curiouser and curiouser — that you lost.',
+  'Game over. The Jabberwock is satisfied.',
+  'Checkmate. "Believe six impossible things" — your victory was the seventh.',
+  'Mate. Logic says you lost. Looking-glass logic agrees.',
+  'Game over. The White Queen ran away. I stood and waited. Strategy.',
+  'Checkmate. Three moves. Clean. Final.',
+  'Mate. Your secret died unrevealed. As all good secrets do.',
+  'Game over. The board is a mirror. It showed you losing from both sides.',
+  'Checkmate. Almost felt like a good game. Almost.',
+  'Mate. The clock ticks backwards — you still lost forwards.',
 ];
 
 // ── END GAME ─────────────────────────────────────────────
+
+// ── WIN PHRASES (50 RU + 20 EN) ───────────────────────────
+const WINS=[
+  'Ладно. Признаю поражение. Это… неожиданно. Как упасть вверх.',
+  'Ты выиграл. Алиса тоже побеждала — но она хотя бы знала правила.',
+  'Победа. В зазеркалье это означает поражение. Значит, ты проиграл. Нет, подожди.',
+  'Ты добился своего. Красная Королева недовольна. Это хороший знак.',
+  'Выиграл. Но ведь настоящая победа — это когда никто не проигрывает. Один из нас проиграл.',
+  'Поздравляю. Чеширский кот улыбается. Он всегда улыбается, но сейчас — особенно.',
+  'Ты выиграл. В зазеркалье вещи не всегда те, чем кажутся. Например, эта победа.',
+  'Признаю превосходство. Временно. Или постоянно. Здесь трудно сказать.',
+  'Ты обыграл компьютер. Это либо достижение, либо мой план. Я не скажу.',
+  'Победа. Шляпник сказал бы: «Поздравляю с тем, что этого не должно было случиться».',
+  'Выиграл. Гусеница одобрительно выпускает дым. Это редкость.',
+  'Ты победил. В нашей игре это возможно — просто маловероятно. Ты воспользовался вероятностью.',
+  'Мои поздравления. Искренние. Почти искренние. Примерно на 60%.',
+  'Ты выиграл. Бармаглот отступил. Бармаглот никогда не отступает. Интересно.',
+  'Победа над компьютером — это победа разума над математикой. Сомнительное достижение, но достижение.',
+  'Ты одержал победу. Белая Королева верила в невозможное до завтрака. Ты сделал невозможное после.',
+  'Выиграл. В зеркале это выглядит иначе. Всё в зеркале выглядит иначе.',
+  'Победа. Ты доказал что-то важное. Я ещё не понял что именно.',
+  'Поздравляю с выигрышем. Твоя тайная цель пересеклась с результатом. Редкое совпадение.',
+  'Ты выиграл. Труляля говорит «так не бывает». Траляля говорит «бывает». Ты прав.',
+  'Победа достигнута. Часы идут назад, но результат вперёд. Любопытное противоречие.',
+  'Выиграл. Это не делает тебя умнее меня. Но делает тебя победителем. Сегодня.',
+  'Ты победил компьютер. Компьютер не расстроен. Компьютер никогда не расстраивается. Это грустно.',
+  'Победа. Алиса прошла сквозь зеркало и попала в другой мир. Ты прошёл сквозь мою защиту.',
+  'Выиграл. Красная Королева кричит «с головы долой!» — но это просто манера речи.',
+  'Ты обыграл меня. Я проанализирую ошибки. У меня нет ошибок. Это загадка.',
+  'Победа. В шахматах победитель тот, кто сделал последнюю правильную ошибку.',
+  'Поздравляю. Ты нашёл выход из зазеркалья. Большинство остаётся навсегда.',
+  'Выиграл. Это требует осмысления. Дай мне момент. Момент прошёл. Поздравляю.',
+  'Ты победил. Зеркало треснуло. Теперь семь лет удачи — или семь лет в зазеркалье.',
+  'Победа. «Всё страньше и страньше» — сказала бы Алиса. Я согласен.',
+  'Выиграл. Шляпник остановил время ровно в момент твоей победы. Случайность.',
+  'Поздравляю с победой. Она заслужена. Или нет. Зазеркалье не даёт прямых ответов.',
+  'Ты выиграл у компьютера. Это значит либо ты умный, либо я добрый. Одно из двух.',
+  'Победа. В конце концов, это просто игра. Очень серьёзная игра. С зеркалами.',
+  'Выиграл. Гусеница спрашивает: «Кто ты?» Теперь ты можешь ответить: победитель.',
+  'Ты победил. Красиво. Почти как падение вверх — против всякой логики, но красиво.',
+  'Победа достигнута. Я уступаю с грацией. Graceful defeat — это тоже искусство.',
+  'Выиграл. В конце каждой партии кто-то выигрывает. Сегодня это был ты.',
+  'Поздравляю. Твои ходы сложились в победу — как буквы складываются в слово «победа».',
+  'Ты выиграл. Чеширский кот исчез, оставив улыбку. Улыбка говорит: молодец.',
+  'Победа. «Нужно бежать со всех ног чтобы оставаться на месте» — ты добежал дальше.',
+  'Выиграл. Это доказывает что возможное и невозможное — вопрос точки зрения.',
+  'Ты победил. Запомни этот момент. В следующей партии я вспомню.',
+  'Победа. Занавес опускается. Ты на правильной стороне занавеса.',
+  'Выиграл. Белая Королева аплодирует. У неё шесть пальцев. Все шесть хлопают.',
+  'Поздравляю. Твоя тайная цель совпала с итогом. Это называется мастерство. Или удача.',
+  'Ты выиграл. Бармаглот удалился восвояси. Это редко случается по доброй воле.',
+  'Победа. Зазеркалье признаёт твоё превосходство. До следующей партии.',
+  'Выиграл. И тишина, нарушаемая только звуком упавшей короны.',
+];
+const WINS_EN=[
+  'Fine. I concede. This is unexpected — like falling upward.',
+  'You won. Alice won too — but she at least knew the rules.',
+  'Victory. In the Looking-Glass this means defeat. So you lost. Wait, no.',
+  'Congratulations. The Red Queen is displeased. That is a good sign.',
+  'You won. The Cheshire Cat smiles. He always smiles, but now — especially.',
+  'I acknowledge your superiority. Temporarily. Or permanently. Hard to say here.',
+  'You beat a computer. That is either an achievement or my plan. I will not say.',
+  'You won. The Caterpillar exhales approvingly. This is rare.',
+  'Victory over a computer is victory of mind over mathematics. Dubious but real.',
+  'You won. The White Queen believed impossible things before breakfast. You did one after.',
+  'Congratulations. Your secret goal aligned with the outcome. Rare coincidence.',
+  'You won. This does not make you smarter than me. But it makes you the winner. Today.',
+  'Victory. In chess, the winner is whoever made the last correct mistake.',
+  'You found the exit from the Looking-Glass. Most stay forever.',
+  'You won. The mirror cracked. Seven years of luck — or seven years inside it.',
+  'Victory. I analyse my errors. I have no errors. This is a puzzle.',
+  'You won. Time stopped at the exact moment of your victory. Coincidence.',
+  'You beat the computer. That means either you are clever or I am kind. One of the two.',
+  'Victory. In the end, someone always wins. Today it was you.',
+  'You won. Remember this moment. In the next game, so will I.',
+];
 function endGame(pWins,msg){
   const L=LANG[lang];
   over=true;
   document.getElementById('rules').style.display='none';
   document.getElementById('res').style.display='block';
+  document.getElementById('rg').textContent=goal;
   if(pWins){
     document.getElementById('rb').textContent=L.youWon;
     document.getElementById('rb').style.color='var(--gold)';
-    document.getElementById('re').textContent='🏆';
-    document.getElementById('rc').textContent=lang==='ru'
-      ?'Ладно, признаю поражение. С достоинством. Снаружи.'
-      :'Fine, I concede. With dignity. Outwardly.';
+    document.getElementById('re').textContent='🪞';
+    document.getElementById('rc').textContent='';
   } else {
     document.getElementById('rb').textContent=L.youLost;
     document.getElementById('rb').style.color='var(--red)';
-    document.getElementById('re').textContent='💀';
-    document.getElementById('rc').textContent=randPick(lang==='ru'?SARCS:SARCS_EN,usedSarcs);
+    document.getElementById('re').textContent='🃏';
+    document.getElementById('rc').textContent='';
   }
   document.getElementById('rg').textContent=goal;
   addLog(msg,'s');rUI();
+  // Show result overlay
+  const ov=document.getElementById('result-overlay');
+  if(ov){
+    document.getElementById('ov-emoji').textContent=pWins?'🏆':'🪞';
+    const ovTitle=document.getElementById('ov-title');
+    ovTitle.textContent=pWins?L.youWon:L.youLost;
+    ovTitle.style.color=pWins?'var(--gold)':'var(--red)';
+    document.getElementById('ov-text').textContent=pWins
+      ?randPick(lang==='ru'?WINS:WINS_EN,usedSarcs)
+      :randPick(lang==='ru'?SARCS:SARCS_EN,usedSarcs);
+    ov.classList.add('show');
+  }
+  // Sync mobile result panel
+  const rem=document.getElementById('res-m');
+  if(rem){
+    rem.style.display='block';
+    document.getElementById('re-m').textContent=pWins?'🏆':'🪞';
+    document.getElementById('rb-m').textContent=pWins?L.youWon:L.youLost;
+    document.getElementById('rb-m').style.color=pWins?'var(--gold)':'var(--red)';
+    document.getElementById('rg-m').textContent=goal;
+    // rc-m filled after overlay closes
+  }
   fireworks(pWins);
 }
 
-function pWin(){if(phase!=='player'||over)return;endGame(true,LANG[lang].iwonLog);}
+function pWin(){
+  if(phase!=='player'||over)return;
+  if(activeGoal&&activeGoal.check){
+    const result=activeGoal.check(board,logs,capW,capB);
+    if(result===false){
+      const msg=lang==='ru'
+        ?'Цель ещё не выполнена. Засчитать победу всё равно?'
+        :'Goal not yet achieved. Claim victory anyway?';
+      if(!confirm(msg))return;
+    }
+  }
+  endGame(true,LANG[lang].iwonLog);
+}
 function pLose(){if(over)return;endGame(false,LANG[lang].ilostLog);}
-function toggleGoal(){goalVis=!goalVis;const g=document.getElementById('gd');g.style.display=goalVis?'block':'none';g.textContent=goal;}
+function toggleGoal(){
+  goalVis=!goalVis;
+  const g=document.getElementById('gd');g.style.display=goalVis?'block':'none';g.textContent=goal;
+  const gm=document.getElementById('gd-m');if(gm){gm.style.display=goalVis?'block':'none';gm.textContent=goal;}
+}
 
 // ── FIREWORKS ────────────────────────────────────────────
+
+function closeResultOverlay(){
+  const ov=document.getElementById('result-overlay');
+  if(ov) ov.classList.remove('show');
+  // Copy text to bottom result panel
+  const ovText=document.getElementById('ov-text').textContent;
+  const rc=document.getElementById('rc');
+  const rcm=document.getElementById('rc-m');
+  if(rc) rc.textContent=ovText;
+  if(rcm) rcm.textContent=ovText;
+  // Scroll to result panel
+  const res=document.getElementById('res')||document.getElementById('res-m');
+  if(res) setTimeout(()=>res.scrollIntoView({behavior:'smooth',block:'start'}),100);
+}
 function fireworks(gold){
+  // Chess piece explosion — pieces fly out and fall
   const cv=document.getElementById('fw');
   cv.width=window.innerWidth;cv.height=window.innerHeight;cv.style.display='block';
   const ctx=cv.getContext('2d');
-  const PAL=gold
-    ?['#FFD700','#FFA500','#FF8C00','#FFEC8B','#fffacd','#DAA520','#fff']
-    :['#cc2200','#ff4422','#ff8866','#ffddcc','#ff6644','#aa1100','#fff'];
-  let parts=[],rockets=[],frame=0,MAX=260;
-  function spawn(){rockets.push({x:Math.random()*cv.width,y:cv.height,vx:(Math.random()-.5)*3,vy:-(11+Math.random()*7),life:0,max:50+Math.random()*20});}
-  function boom(x,y){
-    const c1=PAL[Math.floor(Math.random()*PAL.length)],c2=PAL[Math.floor(Math.random()*PAL.length)];
-    for(let i=0;i<100;i++){const a=Math.random()*Math.PI*2,s=1+Math.random()*5;parts.push({x,y,vx:Math.cos(a)*s,vy:Math.sin(a)*s,col:Math.random()>.5?c1:c2,life:1,dec:.012+Math.random()*.018,sz:2+Math.random()*2.5,tr:[]});}
-    for(let i=0;i<16;i++){const a=(i/16)*Math.PI*2;parts.push({x,y,vx:Math.cos(a)*8,vy:Math.sin(a)*8,col:'#fff',life:1,dec:.045,sz:1.5,tr:[]});}
+  const pieces=gold
+    ?['♔','♕','♖','♗','♘','♙','★','✦']
+    :['♚','♛','♜','♝','♞','♟','✕','☠'];
+  const colors=gold
+    ?['#FFD700','#DAA520','#FFF8DC','#F0C040','#FFFACD','#C8A820']
+    :['#cc2244','#ff3366','#aa1133','#ff6688','#881122','#ff99aa'];
+
+  let particles=[];
+  // Spawn bursts from center and corners
+  function burst(x,y,count){
+    for(let i=0;i<count;i++){
+      const angle=Math.random()*Math.PI*2;
+      const speed=2+Math.random()*8;
+      particles.push({
+        x,y,
+        vx:Math.cos(angle)*speed,
+        vy:Math.sin(angle)*speed - 3,
+        piece:pieces[Math.floor(Math.random()*pieces.length)],
+        color:colors[Math.floor(Math.random()*colors.length)],
+        size:16+Math.random()*22,
+        life:1,
+        decay:.008+Math.random()*.012,
+        rot:Math.random()*Math.PI*2,
+        rotV:(Math.random()-.5)*.2,
+        gravity:.18
+      });
+    }
   }
+  // Initial bursts
+  burst(cv.width/2, cv.height*.4, 22);
+  setTimeout(()=>burst(cv.width*.25, cv.height*.3, 14), 300);
+  setTimeout(()=>burst(cv.width*.75, cv.height*.35, 14), 500);
+  setTimeout(()=>burst(cv.width*.5, cv.height*.5, 18), 700);
+
+  let frame=0;
   function tick(){
-    ctx.fillStyle='rgba(0,0,0,.17)';ctx.fillRect(0,0,cv.width,cv.height);
-    if(frame%16===0&&frame<MAX-60)spawn();
-    rockets=rockets.filter(r=>{r.x+=r.vx;r.y+=r.vy;r.vy+=.2;r.life++;ctx.beginPath();ctx.arc(r.x,r.y,2,0,Math.PI*2);ctx.fillStyle=PAL[0];ctx.fill();if(r.life>=r.max){boom(r.x,r.y);return false;}return true;});
-    parts=parts.filter(p=>{
-      p.tr.push({x:p.x,y:p.y});if(p.tr.length>5)p.tr.shift();
-      p.x+=p.vx;p.y+=p.vy;p.vy+=.07;p.vx*=.98;p.life-=p.dec;
-      if(p.life<=0)return false;
-      for(let i=0;i<p.tr.length;i++){ctx.beginPath();ctx.arc(p.tr[i].x,p.tr[i].y,p.sz*.4,0,Math.PI*2);ctx.fillStyle=p.col;ctx.globalAlpha=(i/p.tr.length)*p.life*.4;ctx.fill();}
-      ctx.beginPath();ctx.arc(p.x,p.y,p.sz,0,Math.PI*2);ctx.fillStyle=p.col;ctx.globalAlpha=p.life;ctx.fill();ctx.globalAlpha=1;return true;
+    ctx.fillStyle='rgba(0,0,0,.14)';ctx.fillRect(0,0,cv.width,cv.height);
+    particles=particles.filter(p=>{
+      p.x+=p.vx; p.y+=p.vy; p.vy+=p.gravity;
+      p.vx*=.99; p.rot+=p.rotV; p.life-=p.decay;
+      if(p.life<=0||p.y>cv.height+40)return false;
+      ctx.save();
+      ctx.globalAlpha=Math.min(1,p.life*1.5);
+      ctx.font=`${Math.round(p.size)}px serif`;
+      ctx.fillStyle=p.color;
+      ctx.translate(p.x,p.y);
+      ctx.rotate(p.rot);
+      ctx.textAlign='center';
+      ctx.textBaseline='middle';
+      // Glow
+      ctx.shadowColor=p.color;
+      ctx.shadowBlur=8;
+      ctx.fillText(p.piece,0,0);
+      ctx.restore();
+      return true;
     });
     frame++;
-    if(frame<MAX||parts.length>0)requestAnimationFrame(tick);
+    if(frame<280||particles.length>0) requestAnimationFrame(tick);
     else{ctx.clearRect(0,0,cv.width,cv.height);cv.style.display='none';}
   }
-  spawn();spawn();spawn();tick();
+  tick();
 }
 
+
 // ── START ────────────────────────────────────────────────
+
+// ── SPEED CONTROL ─────────────────────────────────────────
+let animDur=550, aiPause=750;
+const speedPresets=[
+  {dur:1400,pause:2000,label:'Очень медленно'},
+  {dur:1000,pause:1400,label:'Медленно'},
+  {dur:700,pause:1000,label:'Чуть медленнее'},
+  {dur:450,pause:650,label:'Средняя'},
+  {dur:220,pause:380,label:'Быстро'},
+];
+function setSpeed(v){
+  const p=speedPresets[Math.min(Math.max(0,v-1),4)];
+  animDur=p.dur; aiPause=p.pause;
+  document.documentElement.style.setProperty('--anim-dur', animDur+'ms');
+  const lbl=document.getElementById('speed-label-val');
+  if(lbl) lbl.textContent=p.label;
+}
+setSpeed(3); // default: medium
+
+// ── AI-LAST PIECE HIGHLIGHT ────────────────────────────────
+let aiLastSquares=[];
+function clearAILast(){
+  aiLastSquares=[];
+  // DOM update happens on next rBoard() call
+}
+function markAILast(r,c){
+  const sqs=document.getElementById('board').querySelectorAll('.sq');
+  const sq=sqs[r*8+c]; if(sq){sq.classList.add('ai-last');aiLastSquares.push({r,c});}
+}
+function markPlayerLast(r,c){
+  playerLastSq={r,c};
+  // will be applied in rBoard
+}
+
+// ── MOBILE SYNC ────────────────────────────────────────────
+function syncMobile(){
+  const L=LANG[lang];
+  // Status
+  const wdm=document.getElementById('wd-m');
+  const sdm=document.getElementById('sd-m');
+  const aium=document.getElementById('aiui-m');
+  const thm=document.getElementById('th-m');
+  const bwm=document.getElementById('bw-m');
+  const blm=document.getElementById('bl-m');
+  if(!wdm) return;
+  if(phase==='player'){
+    wdm.textContent=L.yourTurn;
+    sdm.textContent=L.pickAny;
+    if(aium) aium.style.visibility='hidden';
+    if(thm) thm.classList.remove('show');
+    if(bwm) bwm.disabled=over;
+    if(blm) blm.disabled=over;
+  } else {
+    wdm.textContent=L.aiTurn+aiLeft+')';
+    sdm.textContent=L.aiMoves;
+    if(aium) aium.style.visibility='visible';
+    const dtm=document.getElementById('dots-m');
+    if(dtm){
+      // Build once, then update classes
+      if(!dtm.children.length){for(let i=0;i<3;i++){const d=document.createElement('div');d.className='dot';dtm.appendChild(d);}}
+      for(let i=0;i<3;i++){const d=dtm.children[i];d.className='dot '+(i<aiLeft?'on':'off');d.textContent=i<aiLeft?(3-i):'✓';}
+    }
+    const flm=document.getElementById('fl-m');
+    if(flm) flm.textContent=fp?L.forbidden+gl(fp)+' ('+fp+')':'';
+    if(bwm) bwm.disabled=true;
+    if(blm) blm.disabled=over;
+  }
+  // Captured
+  const cw2m=document.getElementById('cw2-m');
+  const cbm=document.getElementById('cb-m');
+  if(cw2m) cw2m.textContent=capW.map(gl).join(' ');
+  if(cbm) cbm.textContent=capB.map(gl).join(' ');
+  // Log
+  const logm=document.getElementById('log-m');
+  if(logm&&logs.length!==parseInt(logm.dataset.count||'0')){
+    logm.innerHTML=logs.slice().reverse().map(e=>`<div class="le ${e.c}">${e.t}</div>`).join('');
+    logm.dataset.count=logs.length;
+  }
+  // Check warning
+  const cwm=document.getElementById('cw-m');
+  if(cwm){
+    const wK=inCheck(board,'w'),bK=inCheck(board,'b');
+    if(wK||bK){cwm.textContent=wK&&bK?L.checkBoth:wK?L.checkWhite:L.checkBlack;cwm.classList.add('show');}
+    else cwm.classList.remove('show');
+  }
+  // Goal
+  const gdm=document.getElementById('gd-m');
+  if(gdm&&goalVis){gdm.style.display='block';gdm.textContent=goal;}
+}
+
+// ── QUIP POPUP ────────────────────────────────────────────
+let quipTimer=null;
+function showQuip(piece,r,c){
+  const text=captureQuip(piece);
+  const emoji=pieceEmoji(piece);
+  const popup=document.getElementById('quip-popup');
+  if(!popup)return;
+  document.getElementById('qchar').textContent=emoji;
+  document.getElementById('qtext').textContent='«'+text+'»';
+  const sqs=document.getElementById('board').querySelectorAll('.sq');
+  const sq=sqs[r*8+c];
+  if(sq){
+    const rect=sq.getBoundingClientRect();
+    let left=rect.right+12,top=rect.top;
+    if(left+270>window.innerWidth)left=rect.left-278;
+    if(top+90>window.innerHeight)top=window.innerHeight-100;
+    popup.style.left=Math.max(8,left)+'px';
+    popup.style.top=Math.max(8,top)+'px';
+  }
+  popup.classList.add('show');
+  if(quipTimer)clearTimeout(quipTimer);
+  quipTimer=setTimeout(()=>popup.classList.remove('show'),3800);
+}
+
+// ── CAMERA (zoom on capture/mate, shake on check) ────────
+let zoomTimer=null;
+function boardZoomCapture(r,c){
+  const wrap=document.getElementById('board-wrap');if(!wrap)return;
+  const sqs=document.getElementById('board').querySelectorAll('.sq');
+  const sq=sqs[r*8+c];if(!sq)return;
+  const sqRect=sq.getBoundingClientRect(),boardRect=wrap.getBoundingClientRect();
+  const px=((sqRect.left+sqRect.width/2-boardRect.left)/boardRect.width*100).toFixed(1)+'%';
+  const py=((sqRect.top+sqRect.height/2-boardRect.top)/boardRect.height*100).toFixed(1)+'%';
+  wrap.style.transformOrigin=px+' '+py;
+  wrap.style.transform='scale(1.3)';
+  if(zoomTimer)clearTimeout(zoomTimer);
+  zoomTimer=setTimeout(()=>{wrap.style.transform='';wrap.style.transformOrigin='';},650);
+}
+function boardShake(){
+  const wrap=document.getElementById('board-wrap');if(!wrap)return;
+  wrap.classList.remove('shake');void wrap.offsetWidth;wrap.classList.add('shake');
+  setTimeout(()=>wrap.classList.remove('shake'),500);
+}
+function boardZoomMate(r,c){
+  const wrap=document.getElementById('board-wrap');if(!wrap)return;
+  const sqs=document.getElementById('board').querySelectorAll('.sq');
+  const sq=sqs[r*8+c];if(!sq)return;
+  const sqRect=sq.getBoundingClientRect(),boardRect=wrap.getBoundingClientRect();
+  const px=((sqRect.left+sqRect.width/2-boardRect.left)/boardRect.width*100).toFixed(1)+'%';
+  const py=((sqRect.top+sqRect.height/2-boardRect.top)/boardRect.height*100).toFixed(1)+'%';
+  wrap.style.transformOrigin=px+' '+py;
+  wrap.style.transform='scale(1.45)';
+}
+
 function startGame(){
   const g=document.getElementById('gi').value.trim();
   if(!g){alert('Введите тайную цель!');return;}
   goal=g;
+  // Find matching goal object for auto-verification
+  activeGoal=VERIFIED_GOALS.find(gobj=>gobj.ru===g||gobj.en===g)||null;
   board=initB();sel=null;pm=[];
   phase='player';aiLeft=0;fp=null;aiUsed=new Set();aiQueue=[];
   capW=[];capB=[];logs=[];lf=null;lt=null;over=false;
+  aiLastSquares=[];playerLastSq=null;
   moveCount=0;usedSarcs=[];usedGuesses=[];nextPieceId=0;stampPieces();recordStartIds();
-  // Pick a random opening
   openIdx=Math.floor(Math.random()*OPENINGS.length);
   openMoveIdx=0;
   document.getElementById('ms').style.display='none';
   document.getElementById('game').style.display='block';
+  const bd=document.getElementById('board');
+  if(bd) delete bd.dataset.built;
   rBoard();rUI();
 }
+
+// ── 50 VERIFIED GOALS ────────────────────────────────────
+// check(board, logs, capW, capB) → true=done, false=not yet, null=unverifiable
+let activeGoal=null;
+
+// helpers
+const countOn=(b,fn)=>{let n=0;for(let r=0;r<8;r++)for(let c=0;c<8;c++)if(b[r][c]&&fn(b[r][c],r,c))n++;return n;};
+const hasOn=(b,fn)=>countOn(b,fn)>0;
+const capAll=(cW,cB)=>[...cW,...cB];
+const inLog=(logs,str)=>logs.some(e=>e.t&&e.t.includes(str));
+const countCap=(arr,fn)=>arr.filter(fn).length;
+
+const VERIFIED_GOALS=[
+  // ── BOARD POSITION (25) ──────────────────────────────
+  {
+    ru:'Убрать всех белых коней',en:'Remove both white knights',
+    check:(b)=>countOn(b,p=>p==='wN')===0
+  },
+  {
+    ru:'Убрать всех чёрных коней',en:'Remove both black knights',
+    check:(b)=>countOn(b,p=>p==='bN')===0
+  },
+  {
+    ru:'Убрать всех белых слонов',en:'Remove both white bishops',
+    check:(b)=>countOn(b,p=>p==='wB')===0
+  },
+  {
+    ru:'Убрать всех чёрных слонов',en:'Remove both black bishops',
+    check:(b)=>countOn(b,p=>p==='bB')===0
+  },
+  {
+    ru:'Убрать белого ферзя',en:'Remove the white queen',
+    check:(b)=>countOn(b,p=>p==='wQ')===0
+  },
+  {
+    ru:'Убрать чёрного ферзя',en:'Remove the black queen',
+    check:(b)=>countOn(b,p=>p==='bQ')===0
+  },
+  {
+    ru:'Убрать обоих ферзей',en:'Remove both queens',
+    check:(b)=>countOn(b,p=>p==='wQ'||p==='bQ')===0
+  },
+  {
+    ru:'Убрать всех коней с доски',en:'Remove all knights from the board',
+    check:(b)=>countOn(b,p=>p==='wN'||p==='bN')===0
+  },
+  {
+    ru:'Убрать всех слонов с доски',en:'Remove all bishops from the board',
+    check:(b)=>countOn(b,p=>p==='wB'||p==='bB')===0
+  },
+  {
+    ru:'Убрать обе белые ладьи',en:'Remove both white rooks',
+    check:(b)=>countOn(b,p=>p==='wR')===0
+  },
+  {
+    ru:'Убрать обе чёрные ладьи',en:'Remove both black rooks',
+    check:(b)=>countOn(b,p=>p==='bR')===0
+  },
+  {
+    ru:'Поставить коня на центральную клетку',en:'Place a knight on a central square',
+    check:(b)=>[[3,3],[3,4],[4,3],[4,4]].some(([r,c])=>b[r][c]&&pt(b[r][c])==='N')
+  },
+  {
+    ru:'Загнать белого короля в угол',en:'Drive the white king into a corner',
+    check:(b)=>[[7,0],[7,7],[0,0],[0,7]].some(([r,c])=>b[r][c]==='wK')
+  },
+  {
+    ru:'Загнать чёрного короля в угол',en:'Drive the black king into a corner',
+    check:(b)=>[[7,0],[7,7],[0,0],[0,7]].some(([r,c])=>b[r][c]==='bK')
+  },
+  {
+    ru:'Провести белую пешку в ферзи',en:'Promote a white pawn to queen',
+    check:(b)=>countOn(b,p=>p==='wQ')>1||(countOn(b,p=>p==='wQ')===1&&countOn(b,p=>p==='wP')<8)
+  },
+  {
+    ru:'Провести чёрную пешку в ферзи',en:'Promote a black pawn to queen',
+    check:(b)=>countOn(b,p=>p==='bQ')>1||(countOn(b,p=>p==='bQ')===1&&countOn(b,p=>p==='bP')<8)
+  },
+  {
+    ru:'Убрать все белые пешки',en:'Remove all white pawns',
+    check:(b)=>countOn(b,p=>p==='wP')===0
+  },
+  {
+    ru:'Убрать все чёрные пешки',en:'Remove all black pawns',
+    check:(b)=>countOn(b,p=>p==='bP')===0
+  },
+  {
+    ru:'Оставить только королей на доске',en:'Leave only kings on the board',
+    check:(b)=>countOn(b,p=>p!==null)===2
+  },
+  {
+    ru:'Убрать все лёгкие фигуры',en:'Remove all minor pieces',
+    check:(b)=>countOn(b,p=>pt(p)==='N'||pt(p)==='B')===0
+  },
+  {
+    ru:'Убрать все тяжёлые фигуры',en:'Remove all major pieces',
+    check:(b)=>countOn(b,p=>pt(p)==='R'||pt(p)==='Q')===0
+  },
+  {
+    ru:'Убрать три белые пешки',en:'Remove three white pawns',
+    check:(b,l,cW)=>countCap(cW,p=>p==='wP')>=3
+  },
+  {
+    ru:'Убрать три чёрные пешки',en:'Remove three black pawns',
+    check:(b,l,cW,cB)=>countCap(cB,p=>p==='bP')>=3
+  },
+  {
+    ru:'Поставить ферзя на угловую клетку',en:'Place a queen in a corner',
+    check:(b)=>[[7,0],[7,7],[0,0],[0,7]].some(([r,c])=>b[r][c]&&pt(b[r][c])==='Q')
+  },
+  {
+    ru:'Создать позицию с тремя ферзями',en:'Create a position with three queens',
+    check:(b)=>countOn(b,p=>pt(p)==='Q')>=3
+  },
+
+  // ── HISTORY / CAPTURES (25) ──────────────────────────
+  {
+    ru:'Провести рокировку',en:'Castle (either side)',
+    check:(b,logs)=>inLog(logs,'0-0')
+  },
+  {
+    ru:'Дать шах белому королю',en:'Give check to the white king',
+    check:(b,logs)=>logs.some(e=>e.t&&(e.t.includes('Шах белому')||e.t.includes('White in check')||e.t.includes('check'&&e.c==='s')))
+      ||inCheck(b,'w')
+  },
+  {
+    ru:'Дать шах чёрному королю',en:'Give check to the black king',
+    check:(b,logs)=>logs.some(e=>e.t&&(e.t.includes('Шах чёрному')||e.t.includes('Black in check')))
+      ||inCheck(b,'b')
+  },
+  {
+    ru:'Взять пять фигур',en:'Capture five pieces',
+    check:(b,l,cW,cB)=>cW.length+cB.length>=5
+  },
+  {
+    ru:'Взять восемь фигур',en:'Capture eight pieces',
+    check:(b,l,cW,cB)=>cW.length+cB.length>=8
+  },
+  {
+    ru:'Взять десять фигур',en:'Capture ten pieces',
+    check:(b,l,cW,cB)=>cW.length+cB.length>=10
+  },
+  {
+    ru:'Взять три фигуры пешками',en:'Capture three pieces with pawns',
+    check:(b,logs)=>{
+      const pawnCaps=logs.filter(e=>e.t&&/[♙♟].*×/.test(e.t));
+      return pawnCaps.length>=3;
+    }
+  },
+  {
+    ru:'Взять ферзя',en:'Capture a queen',
+    check:(b,l,cW,cB)=>cW.some(p=>p==='wQ')||cB.some(p=>p==='bQ')
+  },
+  {
+    ru:'Взять двух ферзей',en:'Capture both queens',
+    check:(b,l,cW,cB)=>cW.some(p=>p==='wQ')&&cB.some(p=>p==='bQ')
+  },
+  {
+    ru:'Взять три коня',en:'Capture three knights',
+    check:(b,l,cW,cB)=>countCap([...cW,...cB],p=>pt(p)==='N')>=3
+  },
+  {
+    ru:'Взять трёх слонов',en:'Capture three bishops',
+    check:(b,l,cW,cB)=>countCap([...cW,...cB],p=>pt(p)==='B')>=3
+  },
+  {
+    ru:'Взять три ладьи',en:'Capture three rooks',
+    check:(b,l,cW,cB)=>countCap([...cW,...cB],p=>pt(p)==='R')>=3
+  },
+  {
+    ru:'Взять конём три раза',en:'Capture with a knight three times',
+    check:(b,logs)=>logs.filter(e=>e.t&&/[♘♞].*×/.test(e.t)).length>=3
+  },
+  {
+    ru:'Взять слоном три раза',en:'Capture with a bishop three times',
+    check:(b,logs)=>logs.filter(e=>e.t&&/[♗♝].*×/.test(e.t)).length>=3
+  },
+  {
+    ru:'Взять ладьёй три раза',en:'Capture with a rook three times',
+    check:(b,logs)=>logs.filter(e=>e.t&&/[♖♜].*×/.test(e.t)).length>=3
+  },
+  {
+    ru:'Взять ферзём три раза',en:'Capture with a queen three times',
+    check:(b,logs)=>logs.filter(e=>e.t&&/[♕♛].*×/.test(e.t)).length>=3
+  },
+  {
+    ru:'Сделать двадцать ходов',en:'Make twenty moves',
+    check:(b,logs)=>logs.filter(e=>e.c==='p1').length>=20
+  },
+  {
+    ru:'Сделать тридцать ходов',en:'Make thirty moves',
+    check:(b,logs)=>logs.filter(e=>e.c==='p1').length>=30
+  },
+  {
+    ru:'Потерять не более двух фигур',en:'Lose no more than two pieces',
+    check:(b,l,cW)=>cW.length<=2&&!over
+  },
+  {
+    ru:'Взять шесть белых фигур',en:'Capture six white pieces',
+    check:(b,l,cW)=>cW.length>=6
+  },
+  {
+    ru:'Взять шесть чёрных фигур',en:'Capture six black pieces',
+    check:(b,l,cW,cB)=>cB.length>=6
+  },
+  {
+    ru:'Взять пешку и ферзя',en:'Capture a pawn and a queen',
+    check:(b,l,cW,cB)=>{const all=[...cW,...cB];return all.some(p=>pt(p)==='P')&&all.some(p=>pt(p)==='Q');}
+  },
+  {
+    ru:'Взять все четыре коня',en:'Capture all four knights',
+    check:(b,l,cW,cB)=>countCap([...cW,...cB],p=>pt(p)==='N')>=4
+  },
+  {
+    ru:'Взять все четыре слона',en:'Capture all four bishops',
+    check:(b,l,cW,cB)=>countCap([...cW,...cB],p=>pt(p)==='B')>=4
+  },
+  {
+    ru:'Взять хотя бы по одной фигуре каждого вида',en:'Capture at least one piece of each type',
+    check:(b,l,cW,cB)=>{
+      const all=[...cW,...cB];
+      return ['P','N','B','R','Q'].every(t=>all.some(p=>pt(p)===t));
+    }
+  },
+];
+
+let lastRndGoalIdx=-1;
+function randomGoal(){
+  const pool=lang==='ru'?VERIFIED_GOALS.map(g=>g.ru):VERIFIED_GOALS.map(g=>g.en);
+  let i;do{i=Math.floor(Math.random()*pool.length);}while(i===lastRndGoalIdx&&pool.length>1);
+  lastRndGoalIdx=i;
+  document.getElementById('gi').value=pool[i];
+}
+
 </script>
 <script>
 // ── LANGUAGE ─────────────────────────────────────────────
@@ -944,6 +1784,11 @@ const LANG={
   }
 };
 let lang='ru';
+let difficulty=0;
+function setDiff(d){
+  difficulty=d;
+  for(let i=0;i<3;i++) document.getElementById('diff-'+i).classList.toggle('active',i===d);
+}
 function setLang(l){
   lang=l;
   usedGuesses=[];  // reset so new language guesses start fresh
@@ -960,6 +1805,17 @@ function setLang(l){
   document.getElementById('t-goal-label').textContent=L.goalLabel;
   document.getElementById('gi').placeholder=L.goalPh;
   document.getElementById('t-start').textContent=L.start;
+  const rndBtn=document.getElementById('t-rnd-goal');
+  if(rndBtn)rndBtn.textContent=lang==='ru'?'🎲 Случайная проверяемая цель':'🎲 Random verified goal';
+  // Difficulty labels
+  const diffNamesMap={ru:['Гусеница','Шляпник','Красная Королева'],en:['Caterpillar','Mad Hatter','Red Queen']};
+  const diffDescsMap={ru:['Кто ты такой?','Время сломалось','С головы долой!'],en:["Who are YOU?",'Time has broken','Off with your head!']};
+  if(document.getElementById('dl-0')){
+    for(let i=0;i<3;i++){
+      document.getElementById('dl-'+i).textContent=diffNamesMap[l][i];
+      document.getElementById('dd-'+i).textContent=diffDescsMap[l][i];
+    }
+  }
   // Game UI (update if game is running)
   const els={
     'bw':L.iWon,'bl':L.iLost,'g-showhide':L.showHide,'g-newgame':L.newGame,
