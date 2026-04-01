@@ -1380,38 +1380,57 @@ function renderReplayBoard(snap, animate, onDone){
 
   // Animate the moving piece
   if(animate&&snap.lf&&snap.lt){
-    const prevSnap=replayHistory[replayCursor-1];
-    // Find which piece moved: it's on snap.lt in the new board
     const movingPiece=snap.board[snap.lt.r][snap.lt.c];
     if(movingPiece){
       const fromSq=document.getElementById(`rsq-${snap.lf.r}-${snap.lf.c}`);
       const toSq=document.getElementById(`rsq-${snap.lt.r}-${snap.lt.c}`);
       if(fromSq&&toSq){
-        const fr=fromSq.getBoundingClientRect();
-        const to=toSq.getBoundingClientRect();
-        const fly=document.createElement('div');
-        fly.style.cssText=`position:fixed;pointer-events:none;z-index:600;font-size:28px;line-height:1;
-          transition:left var(--rp-dur,0.6s) cubic-bezier(.4,0,.2,1),top var(--rp-dur,0.6s) cubic-bezier(.4,0,.2,1);
-          filter:drop-shadow(2px 3px 5px rgba(0,0,0,.5));`;
-        fly.textContent=pieceEmoji(movingPiece);
-        if(movingPiece[0]==='w'){fly.style.color='#f5ead0';fly.style.textShadow='-1px -1px 0 #3a1a00,1px 1px 0 #3a1a00';}
-        else{fly.style.color='#1a0a00';fly.style.textShadow='-1px -1px 0 #c8a870,1px 1px 0 #c8a870';}
-        fly.style.left=(fr.left+fr.width/2-16)+'px';
-        fly.style.top=(fr.top+fr.height/2-16)+'px';
-        document.body.appendChild(fly);
-        // Hide source span during flight
-        const srcSp=fromSq.querySelector('span');if(srcSp)srcSp.style.visibility='hidden';
-        requestAnimationFrame(()=>requestAnimationFrame(()=>{
-          fly.style.left=(to.left+to.width/2-16)+'px';
-          fly.style.top=(to.top+to.height/2-16)+'px';
-        }));
         const spd=parseInt(document.getElementById('rp-speed').value)||3;
         const moveDurs=[2200,1600,1000,600,280];
         const dur=moveDurs[spd-1];
+
+        const fr=fromSq.getBoundingClientRect();
+        const to=toSq.getBoundingClientRect();
+        const dx=to.left-fr.left;
+        const dy=to.top-fr.top;
+
+        // Hide source span during flight
+        const srcSp=fromSq.querySelector('span');
+        if(srcSp)srcSp.style.visibility='hidden';
+
+        // Create flying piece at FROM position using transform
+        const fly=document.createElement('div');
+        fly.style.cssText=`
+          position:fixed;
+          pointer-events:none;
+          z-index:601;
+          font-size:30px;
+          line-height:1;
+          left:${fr.left+fr.width/2-15}px;
+          top:${fr.top+fr.height/2-15}px;
+          transform:translate(0,0);
+          will-change:transform;
+          filter:drop-shadow(2px 4px 6px rgba(0,0,0,.6));
+        `;
+        fly.textContent=pieceEmoji(movingPiece);
+        if(movingPiece[0]==='w'){
+          fly.style.color='#f5ead0';
+          fly.style.textShadow='-1px -1px 0 #3a1a00,1px 1px 0 #3a1a00';
+        } else {
+          fly.style.color='#1a0a00';
+          fly.style.textShadow='-1px -1px 0 #c8a870,1px 1px 0 #c8a870';
+        }
+        document.body.appendChild(fly);
+
+        // Force reflow then animate
+        fly.getBoundingClientRect();
+        fly.style.transition=`transform ${dur}ms cubic-bezier(.4,0,.2,1)`;
+        fly.style.transform=`translate(${dx}px,${dy}px)`;
+
         setTimeout(()=>{
           fly.remove();
           if(srcSp)srcSp.style.visibility='';
-          // Now show landing piece
+          // Show piece at destination
           const destSp=toSq.querySelector('span');
           if(destSp){
             destSp.textContent=pieceEmoji(movingPiece);
@@ -1420,7 +1439,7 @@ function renderReplayBoard(snap, animate, onDone){
           }
           if(onDone)onDone();
         }, dur);
-        return; // onDone called after animation
+        return;
       }
     }
   }
