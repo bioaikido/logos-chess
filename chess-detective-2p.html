@@ -968,6 +968,29 @@ function legal2(b,r,c){
 function findK(b,col){for(let r=0;r<8;r++)for(let c=0;c<8;c++)if(b[r][c]===col+'K')return{r,c};return null;}
 function attacked(b,r,c,by){for(let r2=0;r2<8;r2++)for(let c2=0;c2<8;c2++){const p=b[r2][c2];if(!p||pc(p)!==by)continue;if(getMoves(b,r2,c2).some(m=>m.r===r&&m.c===c))return true;}return false;}
 function inCheck(b,col){const k=findK(b,col);if(!k)return false;return attacked(b,k.r,k.c,opp(col));}
+function anyCheckOnBoard(b){return inCheck(b,'w')||inCheck(b,'b');}
+function legalMovesWithCheckRule(b,r,c){
+  const moves=legal1(b,r,c);
+  if(!anyCheckOnBoard(b))return moves;
+  return moves.filter(m=>{
+    const nb=b.map(row=>[...row]);
+    const p=nb[r][c];
+    nb[m.r][m.c]=p;nb[r][c]=null;
+    if(pt(p)==='P'){if(m.r===0&&pc(p)==='w')nb[m.r][m.c]='wQ';if(m.r===7&&pc(p)==='b')nb[m.r][m.c]='bQ';}
+    return!anyCheckOnBoard(nb);
+  });
+}
+function legal2WithCheckRule(b,r,c){
+  const moves=legal2(b,r,c);
+  if(!anyCheckOnBoard(b))return moves;
+  return moves.filter(m=>{
+    const nb=b.map(row=>[...row]);
+    const p=nb[r][c];
+    nb[m.r][m.c]=p;nb[r][c]=null;
+    if(pt(p)==='P'){if(m.r===0&&pc(p)==='w')nb[m.r][m.c]='wQ';if(m.r===7&&pc(p)==='b')nb[m.r][m.c]='bQ';}
+    return!anyCheckOnBoard(nb);
+  });
+}
 function anyLegal(b,col){for(let r=0;r<8;r++)for(let c=0;c<8;c++){const p=b[r][c];if(!p||pc(p)!==col)continue;if(legal1(b,r,c).length>0)return true;}return false;}
 
 // ── CASTLING ────────────────────────────────────────────
@@ -1022,7 +1045,7 @@ function playMove(isCapture){
     o.type='sawtooth';
     o.frequency.setValueAtTime(220,t);
     o.frequency.exponentialRampToValueAtTime(110,t+0.15);
-    g.gain.setValueAtTime(0.08,t);
+    g.gain.setValueAtTime(0.04,t);
     g.gain.exponentialRampToValueAtTime(0.001,t+0.2);
     o.start(t);o.stop(t+0.2);
   } else {
@@ -1155,7 +1178,7 @@ function click(r,c){
     if(p)selP2(r,c);
   }
 }
-function selP(r,c){sel={r,c};pm=legal1(board,r,c);rBoard();}
+function selP(r,c){sel={r,c};pm=legalMovesWithCheckRule(board,r,c);rBoard();}
 function selP2(r,c){
   const p=board[r][c];if(!p)return;
   const n1=p1name||T[lang].p1def, n2=p2name||T[lang].p2def;
@@ -1167,7 +1190,7 @@ function selP2(r,c){
     addLog(lang==='ru'?INST_USED_RU(n2):INST_USED_EN(n2),'s');rUI();return;
   }
   sel={r,c};
-  let moves=legal2(board,r,c);
+  let moves=legal2WithCheckRule(board,r,c);
   if(p2checkDone){
     moves=moves.filter(m=>{
       if(givesMate2(board,r,c,m.r,m.c))return true;
