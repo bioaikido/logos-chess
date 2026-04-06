@@ -26,12 +26,12 @@ body{
 .modal{background:var(--parchment);border:2px solid var(--gold);border-radius:2px;padding:24px 28px;max-width:460px;width:100%;box-shadow:8px 8px 0 rgba(184,134,11,.3),0 0 60px rgba(80,0,100,.3);position:relative;}
 .modal::after{content:'';position:absolute;inset:5px;border:1px solid rgba(184,134,11,.2);border-radius:1px;pointer-events:none;}
 .modal h2{font-family:'UnifrakturMaguntia',serif;font-size:32px;color:var(--gold);letter-spacing:2px;text-align:center;margin-bottom:4px;text-shadow:0 0 30px rgba(184,134,11,.5);}
-.modal-verse{font-style:italic;font-size:11px;color:#7a5a20;text-align:center;margin-bottom:12px;line-height:1.6;}
-.modal p{font-size:13px;line-height:1.8;color:#3a2000;margin-bottom:8px;}
+.modal-verse{font-style:italic;font-size:13px;color:#7a5a20;text-align:center;margin-bottom:12px;line-height:1.6;}
+.modal p{font-size:15px;line-height:1.8;color:#3a2000;margin-bottom:8px;}
 hr.g{border:none;border-top:1px solid rgba(184,134,11,.3);margin:11px 0;}
 textarea{width:100%;padding:9px 12px;font-family:'IM Fell English',Georgia,serif;font-size:14px;background:var(--parchment2);border:1px solid var(--gold);border-radius:2px;color:var(--ink);resize:none;margin-bottom:10px;transition:border-color .2s;}
 textarea:focus{outline:none;border-color:var(--gold2);}
-.btn{font-family:'IM Fell English',Georgia,serif;font-size:12px;letter-spacing:1px;padding:10px 18px;border:none;border-radius:2px;cursor:pointer;text-transform:uppercase;transition:.15s;touch-action:manipulation;}
+.btn{font-family:'IM Fell English',Georgia,serif;font-size:14px;letter-spacing:1px;padding:10px 18px;border:none;border-radius:2px;cursor:pointer;text-transform:uppercase;transition:.15s;touch-action:manipulation;}
 .bg{background:var(--gold);color:#150900;}.bg:hover,.bg:active{background:var(--gold2);}
 .br{background:var(--red);color:#fff;}.br:active{background:#a02020;}
 .bb{background:var(--parchment2);border:1px solid var(--red);color:var(--red);}
@@ -39,27 +39,28 @@ textarea:focus{outline:none;border-color:var(--gold2);}
 .btn:disabled{opacity:.4;}
 /* DIFFICULTY */
 .diff-row{display:flex;gap:7px;margin-bottom:12px;}
-.diff-btn{flex:1;padding:9px 5px;font-family:'IM Fell English',Georgia,serif;font-size:11px;border:1.5px solid rgba(184,134,11,.5);border-radius:2px;background:var(--parchment2);color:#5a3800;cursor:pointer;transition:.15s;text-align:center;}
+.diff-btn{flex:1;padding:9px 5px;font-family:'IM Fell English',Georgia,serif;font-size:13px;border:1.5px solid rgba(184,134,11,.5);border-radius:2px;background:var(--parchment2);color:#5a3800;cursor:pointer;transition:.15s;text-align:center;}
 .diff-btn:hover{background:#e8d0a0;border-color:var(--gold);}
 .diff-btn.active{background:var(--gold);color:#150900;border-color:var(--gold2);}
-.diff-btn .di{font-size:20px;display:block;margin-bottom:3px;}
-.diff-btn .dn{font-size:11px;font-style:italic;}
-.diff-btn .dd{font-size:9px;color:#7a5a30;margin-top:2px;}
+.diff-btn .di{font-size:22px;display:block;margin-bottom:3px;}
+.diff-btn .dn{font-size:13px;font-style:italic;}
+.diff-btn .dd{font-size:11px;color:#7a5a30;margin-top:2px;}
 .diff-btn.active .dd{color:#4a2800;}
 /* GAME */
 .game-wrap{display:flex;gap:14px;align-items:flex-start;flex-wrap:wrap;justify-content:center;max-width:1200px;width:100%;}
 .panel{background:var(--parchment);border:2px solid var(--gold);border-radius:2px;box-shadow:3px 3px 0 rgba(184,134,11,.25);padding:13px 15px;width:230px;position:relative;}
 .panel::after{content:'';position:absolute;inset:4px;border:1px solid rgba(184,134,11,.18);border-radius:1px;pointer-events:none;}
-.pt{font-family:'UnifrakturMaguntia',serif;font-size:14px;color:var(--gold);letter-spacing:1px;margin-bottom:2px;}
-.ps{font-style:italic;font-size:10px;color:#8a6a30;margin-bottom:9px;}
-.sl{font-family:'IM Fell English',serif;font-size:9px;letter-spacing:2px;color:var(--gold);margin:7px 0 3px;text-transform:uppercase;}
+.pt{font-family:'UnifrakturMaguntia',serif;font-size:16px;color:var(--gold);letter-spacing:1px;margin-bottom:2px;}
+.ps{font-style:italic;font-size:12px;color:#8a6a30;margin-bottom:9px;}
+.sl{font-family:'IM Fell English',serif;font-size:11px;letter-spacing:2px;color:var(--gold);margin:7px 0 3px;text-transform:uppercase;}
 /* BOARD WRAP — zoom target */
 .board-wrap{background:var(--parchment);border:3px solid #7a5020;border-radius:2px;box-shadow:0 8px 40px rgba(0,0,0,.6),0 0 0 3px #7a5020,0 0 0 6px #3a2010;padding:14px;position:relative;transform-origin:center center;overflow-x:auto;}
 
-.board{display:grid;grid-template-columns:16px repeat(8,var(--sq));grid-template-rows:repeat(8,var(--sq)) 16px;border:2px solid #4a2c10;box-shadow:inset 0 0 40px rgba(0,0,0,.15);}
-.cr{display:flex;align-items:center;justify-content:center;font-family:'IM Fell English',serif;font-size:10px;color:#9a7040;grid-column:1;}
-.cc{display:flex;align-items:center;justify-content:center;font-family:'IM Fell English',serif;font-size:10px;color:#9a7040;grid-row:9;}
-.sq{width:var(--sq);height:var(--sq);display:flex;align-items:center;justify-content:center;cursor:pointer;position:relative;font-size:44px;user-select:none;touch-action:manipulation;}
+.board{display:grid;grid-template-columns:repeat(8,var(--sq));grid-template-rows:repeat(8,var(--sq));border:2px solid #4a2c10;box-shadow:inset 0 0 40px rgba(0,0,0,.15);}
+.coord{position:absolute;font-family:'IM Fell English',serif;font-size:9px;color:rgba(90,60,20,.7);line-height:1;pointer-events:none;user-select:none;}
+.coord-rank{top:2px;left:3px;}
+.coord-file{bottom:2px;right:3px;}
+.sq{width:var(--sq);height:var(--sq);display:flex;align-items:center;justify-content:center;cursor:pointer;position:relative;font-size:52px;user-select:none;touch-action:manipulation;}
 .sq.l{background:var(--white-sq);}.sq.d{background:var(--black-sq);}
 .sq.sel{outline:3px solid rgba(255,220,50,.95);outline-offset:-3px;background:rgba(255,220,50,.22)!important;}
 .sq.lf{background:rgba(80,140,80,.3)!important;}.sq.lt{background:rgba(80,140,80,.45)!important;}
@@ -100,29 +101,29 @@ textarea:focus{outline:none;border-color:var(--gold2);}
 /* Speed slider */
 .speed-row{display:flex;align-items:center;gap:8px;margin-bottom:7px;}
 .speed-row input[type=range]{flex:1;accent-color:var(--gold);height:3px;cursor:pointer;}
-.speed-label{font-size:10px;color:#8a6a30;font-style:italic;white-space:nowrap;}
+.speed-label{font-size:12px;color:#8a6a30;font-style:italic;white-space:nowrap;}
 /* QUIP POPUP */
 #quip-popup{position:fixed;z-index:600;background:rgba(10,4,20,.97);border:1px solid var(--gold);border-radius:4px;padding:12px 18px;max-width:260px;font-family:'IM Fell English',Georgia,serif;font-style:italic;font-size:14px;color:#e8d090;line-height:1.6;box-shadow:0 4px 24px rgba(0,0,0,.7);pointer-events:none;opacity:0;transform:translateY(6px);transition:opacity .3s,transform .3s;}
 #quip-popup.show{opacity:1;transform:translateY(0);}
 #quip-popup .qchar{font-size:20px;margin-bottom:4px;}
 /* STATUS */
-.sbox{background:var(--parchment2);border:1px solid var(--gold);border-radius:2px;padding:7px 10px;margin-bottom:7px;font-size:12px;line-height:1.6;min-height:58px;}
-.sbox .who{font-family:'IM Fell English',serif;font-size:13px;color:var(--gold);}
+.sbox{background:var(--parchment2);border:1px solid var(--gold);border-radius:2px;padding:7px 10px;margin-bottom:7px;font-size:14px;line-height:1.6;min-height:58px;}
+.sbox .who{font-family:'IM Fell English',serif;font-size:15px;color:var(--gold);}
 .dots{display:flex;gap:5px;margin:4px 0;min-height:32px;}
 .dot{width:22px;height:22px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-family:Georgia,serif;font-size:11px;font-weight:700;transition:.3s;}
 .dot.on{background:var(--gold);color:#150900;}.dot.off{background:#c8b080;color:#7a5c20;opacity:.4;}
-.chkw{display:flex;align-items:center;gap:5px;background:rgba(100,0,80,.1);border:1px solid transparent;border-radius:2px;padding:5px 8px;margin-bottom:6px;font-family:'IM Fell English',serif;font-size:10px;letter-spacing:1px;color:#c0007a;text-transform:uppercase;visibility:hidden;min-height:28px;}
+.chkw{display:flex;align-items:center;gap:5px;background:rgba(100,0,80,.1);border:1px solid transparent;border-radius:2px;padding:5px 8px;margin-bottom:6px;font-family:'IM Fell English',serif;font-size:12px;letter-spacing:1px;color:#c0007a;text-transform:uppercase;visibility:hidden;min-height:28px;}
 .chkw.show{visibility:visible;border-color:#a0006a;background:rgba(100,0,80,.1);}
-.think{display:flex;align-items:center;gap:6px;font-style:italic;font-size:11px;color:#6a4a30;margin:4px 0;min-height:24px;visibility:hidden;}
+.think{display:flex;align-items:center;gap:6px;font-style:italic;font-size:13px;color:#6a4a30;margin:4px 0;min-height:24px;visibility:hidden;}
 .think.show{visibility:visible;}
 .spin{width:13px;height:13px;border-radius:50%;border:2px solid var(--gold2);border-top-color:transparent;animation:sp .8s linear infinite;}
 @keyframes sp{to{transform:rotate(360deg)}}
-.suspbox{background:var(--parchment2);border:1px dashed rgba(184,134,11,.5);border-radius:2px;padding:7px 9px;font-style:italic;font-size:12px;line-height:1.7;color:#3a4a3a;min-height:44px;}
-.log{max-height:180px;overflow-y:auto;font-size:14px;line-height:1.9;}
+.suspbox{background:var(--parchment2);border:1px dashed rgba(184,134,11,.5);border-radius:2px;padding:7px 9px;font-style:italic;font-size:14px;line-height:1.7;color:#3a4a3a;min-height:60px;}
+.log{max-height:180px;overflow-y:auto;font-size:16px;line-height:1.9;}
 .le{border-bottom:1px solid rgba(0,0,0,.07);padding:1px 0;}
 .le.p1{color:#5a3000;}.le.ai{color:#003a50;}.le.s{color:var(--red);font-style:italic;}
 .cap{font-size:18px;min-height:22px;letter-spacing:2px;}
-.secbox{background:var(--parchment2);border:1px dashed rgba(184,134,11,.5);border-radius:2px;padding:7px 9px;font-style:italic;font-size:12px;line-height:1.6;margin-top:4px;display:none;}
+.secbox{background:var(--parchment2);border:1px dashed rgba(184,134,11,.5);border-radius:2px;padding:7px 9px;font-style:italic;font-size:14px;line-height:1.6;margin-top:4px;display:none;}
 .winbig{font-family:'UnifrakturMaguntia',serif;font-size:22px;letter-spacing:2px;text-align:center;margin:5px 0 8px;}
 .emoji{text-align:center;font-size:28px;margin:4px 0 8px;animation:bop .7s ease-in-out infinite alternate;}
 @keyframes bop{from{transform:scale(1)}to{transform:scale(1.18)}}
@@ -130,15 +131,15 @@ textarea:focus{outline:none;border-color:var(--gold2);}
 #fw{position:fixed;inset:0;pointer-events:none;z-index:300;}
 
 /* UNDO button */
-.btn-undo{font-family:'IM Fell English',Georgia,serif;font-size:11px;letter-spacing:1px;padding:7px 14px;border:1px solid var(--gold);border-radius:2px;background:var(--parchment2);color:#5a3800;cursor:pointer;text-transform:uppercase;transition:.15s;touch-action:manipulation;width:100%;margin-bottom:6px;}
+.btn-undo{font-family:'IM Fell English',Georgia,serif;font-size:13px;letter-spacing:1px;padding:7px 14px;border:1px solid var(--gold);border-radius:2px;background:var(--parchment2);color:#5a3800;cursor:pointer;text-transform:uppercase;transition:.15s;touch-action:manipulation;width:100%;margin-bottom:6px;}
 .btn-undo:disabled{opacity:.3;cursor:default;}
-.undo-count{font-size:10px;color:#8a6030;font-style:italic;text-align:center;margin-bottom:4px;}
+.undo-count{font-size:12px;color:#8a6030;font-style:italic;text-align:center;margin-bottom:4px;}
 /* REPLAY overlay */
 #replay-overlay{display:none;position:fixed;inset:0;z-index:500;background:rgba(4,1,10,.97);flex-direction:column;align-items:center;justify-content:center;padding:20px;gap:14px;}
 #replay-overlay.show{display:flex;}
 .replay-board-wrap{background:var(--parchment);border:3px solid #7a5020;border-radius:2px;padding:10px;box-shadow:0 8px 40px rgba(0,0,0,.6);}
-.replay-board{display:grid;grid-template-columns:16px repeat(8,40px);grid-template-rows:repeat(8,40px) 16px;}
-.replay-sq{width:40px;height:40px;display:flex;align-items:center;justify-content:center;font-size:26px;}
+.replay-board{display:grid;grid-template-columns:repeat(8,40px);grid-template-rows:repeat(8,40px);}
+.replay-sq{width:40px;height:40px;display:flex;align-items:center;justify-content:center;font-size:26px;position:relative;}
 .replay-sq.l{background:var(--white-sq);}.replay-sq.d{background:var(--black-sq);}
 .replay-sq.hl{outline:3px solid rgba(255,220,50,.9);outline-offset:-3px;}
 .replay-cr{display:flex;align-items:center;justify-content:center;font-size:9px;color:#9a7040;grid-column:1;}
@@ -185,7 +186,7 @@ textarea:focus{outline:none;border-color:var(--gold2);}
 }
 @media(max-width:700px){
   :root{--sq:40px;}
-  .sq{font-size:30px;}
+  .sq{font-size:32px;}
   .panel{width:100%;max-width:520px;}
   .board-wrap{
     padding:6px;width:auto;max-width:100%;
@@ -206,7 +207,7 @@ textarea:focus{outline:none;border-color:var(--gold2);}
   .mob-only{display:none!important;}
   .desk-only{display:block!important;}
 }
-@media(max-width:400px){:root{--sq:38px;}.sq{font-size:20px;}}
+@media(max-width:400px){:root{--sq:38px;}.sq{font-size:28px;}}
 </style>
 
   <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -322,6 +323,15 @@ textarea:focus{outline:none;border-color:var(--gold2);}
       <div class="sl" id="g-goal-label">Тайная цель</div>
       <button class="btn block" id="g-showhide" onclick="toggleGoal()" style="background:var(--parchment2);border:1px solid var(--gold);color:var(--ink);font-family:Georgia,serif;font-size:10px;padding:5px;cursor:pointer;width:100%;margin-bottom:4px;">Показать / скрыть</button>
       <div class="secbox" id="gd"></div>
+      <hr class="g">
+      <!-- 3. Скорость -->
+      <div class="sl" id="g-speed-label-d">Скорость анимации</div>
+      <div class="speed-row">
+        <span class="speed-label">🐢</span>
+        <input type="range" id="speed-slider-d" min="1" max="5" value="3" oninput="setSpeed(this.value)">
+        <span class="speed-label">⚡</span>
+      </div>
+      <div style="text-align:center;font-size:12px;font-style:italic;color:#8a6a30;margin-bottom:4px" id="speed-label-val-d">Средняя</div>
       <hr class="g">
       <!-- 4. Ходы компьютера (dots) -->
       <div id="aiui" style="visibility:hidden">
@@ -818,6 +828,32 @@ const GUESSES_EN=[
 
 // ── STATE ────────────────────────────────────────────────
 let board,sel,pm=[],phase,aiLeft,fp,aiUsed,aiQueue=[];
+
+// ── SOUND ─────────────────────────────────────────────────
+const _ac=()=>{try{return new(window.AudioContext||window.webkitAudioContext)();}catch(e){return null;}};
+let _ctx=null;
+function playMove(isCapture){
+  if(!_ctx)_ctx=_ac(); if(!_ctx)return;
+  const t=_ctx.currentTime;
+  const o=_ctx.createOscillator();
+  const g=_ctx.createGain();
+  o.connect(g);g.connect(_ctx.destination);
+  if(isCapture){
+    o.type='sawtooth';
+    o.frequency.setValueAtTime(220,t);
+    o.frequency.exponentialRampToValueAtTime(110,t+0.15);
+    g.gain.setValueAtTime(0.08,t);
+    g.gain.exponentialRampToValueAtTime(0.001,t+0.2);
+    o.start(t);o.stop(t+0.2);
+  } else {
+    o.type='sine';
+    o.frequency.setValueAtTime(440,t);
+    o.frequency.exponentialRampToValueAtTime(330,t+0.08);
+    g.gain.setValueAtTime(0.06,t);
+    g.gain.exponentialRampToValueAtTime(0.001,t+0.12);
+    o.start(t);o.stop(t+0.12);
+  }
+}
 let playerLastSq=null;
 let capW=[],capB=[],logs=[],goal='',goalVis=false,lf=null,lt=null,over=false;
 let openIdx=null,openMoveIdx=0,moveCount=0;
@@ -854,24 +890,18 @@ function rBoard(){
   if(!bd.dataset.built){
     bd.innerHTML='';
     for(let r=0;r<8;r++){
-      const rl=document.createElement('div');
-      rl.className='cr';rl.style.cssText=`grid-row:${r+1};grid-column:1`;
-      rl.textContent=rn(r);bd.appendChild(rl);
       for(let c=0;c<8;c++){
         const sq=document.createElement('div');
         sq.className='sq '+((r+c)%2===0?'l':'d');
-        sq.style.cssText=`grid-row:${r+1};grid-column:${c+2}`;
+        sq.style.cssText=`grid-row:${r+1};grid-column:${c+1}`;
         sq.dataset.r=r;sq.dataset.c=c;
         sq.addEventListener('click',()=>click(r,c));
         const sp=document.createElement('span');
         sq.appendChild(sp);
+        if(c===0){const rk=document.createElement('span');rk.className='coord coord-rank';rk.textContent=rn(r);sq.appendChild(rk);}
+        if(r===7){const fl=document.createElement('span');fl.className='coord coord-file';fl.textContent=cn(c);sq.appendChild(fl);}
         bd.appendChild(sq);
       }
-    }
-    for(let c=0;c<8;c++){
-      const cl=document.createElement('div');
-      cl.className='cc';cl.style.cssText=`grid-row:9;grid-column:${c+2}`;
-      cl.textContent=cn(c);bd.appendChild(cl);
     }
     bd.dataset.built='1';
   }
@@ -968,6 +998,7 @@ function doMove(r2,c2,isPlayer){
   // Detect castling: king moves 2 squares horizontally
   const isCastle=pt(p)==='K'&&Math.abs(c2-c1)===2;
   if(tgt&&!isCastle)(pc(tgt)==='w'?capW:capB).push(tgt);
+  playMove(!!(tgt&&!isCastle));
   if(isCastle){
     const side=c2>c1?'K':'Q';
     const nb=applyCastle(board,r1,c1,side);
@@ -1335,22 +1366,16 @@ function buildReplayBoard(){
   bd.innerHTML='';
   const F='abcdefgh';
   for(let r=0;r<8;r++){
-    const rl=document.createElement('div');
-    rl.className='replay-cr';rl.style.cssText=`grid-row:${r+1};grid-column:1`;
-    rl.textContent=(8-r)+'';bd.appendChild(rl);
     for(let c=0;c<8;c++){
       const sq=document.createElement('div');
       sq.className='replay-sq '+((r+c)%2===0?'l':'d');
-      sq.style.cssText=`grid-row:${r+1};grid-column:${c+2}`;
+      sq.style.cssText=`grid-row:${r+1};grid-column:${c+1}`;
       sq.id=`rsq-${r}-${c}`;
       const sp=document.createElement('span');sq.appendChild(sp);
+      if(c===0){const rk=document.createElement('span');rk.style.cssText='position:absolute;top:1px;left:2px;font-size:8px;color:rgba(90,60,20,.7);pointer-events:none;';rk.textContent=(8-r)+'';sq.appendChild(rk);}
+      if(r===7){const fl=document.createElement('span');fl.style.cssText='position:absolute;bottom:1px;right:2px;font-size:8px;color:rgba(90,60,20,.7);pointer-events:none;';fl.textContent=F[c];sq.appendChild(fl);}
       bd.appendChild(sq);
     }
-  }
-  for(let c=0;c<8;c++){
-    const cl=document.createElement('div');
-    cl.className='replay-cc';cl.style.cssText=`grid-row:9;grid-column:${c+2}`;
-    cl.textContent=F[c];bd.appendChild(cl);
   }
 }
 
@@ -1598,6 +1623,12 @@ function setSpeed(v){
   document.documentElement.style.setProperty('--anim-dur', animDur+'ms');
   const lbl=document.getElementById('speed-label-val');
   if(lbl) lbl.textContent=p.label;
+  const lblD=document.getElementById('speed-label-val-d');
+  if(lblD) lblD.textContent=p.label;
+  const sd=document.getElementById('speed-slider-d');
+  if(sd&&sd.value!=v) sd.value=v;
+  const sm=document.getElementById('speed-slider');
+  if(sm&&sm.value!=v) sm.value=v;
 }
 setSpeed(3); // default: medium
 
@@ -1973,8 +2004,63 @@ const VERIFIED_GOALS=[
 ];
 
 let lastRndGoalIdx=-1;
+
+// ── 49 NARRATIVE GOALS (unverified, for inspiration) ─────
+const EXTRA_GOALS=[
+  {ru:'Сохрани белого коня живым до конца партии',en:'Keep the white knight alive until the end'},
+  {ru:'Не ходи ферзём до 15-го хода',en:'Do not move your queen before move 15'},
+  {ru:'Сохрани обоих слонов до мата',en:'Keep both bishops alive until checkmate'},
+  {ru:'Не делай рокировку — выживи без неё',en:'Never castle — and survive without it'},
+  {ru:'Держи ладью на стартовой клетке до 10-го хода',en:'Keep a rook on its starting square until move 10'},
+  {ru:'Никогда не бери пешку пешкой',en:'Never capture a pawn with a pawn'},
+  {ru:'Походи каждой фигурой хотя бы раз до 12-го хода',en:'Move every piece at least once before move 12'},
+  {ru:'Возьми чёрного ферзя только пешкой',en:'Capture the black queen with a pawn only'},
+  {ru:'Возьми не менее 5 фигур конями',en:'Capture at least 5 pieces with knights'},
+  {ru:'Убери обе чёрные ладьи до 20-го хода',en:'Remove both black rooks before move 20'},
+  {ru:'Возьми 3 фигуры за один цикл ходов компьютера',en:'Capture 3 pieces in one computer move cycle'},
+  {ru:'Убери всех чёрных слонов с доски',en:'Remove all black bishops from the board'},
+  {ru:'Возьми чёрного ферзя до 10-го хода',en:'Capture the black queen before move 10'},
+  {ru:'Возьми 4 пешки только слоном',en:'Capture 4 pawns using only your bishop'},
+  {ru:'Не дай компьютеру взять твоего ферзя',en:'Never let the computer capture your queen'},
+  {ru:'Убери обоих чёрных коней до 15-го хода',en:'Remove both black knights before move 15'},
+  {ru:'Заведи короля в центр (d4, e4, d5 или e5)',en:'March your king to the centre (d4, e4, d5 or e5)'},
+  {ru:'Поставь ферзя на a1 хотя бы на один ход',en:'Place your queen on a1 for at least one move'},
+  {ru:'Поставь обоих коней на крайние вертикали (a или h)',en:'Place both knights on the a or h file'},
+  {ru:'Поставь ладью на 8-ю горизонталь до 12-го хода',en:'Place a rook on the 8th rank before move 12'},
+  {ru:'Переведи короля на противоположный фланг',en:'March your king to the opposite flank'},
+  {ru:'Поставь ферзя на ту же вертикаль, что и чёрный король',en:'Place your queen on the same file as the black king'},
+  {ru:'Поставь мат на 24-м или 25-м ходу',en:'Deliver checkmate on move 24 or 25'},
+  {ru:'Победи, имея только пешки и короля',en:'Win with only pawns and your king remaining'},
+  {ru:'Поставь мат только конём',en:'Deliver checkmate with a knight'},
+  {ru:'Дай шах не менее 5 раз до мата',en:'Give check at least 5 times before checkmate'},
+  {ru:'Поставь мат на угловой клетке (a1, a8, h1 или h8)',en:'Deliver checkmate on a corner square'},
+  {ru:'Поставь мат пешкой',en:'Deliver checkmate with a pawn'},
+  {ru:'Дойди до эндшпиля с ферзями на доске',en:'Reach the endgame with queens still on the board'},
+  {ru:'Обойди конём все четыре угла доски',en:'Visit all four corners of the board with a knight'},
+  {ru:'Сделай 20 ходов без единого взятия',en:'Make 20 moves without a single capture'},
+  {ru:'Первые 8 ходов не переводи ни одну фигуру через центр',en:'First 8 moves: keep all pieces on your side of the board'},
+  {ru:'Одновременно имей 3 пешки на 6-й горизонтали',en:'Have 3 pawns on the 6th rank simultaneously'},
+  {ru:'Поставь мат, пока твой ферзь стоит на стартовой клетке',en:'Deliver checkmate while your queen is on her starting square'},
+  {ru:'Последние 5 ходов сделай одной и той же фигурой',en:'Make the last 5 moves with the same piece'},
+  {ru:'Бери фигуру на каждом ходу 4 хода подряд',en:'Capture a piece on 4 consecutive moves'},
+  {ru:'Собери трёх коней на одной горизонтали',en:'Place three knights on the same rank'},
+  {ru:'Оставь только двух королей — больше никого',en:'Leave only the two kings on the board'},
+  {ru:'Убереги три белые пешки последними из пешек',en:'Be the last to have 3 pawns when all others are gone'},
+  {ru:'Выстрой три чёрные пешки в одну вертикаль',en:'Force three black pawns onto the same file'},
+  {ru:'Проведи пешку в ферзи, пока твой ферзь ещё на доске',en:'Promote a pawn while your queen is still on the board'},
+  {ru:'Выбери одну любимую фигуру и напиши её название. Сохрани её до конца партии',en:'Choose one favourite piece, write its name here. Keep it alive until the end'},
+  {ru:'Ромео и Джульетта — сохрани до конца белого ферзя и чёрного слона на белой клетке',en:'Romeo & Juliet — keep the white queen and the black bishop on a white square alive until the end'},
+  {ru:'Миротворец — в течение 20 ходов сохрани все свои фигуры',en:'Peacemaker — keep all your pieces alive for 20 moves'},
+  {ru:'18+ — убери с поля всех пешек, не потеряв ни одной старшей фигуры',en:'18+ — clear all pawns from the board without losing any major piece'},
+  {ru:'Первые 5 ходов делай только пешками',en:'Make only pawn moves for the first 5 moves'},
+  {ru:'Никогда не ходи одной фигурой два раза подряд',en:'Never move the same piece twice in a row'},
+  {ru:'Возьми хотя бы одну фигуру на каждой горизонтали (1–8)',en:'Capture at least one piece on every rank (1–8)'},
+  {ru:'Одновременно имей 5 пешек на 4-й горизонтали',en:'Have 5 pawns on the 4th rank at the same time'},
+];
+
 function randomGoal(){
-  const pool=lang==='ru'?VERIFIED_GOALS.map(g=>g.ru):VERIFIED_GOALS.map(g=>g.en);
+  const allGoals=[...VERIFIED_GOALS,...EXTRA_GOALS];
+  const pool=lang==='ru'?allGoals.map(g=>g.ru):allGoals.map(g=>g.en);
   let i;do{i=Math.floor(Math.random()*pool.length);}while(i===lastRndGoalIdx&&pool.length>1);
   lastRndGoalIdx=i;
   document.getElementById('gi').value=pool[i];

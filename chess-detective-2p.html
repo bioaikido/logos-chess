@@ -15,10 +15,10 @@ body{background:#0e0900;font-family:'IM Fell English',-apple-system,serif;color:
 .modal{background:var(--parchment);border:2px solid var(--gold);border-radius:6px;padding:28px 32px;max-width:440px;width:100%;box-shadow:6px 6px 0 var(--gold);position:relative;}
 .modal::after{content:"";position:absolute;inset:6px;border:1px solid rgba(184,134,11,.3);border-radius:4px;pointer-events:none;}
 .modal h2{font-family:'UnifrakturMaguntia',Georgia,serif;font-size:26px;color:var(--gold);margin-bottom:12px;text-shadow:0 0 18px rgba(184,134,11,.3);}
-.modal p{font-family:'IM Fell English',serif;font-size:14px;line-height:1.7;color:#3a2800;margin-bottom:8px;}
+.modal p{font-family:'IM Fell English',serif;font-size:16px;line-height:1.7;color:#3a2800;margin-bottom:8px;}
 hr.g{border:none;border-top:1px solid var(--gold);opacity:.4;margin:12px 0;}
 textarea{width:100%;padding:9px 12px;font-family:'IM Fell English',serif;font-size:15px;background:var(--parchment2);border:1px solid var(--gold);border-radius:4px;color:var(--ink);resize:none;margin-bottom:10px;}
-.btn{font-family:'IM Fell English',serif;font-size:12px;letter-spacing:1px;padding:10px 18px;border:none;border-radius:4px;cursor:pointer;text-transform:uppercase;transition:.15s;touch-action:manipulation;}
+.btn{font-family:'IM Fell English',serif;font-size:14px;letter-spacing:1px;padding:10px 18px;border:none;border-radius:4px;cursor:pointer;text-transform:uppercase;transition:.15s;touch-action:manipulation;}
 .bg{background:var(--gold);color:#150900;}.bg:active{background:var(--gold2);}
 .br{background:var(--red);color:#fff;}.br:active{background:#a02020;}
 .bb{background:var(--parchment2);border:1px solid var(--red);color:var(--red);}
@@ -31,13 +31,14 @@ textarea{width:100%;padding:9px 12px;font-family:'IM Fell English',serif;font-si
 .panel{background:var(--parchment);border:2px solid var(--gold);border-radius:4px;box-shadow:3px 3px 0 var(--gold);padding:14px 16px;width:230px;position:relative;}
 .panel::after{content:"";position:absolute;inset:4px;border:1px solid rgba(184,134,11,.25);border-radius:3px;pointer-events:none;}
 .pt{font-family:'UnifrakturMaguntia',Georgia,serif;font-size:18px;color:var(--gold);margin-bottom:2px;}
-.ps{font-family:'IM Fell English',serif;font-style:italic;font-size:11px;color:#8a6a30;margin-bottom:9px;}
-.sl{font-family:'IM Fell English',serif;font-size:9px;letter-spacing:2px;color:var(--gold);margin:7px 0 3px;text-transform:uppercase;}
+.ps{font-family:'IM Fell English',serif;font-style:italic;font-size:13px;color:#8a6a30;margin-bottom:9px;}
+.sl{font-family:'IM Fell English',serif;font-size:11px;letter-spacing:2px;color:var(--gold);margin:7px 0 3px;text-transform:uppercase;}
 .board-wrap{background:var(--parchment);border:2px solid var(--gold);border-radius:4px;box-shadow:3px 3px 0 var(--gold);padding:14px;position:relative;}
-.board{display:grid;grid-template-columns:16px repeat(8,var(--sq));grid-template-rows:repeat(8,var(--sq)) 16px;border:1.5px solid #7a5c30;}
-.cr{display:flex;align-items:center;justify-content:center;font-family:Georgia,serif;font-size:10px;color:var(--gold);grid-column:1;}
-.cc{display:flex;align-items:center;justify-content:center;font-family:Georgia,serif;font-size:10px;color:var(--gold);grid-row:9;}
-.sq{width:var(--sq);height:var(--sq);display:flex;align-items:center;justify-content:center;cursor:pointer;position:relative;font-size:38px;user-select:none;touch-action:manipulation;}
+.board{display:grid;grid-template-columns:repeat(8,var(--sq));grid-template-rows:repeat(8,var(--sq));border:1.5px solid #7a5c30;}
+.coord{position:absolute;font-family:Georgia,serif;font-size:9px;color:rgba(120,90,30,.7);line-height:1;pointer-events:none;user-select:none;}
+.coord-rank{top:2px;left:3px;}
+.coord-file{bottom:2px;right:3px;}
+.sq{width:var(--sq);height:var(--sq);display:flex;align-items:center;justify-content:center;cursor:pointer;position:relative;font-size:46px;user-select:none;touch-action:manipulation;}
 .sq.l{background:var(--light-sq);}.sq.d{background:var(--dark-sq);}
 .sq.sel{outline:3px solid rgba(255,210,30,.9);outline-offset:-3px;}
 /* P1 last move: warm amber */
@@ -48,19 +49,19 @@ textarea{width:100%;padding:9px 12px;font-family:'IM Fell English',serif;font-si
 .sq.pc::after{content:"";position:absolute;inset:0;border:4px solid rgba(0,0,0,.22);border-radius:50%;pointer-events:none;}
 .sq.chk{background:rgba(220,30,30,.6)!important;animation:ck 1s ease-in-out infinite;}
 @keyframes ck{0%,100%{background:rgba(220,30,30,.55)}50%{background:rgba(220,30,30,.9)}}
-.sbox{background:var(--parchment2);border:1px solid var(--gold);border-radius:3px;padding:7px 10px;margin-bottom:7px;font-size:12px;line-height:1.6;}
-.sbox .who{font-family:'IM Fell English',serif;font-size:13px;}
+.sbox{background:var(--parchment2);border:1px solid var(--gold);border-radius:3px;padding:7px 10px;margin-bottom:7px;font-size:14px;line-height:1.6;}
+.sbox .who{font-family:'IM Fell English',serif;font-size:15px;}
 .p1c .who{color:#7a3a00;}.p2c .who{color:#003a6a;}
 .dots{display:flex;gap:5px;margin:4px 0;}
-.dot{width:22px;height:22px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-family:'IM Fell English',serif;font-size:11px;font-weight:700;transition:.3s;}
+.dot{width:22px;height:22px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-family:'IM Fell English',serif;font-size:13px;font-weight:700;transition:.3s;}
 .dot.on{background:var(--gold);color:#150900;}.dot.off{background:#c8b080;color:#7a5c20;opacity:.45;}
-.chkw{display:none;align-items:center;gap:5px;background:rgba(139,26,26,.1);border:1px solid var(--red);border-radius:3px;padding:5px 8px;margin-bottom:6px;font-family:'IM Fell English',serif;font-size:10px;letter-spacing:1px;color:var(--red);text-transform:uppercase;}
+.chkw{display:none;align-items:center;gap:5px;background:rgba(139,26,26,.1);border:1px solid var(--red);border-radius:3px;padding:5px 8px;margin-bottom:6px;font-family:'IM Fell English',serif;font-size:12px;letter-spacing:1px;color:var(--red);text-transform:uppercase;}
 .chkw.show{display:flex;}
-.log{max-height:150px;overflow-y:auto;font-size:11px;line-height:1.8;}
+.log{max-height:150px;overflow-y:auto;font-size:13px;line-height:1.8;}
 .le{border-bottom:1px solid rgba(0,0,0,.07);padding:1px 0;}
 .le.p1{color:#5a3000;}.le.p2{color:#003a5a;}.le.s{color:var(--red);font-style:italic;}
 .cap{font-size:18px;min-height:22px;letter-spacing:1px;}
-.secbox{background:var(--parchment2);border:1px dashed var(--gold);border-radius:3px;padding:7px 9px;font-family:'IM Fell English',serif;font-style:italic;font-size:12px;line-height:1.6;margin-top:4px;display:none;}
+.secbox{background:var(--parchment2);border:1px dashed var(--gold);border-radius:3px;padding:7px 9px;font-family:'IM Fell English',serif;font-style:italic;font-size:14px;line-height:1.6;margin-top:4px;display:none;}
 .winbig{font-family:'UnifrakturMaguntia',Georgia,serif;font-size:22px;text-align:center;margin:5px 0 9px;}
 .emoji{text-align:center;font-size:26px;margin:4px 0 8px;animation:bop .6s ease-in-out infinite alternate;}
 @keyframes bop{from{transform:scale(1)}to{transform:scale(1.15)}}
@@ -94,7 +95,7 @@ textarea{width:100%;padding:9px 12px;font-family:'IM Fell English',serif;font-si
 @keyframes cpulse{0%,100%{border-color:#8b1a1a;}50%{border-color:#ff4444;box-shadow:0 0 14px rgba(220,30,30,.6);}}
 @media(max-width:700px){
   :root{--sq:44px;}
-  .sq{font-size:28px;}
+  .sq{font-size:34px;}
   .panel{width:100%;max-width:500px;}
   .game-wrap{flex-direction:column;align-items:center;}
   .board-wrap{padding:10px;}
@@ -112,7 +113,7 @@ textarea{width:100%;padding:9px 12px;font-family:'IM Fell English',serif;font-si
   .board-wrap{order:7;}
   .panel-right{order:8;}
 }
-@media(max-width:400px){:root{--sq:38px;}.sq{font-size:24px;}}
+@media(max-width:400px){:root{--sq:38px;}.sq{font-size:28px;}}
 </style>
   <link rel="manifest" href="manifest.json">
   <meta name="mobile-web-app-capable" content="yes">
@@ -1007,6 +1008,32 @@ function applyCastle(b,r,c,castle){
 
 // ── STATE ────────────────────────────────────────────────
 let board,sel,pm=[],phase,p2left,fp,fpId,p2used,p2checkDone;
+
+// ── SOUND ─────────────────────────────────────────────────
+const _ac=()=>{try{return new(window.AudioContext||window.webkitAudioContext)();}catch(e){return null;}};
+let _ctx=null;
+function playMove(isCapture){
+  if(!_ctx)_ctx=_ac(); if(!_ctx)return;
+  const t=_ctx.currentTime;
+  const o=_ctx.createOscillator();
+  const g=_ctx.createGain();
+  o.connect(g);g.connect(_ctx.destination);
+  if(isCapture){
+    o.type='sawtooth';
+    o.frequency.setValueAtTime(220,t);
+    o.frequency.exponentialRampToValueAtTime(110,t+0.15);
+    g.gain.setValueAtTime(0.08,t);
+    g.gain.exponentialRampToValueAtTime(0.001,t+0.2);
+    o.start(t);o.stop(t+0.2);
+  } else {
+    o.type='sine';
+    o.frequency.setValueAtTime(440,t);
+    o.frequency.exponentialRampToValueAtTime(330,t+0.08);
+    g.gain.setValueAtTime(0.06,t);
+    g.gain.exponentialRampToValueAtTime(0.001,t+0.12);
+    o.start(t);o.stop(t+0.12);
+  }
+}
 let capW=[],capB=[],logs=[],goal='',goalVis=false;
 let lf=null,lt=null,lastMovePhase='p1'; // track which player made last move
 let over=false;
@@ -1028,21 +1055,17 @@ function rBoard(){
     // Full build
     bd.innerHTML='';
     for(let r=0;r<8;r++){
-      const rl=document.createElement('div');rl.className='cr';rl.textContent=rn(r);
-      rl.style.cssText=`grid-row:${r+1};grid-column:1`;bd.appendChild(rl);
       for(let c=0;c<8;c++){
         const sq=document.createElement('div');
         sq.className='sq '+((r+c)%2===0?'l':'d');
-        sq.style.cssText=`grid-row:${r+1};grid-column:${c+2}`;
+        sq.style.cssText=`grid-row:${r+1};grid-column:${c+1}`;
         sq.dataset.r=r;sq.dataset.c=c;
         sq.addEventListener('click',()=>click(r,c));
         const sp=document.createElement('span');sq.appendChild(sp);
+        if(c===0){const rk=document.createElement('span');rk.className='coord coord-rank';rk.textContent=rn(r);sq.appendChild(rk);}
+        if(r===7){const fl=document.createElement('span');fl.className='coord coord-file';fl.textContent=cn(c);sq.appendChild(fl);}
         bd.appendChild(sq);
       }
-    }
-    for(let c=0;c<8;c++){
-      const cl=document.createElement('div');cl.className='cc';cl.textContent=cn(c);
-      cl.style.cssText=`grid-row:9;grid-column:${c+2}`;bd.appendChild(cl);
     }
     boardBuilt=true;
   }
@@ -1162,6 +1185,7 @@ function givesMate2(b,r1,c1,r2,c2){const nb=applyM2(b,r1,c1,r2,c2);return['w','b
 function doMove(r2,c2){
   const r1=sel.r,c1=sel.c,p=board[r1][c1],tgt=board[r2][c2];
   const isCastle=pt(p)==='K'&&Math.abs(c2-c1)===2;
+  playMove(!!(tgt&&!isCastle));
 
   // Capture: burst animation + Carroll quip
   if(tgt&&!isCastle){
